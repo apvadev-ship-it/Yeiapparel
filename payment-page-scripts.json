@@ -1,0 +1,10 @@
+{
+  "scripts": [
+    {
+      "src": "https://checkout.wompi.co/widget.js",
+      "justification": "Widget de pago de Wompi. Se carga solo en /finalizar-compra y solo en escritorio, cuando el comprador pulsa Pagar. Es quien captura los datos de la tarjeta, dentro de un iframe del dominio de Wompi: esos datos no pasan por este sitio. En movil no se carga (ahi se usa la redireccion a checkout.wompi.co). Sin SRI (integrity en null) a proposito: Wompi publica widget.js sin version en la URL y lo actualiza en el mismo sitio, asi que un hash fijo romperia el pago el dia que ellos cambien el archivo. PCI DSS 4.0.1 req. 6.4.3: revisar esta entrada cada vez que se agregue o cambie un script de la pagina de pago.",
+      "authorised_by": "equipoapvadigital@gmail.com",
+      "integrity": null
+    }
+  ]
+}

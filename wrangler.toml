@@ -1,0 +1,53 @@
+# Config de Cloudflare Workers para el despliegue (preset cloudflare-module
+# de Nitro, ver vite.config.ts). Nitro genera su propio wrangler.json
+# dentro de .output en cada build, YA con su `name` y `compatibility_date`
+# — no hay que fijarlos aquí, y hacerlo podría chocar con lo que Nitro
+# genera. Este archivo es solo para bindings que Nitro no conoce, como
+# el namespace de KV de abajo.
+
+# ---------------------------------------------------------------------
+# KV opcional para la caché de disponibilidad (src/lib/availability-sheet.ts).
+#
+# Sin este binding, la caché sigue viviendo en memoria por isolate, como
+# antes: nada se rompe. Con él, todos los isolates comparten la última
+# lectura de la hoja de Google, así que dos usuarios no pueden ver
+# disponible al mismo tiempo la última unidad de algo que ya se vendió,
+# más allá de lo que tarde una lectura de KV.
+#
+# Para activarlo:
+#   1. wrangler login
+#   2. wrangler kv namespace create AVAILABILITY_KV
+#      (copia el "id" que imprime el comando)
+#   3. Descomenta las dos líneas de abajo y pega ese id.
+#   4. Vuelve a desplegar.
+#
+# [[kv_namespaces]]
+# binding = "AVAILABILITY_KV"
+# id = "PEGA_AQUI_EL_ID_QUE_DIO_WRANGLER"
+
+# ---------------------------------------------------------------------
+# Tarea programada: aviso automático de catálogo (src/lib/catalog-watch.ts).
+#
+# Cloudflare llama al `scheduled()` de src/server.ts todos los días a
+# esta hora, sin que nadie tenga que visitar el sitio ni llamar a
+# ningún endpoint. Si hay una prenda nueva o un precio distinto desde
+# la última revisión, manda el correo solo; si no hay nada nuevo, no
+# hace nada.
+#
+# "0 13 * * *" = 13:00 UTC = 8:00 a. m. en Colombia (UTC-5), todos los
+# días. Cambia la hora aquí si prefieres otra.
+#
+# Segundo cron, "0 13 * * 1" = mismo horario pero solo los lunes: es el
+# que dispara el reporte semanal de ventas (src/lib/weekly-report.ts).
+# `src/server.ts` distingue cuál de los dos disparó la llamada mirando
+# `event.cron`, así que si cambias esta hora también hay que actualizar
+# la comparación en `scheduled()`.
+#
+# IMPORTANTE: esto es lo que declara la intención del cron; falta
+# confirmar, después de desplegar, que Cloudflare lo registró de
+# verdad (panel de Cloudflare > Workers > tu Worker > Triggers > Cron
+# Triggers). Nitro genera su propio wrangler.json en cada build y no
+# hay forma de probar un cron real sin desplegar, así que verifícalo
+# ahí la primera vez.
+[triggers]
+crons = ["0 13 * * *", "0 13 * * 1"]

@@ -1,0 +1,18 @@
+node_modules
+dist
+.output
+.nitro
+.tanstack
+.wrangler
+*.log
+.DS_Store
+.pagokit/
+
+# Variables de entorno (contienen secretos: nunca se suben)
+.env
+.env.local
+.env.*.local
+# Cualquier otra variante (.env.respaldo, .env.produccion...) tambien
+# lleva secretos. Se ignora todo .env* MENOS el ejemplo, que es publico.
+.env*
+!.env.example

@@ -1,0 +1,21 @@
+# ---------------------------------------------------------------------
+# OJO: este archivo NO es la fuente de las cabeceras de seguridad.
+#
+# `_headers` es sintaxis de Cloudflare Pages y, en este proyecto, solo
+# puede alcanzar a lo que sirve el binding de assets. Las paginas las
+# genera el Worker por SSR, asi que nunca pasaban por aqui: se comprobo
+# con una peticion real y la respuesta salia sin ninguna cabecera.
+#
+# La fuente de verdad es  src/lib/security-headers.ts , que se aplica
+# en  src/server.ts  sobre TODA respuesta. Si hay que cambiar la CSP o
+# anadir un origen de terceros, se hace alli. Editar este archivo no
+# tiene efecto sobre el checkout.
+#
+# Se conserva solo como refuerzo para los archivos estaticos, y a
+# proposito NO repite la CSP: dos definiciones distintas de la misma
+# politica es como se acaba con una que nadie entiende.
+# ---------------------------------------------------------------------
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin

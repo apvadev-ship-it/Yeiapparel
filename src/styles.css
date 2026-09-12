@@ -1,0 +1,452 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: var(--radius);
+  --radius-xl: var(--radius);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-chocolate: var(--chocolate);
+  --color-rosa: var(--rosa);
+  --color-rosa-claro: var(--rosa-claro);
+  --color-terracota: var(--terracota);
+  --color-nude: var(--nude);
+  --color-marfil: var(--marfil);
+  --color-tinta: var(--tinta);
+
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Jost", "Helvetica Neue", Arial, sans-serif;
+}
+
+:root {
+  --radius: 0px;
+
+  --chocolate: #35221f;
+  --terracota: #8f4a3d;
+  /* Terracota aclarado, para elementos sobre fondos oscuros */
+  --terracota-claro: #d29a88;
+  /* Rosa profundo: contrasta 5:1 con marfil, apto para texto */
+  --rosa: #8a4552;
+  --rosa-claro: #f0c4b8;
+  --nude: #e8dad1;
+  --marfil: #e8dad1;
+  --tinta: #35221f;
+
+  --background: #e8dad1;
+  --foreground: #35221f;
+  --card: #e8dad1;
+  --card-foreground: #35221f;
+  --popover: #e8dad1;
+  --popover-foreground: #35221f;
+  --primary: #35221f;
+  --primary-foreground: #e8dad1;
+  --secondary: #e8dad1;
+  --secondary-foreground: #35221f;
+  --muted: #e8dad1;
+  --muted-foreground: rgba(53, 34, 31, 0.7);
+  --accent: #9b4f42;
+  --accent-foreground: #e8dad1;
+  --destructive: #9b4f42;
+  --destructive-foreground: #e8dad1;
+  --border: rgba(53, 34, 31, 0.18);
+  --input: rgba(53, 34, 31, 0.25);
+  --ring: #9b4f42;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  .text-terracota {
+    transition: all 0.3s ease;
+  }
+
+  .text-terracota:hover {
+    filter: brightness(1.2);
+    text-shadow: 0 0 12px rgba(155, 79, 66, 0.5);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+  }
+
+  @media (min-width: 1024px) {
+    html {
+      font-size: 17px;
+    }
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background: var(--terracota);
+    color: var(--marfil);
+  }
+}
+
+@utility eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+@utility label-xs {
+  font-size: 0.75rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+}
+
+@utility notch-frame {
+  clip-path: polygon(
+    0 20px,
+    20px 0,
+    calc(100% - 20px) 0,
+    100% 20px,
+    100% calc(100% - 20px),
+    calc(100% - 20px) 100%,
+    20px 100%,
+    0 calc(100% - 20px)
+  );
+}
+
+@utility notch-frame-sm {
+  clip-path: polygon(
+    0 12px,
+    12px 0,
+    calc(100% - 12px) 0,
+    100% 12px,
+    100% calc(100% - 12px),
+    calc(100% - 12px) 100%,
+    12px 100%,
+    0 calc(100% - 12px)
+  );
+}
+
+@utility notch-frame-lg {
+  clip-path: polygon(
+    0 32px,
+    32px 0,
+    calc(100% - 32px) 0,
+    100% 32px,
+    100% calc(100% - 32px),
+    calc(100% - 32px) 100%,
+    32px 100%,
+    0 calc(100% - 32px)
+  );
+}
+
+@utility btn-yei {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.95rem 2.4rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+
+  /* Destello que recorre el botón al pasar el cursor */
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 55%;
+    height: 100%;
+    background: linear-gradient(
+      100deg,
+      transparent,
+      rgba(232, 218, 209, 0.3),
+      transparent
+    );
+    transition: left 750ms cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+  }
+
+  &:hover::before {
+    left: 150%;
+  }
+
+  &:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.99);
+  }
+}
+
+@utility link-underline {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 400ms ease;
+  }
+  &:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+@keyframes yei-arrow-slide {
+  0% {
+    transform: translateX(-85%);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(85%);
+    opacity: 0;
+  }
+}
+
+/* Flecha de "Comprar ahora": vive a la izquierda del texto y, al
+   pasar el cursor o tocar el botón (`.btn-yei:hover` /
+   `.btn-yei:active`, para que funcione igual con mouse y con dedo),
+   recorre el botón de punta a punta en bucle mientras dura la
+   interacción. */
+.btn-yei-arrow {
+  transition: transform 250ms ease;
+}
+
+.btn-yei:hover .btn-yei-arrow,
+.btn-yei:active .btn-yei-arrow,
+.btn-yei:focus-visible .btn-yei-arrow {
+  animation: yei-arrow-slide 900ms ease-in-out infinite;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes yei-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes yei-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes yei-rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-marquee {
+  animation: yei-marquee 32s linear infinite;
+}
+
+.rise {
+  opacity: 0;
+}
+
+.rise-in {
+  animation: yei-rise 800ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ---------------------------------------------------------------
+   Cursor personalizado (rombo + destellos), solo escritorio
+   --------------------------------------------------------------- */
+
+html.has-custom-cursor,
+html.has-custom-cursor * {
+  cursor: none !important;
+}
+
+.cursor-star-spin {
+  margin: -14px 0 0 -14px;
+  animation: yei-spin 14s linear infinite;
+}
+
+/* ---------------------------------------------------------------
+   Microinteracciones reutilizables
+   --------------------------------------------------------------- */
+
+@utility hover-lift {
+  transition:
+    transform 400ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 400ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px -20px rgba(53, 34, 31, 0.45);
+  }
+
+  &:active {
+    transform: translateY(-2px) scale(0.99);
+  }
+}
+
+@utility hover-zoom {
+  overflow: hidden;
+
+  & img {
+    transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  &:hover img {
+    transform: scale(1.06);
+  }
+}
+
+@utility press-tap {
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+/* Brillo que recorre los botones al pasar el cursor */
+@utility btn-shine {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+      100deg,
+      transparent,
+      rgba(232, 218, 209, 0.28),
+      transparent
+    );
+    transition: left 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  &:hover::before {
+    left: 140%;
+  }
+}
+
+/* Foco visible y consistente en todo el sitio */
+@layer base {
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--terracota);
+    outline-offset: 3px;
+  }
+}
+
+/* ---------------------------------------------------------------
+   Foco sobre las figuras biseladas
+   ---------------------------------------------------------------
+   El clip-path del bisel recorta bordes, sombras y contornos: por eso
+   un `border` sobre estas formas se ve mochado en las esquinas y un
+   `outline` sencillamente no aparece. `drop-shadow` sí funciona, porque
+   se aplica DESPUÉS del recorte y sigue la silueta biselada. Cuatro
+   sombras (una por lado) dibujan el contorno completo.
+   Regla: sobre .notch-frame* nunca uses border; usa relleno. */
+.notch-frame:focus-visible,
+.notch-frame-sm:focus-visible,
+.notch-frame-lg:focus-visible {
+  outline: none;
+  filter: drop-shadow(2px 0 0 var(--terracota))
+    drop-shadow(-2px 0 0 var(--terracota)) drop-shadow(0 2px 0 var(--terracota))
+    drop-shadow(0 -2px 0 var(--terracota));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .rise {
+    opacity: 1;
+  }
+}
