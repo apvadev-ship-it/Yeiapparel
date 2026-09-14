@@ -104,12 +104,23 @@ function Home() {
   useEffect(() => {
     const el = carousel.current;
     if (!el) return;
+    // Agrupado en requestAnimationFrame: leer el layout directo en el
+    // evento de scroll fuerza un recálculo síncrono en cada tick.
+    let rafId: number | null = null;
+    const handleScroll = () => {
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        updateCarouselEdges();
+        rafId = null;
+      });
+    };
     updateCarouselEdges();
-    el.addEventListener("scroll", updateCarouselEdges, { passive: true });
+    el.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", updateCarouselEdges);
     return () => {
-      el.removeEventListener("scroll", updateCarouselEdges);
+      el.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", updateCarouselEdges);
+      if (rafId !== null) cancelAnimationFrame(rafId);
     };
   }, [updateCarouselEdges]);
 

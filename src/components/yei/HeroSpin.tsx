@@ -37,6 +37,7 @@ export function HeroSpin({
   useEffect(() => {
     if (isDesktop) return;
 
+    let ticking = false;
     const handleMobileScroll = () => {
       if (!sectionRef.current) return;
       const rect = sectionRef.current.getBoundingClientRect();
@@ -46,11 +47,22 @@ export function HeroSpin({
       );
       setMobileParallax(progress * -36);
     };
+    // Se agrupa la lectura del layout en un solo requestAnimationFrame por
+    // scroll: leerla directo en el evento de scroll fuerza al navegador a
+    // recalcular el layout de forma síncrona en cada tick.
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        handleMobileScroll();
+        ticking = false;
+      });
+    };
 
-    window.addEventListener("scroll", handleMobileScroll, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
     handleMobileScroll();
 
-    return () => window.removeEventListener("scroll", handleMobileScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, [isDesktop]);
 
   const measure = useCallback(() => {
@@ -82,13 +94,26 @@ export function HeroSpin({
     // ventana cambia de tamaño (redimensionar, zoom del navegador, abrir
     // las herramientas) hay que volver a calcular el progreso o la
     // animación se queda congelada en la medida de la pantalla anterior.
-    window.addEventListener("scroll", measure, { passive: true });
-    window.addEventListener("resize", measure);
+    // La lectura se agrupa en un requestAnimationFrame por evento: leerla
+    // directo en el handler de scroll fuerza un recálculo de layout
+    // síncrono en cada tick.
+    let ticking = false;
+    const onScrollOrResize = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        measure();
+        ticking = false;
+      });
+    };
+
+    window.addEventListener("scroll", onScrollOrResize, { passive: true });
+    window.addEventListener("resize", onScrollOrResize);
     measure();
 
     return () => {
-      window.removeEventListener("scroll", measure);
-      window.removeEventListener("resize", measure);
+      window.removeEventListener("scroll", onScrollOrResize);
+      window.removeEventListener("resize", onScrollOrResize);
     };
   }, [isDesktop, measure]);
 
