@@ -1,19 +1,27 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 
 /**
  * Galería de fotos de una ficha de producto.
  *
- * Miniaturas a la izquierda (arriba en móvil, por espacio), una foto
- * grande seleccionada. En escritorio, pasar el cursor sobre la foto
- * grande hace zoom siguiendo el cursor (efecto lupa, con
- * `background-size` en vez de escalar la imagen, así no se ve
- * pixelada). En móvil, tocar la foto la abre ampliada de pantalla
- * completa; un toque dentro de esa vista alterna acercar/alejar en el
- * punto tocado — no hay gesto de pellizco, pero es lo más simple que
- * cubre "tocar y poder ampliar" sin traer una librería nueva solo para
- * esto.
+ * Dos formas de recorrerla, según el dispositivo:
+ *
+ *  - Celular y tablet (hasta `lg`): la foto grande es un carrusel que
+ *    se desliza con el dedo (scroll-snap horizontal, sin librería
+ *    nueva), y las miniaturas de abajo también se pueden tocar para
+ *    saltar directo a una foto — las dos formas quedan sincronizadas.
+ *    Es mejor así que forzar solo una de las dos: deslizar es más
+ *    natural para "ver la siguiente", tocar una miniatura es más
+ *    rápido para "quiero ESA foto en particular".
+ *  - Escritorio (`lg` en adelante): sin gesto de deslizar que tenga
+ *    sentido con mouse, se mantiene la foto única con zoom seguido al
+ *    cursor (`background-size`, no reescala la imagen para que no se
+ *    vea pixelada) que ya tenía esta ficha.
+ *
+ * Tocar la foto (en cualquiera de los dos casos) abre el visor de
+ * pantalla completa; un toque ahí alterna acercar/alejar en el punto
+ * tocado.
  */
 export function ProductGallery({
   images,
@@ -26,16 +34,63 @@ export function ProductGallery({
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const activeImage = images[active] ?? images[0] ?? "";
 
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const thumbRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  // Evita que el listener de scroll (deslizar) reescriba `active` justo
+  // cuando el cambio vino de tocar una miniatura y el navegador todavía
+  // está animando el scroll hacia ese carril — si no, el índice
+  // parpadea entre el que se tocó y el que el scroll cree que es.
+  const scrollingFromTap = useRef(false);
+  const scrollingFromTapTimer = useRef<number>(0);
+
+  const goTo = (i: number) => {
+    setActive(i);
+    const track = carouselRef.current;
+    const slide = track?.children[i] as HTMLElement | undefined;
+    if (track && slide) {
+      scrollingFromTap.current = true;
+      track.scrollTo({ left: slide.offsetLeft, behavior: "smooth" });
+      window.clearTimeout(scrollingFromTapTimer.current);
+      scrollingFromTapTimer.current = window.setTimeout(() => {
+        scrollingFromTap.current = false;
+      }, 500);
+    }
+    thumbRefs.current[i]?.scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+      block: "nearest",
+    });
+  };
+
+  const handleCarouselScroll = () => {
+    if (scrollingFromTap.current) return;
+    const track = carouselRef.current;
+    if (!track) return;
+    const i = Math.round(track.scrollLeft / track.clientWidth);
+    setActive((prev) => (prev === i ? prev : Math.max(0, Math.min(i, images.length - 1))));
+  };
+
+  // Si la ficha cambia de producto sin desmontar el componente, el
+  // carrusel debe volver al principio en vez de quedarse desplazado a
+  // la foto N de la pieza anterior.
+  useEffect(() => {
+    carouselRef.current?.scrollTo({ left: 0 });
+    setActive(0);
+  }, [images]);
+
   return (
-    <div className="grid gap-3 sm:grid-cols-[76px_1fr] lg:grid-cols-[92px_1fr]">
-      {/* Miniaturas: columna a la izquierda en pantallas ≥ sm, fila
-          horizontal con scroll en móvil (no hay espacio para columna). */}
-      <div className="order-2 flex justify-center gap-2.5 overflow-x-auto sm:order-1 sm:flex-col sm:justify-start sm:overflow-visible">
+    <div className="grid gap-3 lg:grid-cols-[92px_1fr]">
+      {/* Miniaturas: fila horizontal con scroll en celular/tablet (no
+          hay espacio para columna hasta escritorio). */}
+      <div className="order-2 flex justify-center gap-2.5 overflow-x-auto lg:order-1 lg:flex-col lg:justify-start lg:overflow-visible">
         {images.map((img, i) => (
           <button
             key={i}
+            ref={(el) => {
+              thumbRefs.current[i] = el;
+            }}
             type="button"
-            onClick={() => setActive(i)}
+            onClick={() => goTo(i)}
             aria-label={`Ver foto ${i + 1} de ${alt}`}
             aria-current={active === i}
             className={`notch-frame-sm shrink-0 overflow-hidden border p-[1px] transition-colors ${
@@ -57,12 +112,40 @@ export function ProductGallery({
         ))}
       </div>
 
-      <div className="order-1 sm:order-2">
-        <HoverZoomImage
-          src={activeImage}
-          alt={alt}
-          onOpen={() => setLightboxOpen(true)}
-        />
+      <div className="order-1 lg:order-2">
+        {/* Celular/tablet: carrusel deslizable con el dedo. */}
+        <div
+          ref={carouselRef}
+          onScroll={handleCarouselScroll}
+          className="notch-frame flex w-full snap-x snap-mandatory overflow-x-auto bg-chocolate/10 [-ms-overflow-style:none] [scrollbar-width:none] lg:hidden [&::-webkit-scrollbar]:hidden"
+        >
+          {images.map((img, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => setLightboxOpen(true)}
+              aria-label={`Ampliar foto ${i + 1} de ${alt}`}
+              className="aspect-[3/4] w-full shrink-0 snap-center cursor-zoom-in"
+            >
+              <img
+                src={img}
+                alt={i === active ? alt : ""}
+                aria-hidden={i === active ? undefined : true}
+                loading={i === 0 ? undefined : "lazy"}
+                className="h-full w-full bg-nude object-cover"
+              />
+            </button>
+          ))}
+        </div>
+
+        {/* Escritorio: foto única con zoom siguiendo el cursor. */}
+        <div className="hidden lg:block">
+          <HoverZoomImage
+            src={activeImage}
+            alt={alt}
+            onOpen={() => setLightboxOpen(true)}
+          />
+        </div>
       </div>
 
       <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
@@ -86,8 +169,8 @@ export function ProductGallery({
 /**
  * La foto grande. En escritorio, el cursor mueve un "lente" de zoom
  * (con `background-position`, no `transform`, para que el navegador
- * no tenga que reescalar el `<img>` — se ve más nítido). Un clic (o un
- * toque, en pantallas táctiles) abre la foto ampliada.
+ * no tenga que reescalar el `<img>` — se ve más nítido). Un clic abre
+ * la foto ampliada.
  */
 function HoverZoomImage({
   src,
