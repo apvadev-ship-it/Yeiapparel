@@ -66,7 +66,7 @@ export function CookieConsent() {
               navegar. Puedes conocer el detalle en nuestra{" "}
               <Link
                 to="/politicas-de-privacidad"
-                className="link-underline text-terracota hover:text-marfil"
+                className="link-underline text-terracota-claro hover:text-marfil"
               >
                 política de cookies
               </Link>
