@@ -339,12 +339,10 @@ function ProductoDetalle() {
         type="button"
         onClick={handleGoBack}
         aria-label="Volver"
-        className="fixed bottom-5 left-4 z-40 flex h-14 items-center gap-2 rounded-full bg-chocolate px-5 text-marfil shadow-lg active:scale-95 transition-transform lg:hidden"
+        className="btn-yei notch-frame-sm fixed bottom-5 left-4 z-40 h-14 bg-chocolate px-5 text-marfil shadow-lg lg:hidden"
       >
         <ArrowLeft className="h-5 w-5" />
-        <span className="text-xs font-semibold tracking-[0.18em] uppercase">
-          Volver
-        </span>
+        <span>Volver</span>
       </button>
 
       <div className="px-5 pb-24 pt-24 lg:px-10 lg:pt-48">

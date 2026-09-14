@@ -24,7 +24,7 @@ export function WhatsAppButton() {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         transition={{ type: "spring", stiffness: 260, damping: 20 }}
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg hover:shadow-xl transition-shadow"
+        className="flex h-14 w-14 items-center justify-center rounded-full bg-terracota text-marfil shadow-lg hover:shadow-xl hover:bg-terracota/90 transition-shadow"
         aria-label="Contactar por WhatsApp"
       >
         <WhatsappIcon className="h-7 w-7" />
