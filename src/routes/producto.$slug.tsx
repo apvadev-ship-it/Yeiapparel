@@ -331,14 +331,20 @@ function ProductoDetalle() {
     <div className="bg-marfil">
       {/* Solo en celular/tablet: el header no siempre está a la vista
           al bajar por la ficha de producto, así que este botón
-          flotante deja volver al catálogo sin tener que subir. */}
+          flotante deja volver al catálogo sin tener que subir. A la
+          misma altura que el botón de WhatsApp (bottom-5, h-14), para
+          que los dos floten al mismo nivel en vez de que uno quede
+          arriba solo. */}
       <button
         type="button"
         onClick={handleGoBack}
         aria-label="Volver"
-        className="fixed left-4 top-24 z-40 grid h-11 w-11 place-items-center rounded-full bg-chocolate text-marfil shadow-lg active:scale-90 transition-transform lg:hidden"
+        className="fixed bottom-5 left-4 z-40 flex h-14 items-center gap-2 rounded-full bg-chocolate px-5 text-marfil shadow-lg active:scale-95 transition-transform lg:hidden"
       >
         <ArrowLeft className="h-5 w-5" />
+        <span className="text-xs font-semibold tracking-[0.18em] uppercase">
+          Volver
+        </span>
       </button>
 
       <div className="px-5 pb-24 pt-24 lg:px-10 lg:pt-48">
