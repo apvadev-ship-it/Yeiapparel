@@ -16,3 +16,4 @@ dist
 # lleva secretos. Se ignora todo .env* MENOS el ejemplo, que es publico.
 .env*
 !.env.example
+.wrangler-secrets.env

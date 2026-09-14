@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   X,
   Play,
@@ -259,19 +259,48 @@ function InstagramImageCard({
   likeCount: number;
   onToggleLike: () => void;
 }) {
+  const videoRef = useRef<HTMLDivElement>(null);
+  const [videoInView, setVideoInView] = useState(false);
+
+  useEffect(() => {
+    if (post.media_type !== "VIDEO" || !videoRef.current) return;
+    // A diferencia de <img loading="lazy">, un <video autoPlay> empieza a
+    // descargarse apenas se monta sin importar si está fuera de pantalla.
+    // Se observa el contenedor y solo se le da `src` al video al acercarse
+    // al viewport, para no bajar los 4 clips por defecto de una vez.
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setVideoInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" },
+    );
+    observer.observe(videoRef.current);
+    return () => observer.disconnect();
+  }, [post.media_type]);
+
   return (
     <div className="notch-frame hover-lift bg-chocolate/15 p-[2px] shadow-xl h-full">
-      <div className="group relative notch-frame overflow-hidden bg-marfil h-full aspect-square">
+      <div
+        ref={videoRef}
+        className="group relative notch-frame overflow-hidden bg-marfil h-full aspect-square"
+      >
         {post.media_type === "VIDEO" ? (
-          <video
-            src={post.image_url}
-            aria-label={post.caption}
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-          />
+          videoInView ? (
+            <video
+              src={post.image_url}
+              aria-label={post.caption}
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            />
+          ) : (
+            <div className="h-full w-full bg-chocolate/10" aria-hidden="true" />
+          )
         ) : (
           <img
             src={post.image_url}
