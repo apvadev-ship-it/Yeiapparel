@@ -24,6 +24,10 @@ import testimonioCamila from "@/assets/testimonios/camila.webp";
 import testimonioValentina from "@/assets/testimonios/valentina.webp";
 import testimonioIsabella from "@/assets/testimonios/isabella.webp";
 import testimonioDaniela from "@/assets/testimonios/daniela.webp";
+import look1 from "@/assets/categorias/look1.webp";
+import look3 from "@/assets/categorias/look3.webp";
+import setLook from "@/assets/categorias/sets.webp";
+import piezaUnicaLook from "@/assets/categorias/piezas-unicas.webp";
 import {
   heroImage,
   products,
@@ -39,14 +43,6 @@ import { HeroSpin } from "@/components/yei/HeroSpin";
 import { StarField } from "@/components/yei/StarField";
 import { motion, AnimatePresence } from "motion/react";
 import { subscribeToNewsletter } from "@/lib/newsletter";
-const look1 =
-  "https://cdn.builder.io/api/v1/image/assets%2Fd593854069c14b2bb2cc8227c9adc563%2Ffda4d2ea1ec14fcf869a672d641d7312?format=webp&width=800&height=1200";
-const look3 =
-  "https://cdn.builder.io/api/v1/image/assets%2Fd593854069c14b2bb2cc8227c9adc563%2F5cb4c41d07f045f1a742af0faa6f0f67?format=webp&width=800&height=1200";
-const setLook =
-  "https://cdn.builder.io/api/v1/image/assets%2Fd593854069c14b2bb2cc8227c9adc563%2Fb11348411e2c4d1b9a7aa9020eacd481?format=webp&width=800&height=1200";
-const piezaUnicaLook =
-  "https://cdn.builder.io/api/v1/image/assets%2Fd593854069c14b2bb2cc8227c9adc563%2F37d99a14b43d4a969f449943b0c7b836?format=webp&width=800&height=1200";
 
 export const Route = createFileRoute("/")({
   head: () => ({
