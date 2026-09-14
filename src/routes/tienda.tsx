@@ -122,7 +122,7 @@ function Tienda() {
           className="absolute inset-0 h-full w-full object-cover opacity-10"
         />
         <div className="absolute inset-0 bg-chocolate/60" />
-        <div className="relative z-10 flex flex-col items-center">
+        <h1 className="relative z-10 flex flex-col items-center">
           <CoverWordCycle
             words={COVER_WORDS}
             className="font-display text-[3.6rem] font-medium leading-[0.95] text-marfil sm:text-[5.4rem] lg:text-[9.6rem]"
@@ -136,7 +136,7 @@ function Tienda() {
               ✦
             </span>
           </span>
-        </div>
+        </h1>
       </section>
 
       <section className="px-5 pb-6 pt-10 lg:px-10 lg:pt-14">

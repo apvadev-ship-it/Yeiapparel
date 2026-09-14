@@ -3,3 +3,5 @@ Allow: /
 
 # El checkout no debe indexarse: son paginas de un pedido en curso.
 Disallow: /finalizar-compra
+
+Sitemap: https://yeiapparel.co/sitemap.xml

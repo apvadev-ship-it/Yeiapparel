@@ -23,6 +23,7 @@ import { handleSocialSync, SOCIAL_SYNC_PATH } from "./lib/social-sync-endpoint";
 import { syncInstagramFeed, instagramSyncConfigured } from "./lib/instagram-sync";
 import { syncTikTokFeed, tiktokSyncConfigured } from "./lib/tiktok-sync";
 import { sendWeeklyReport } from "./lib/weekly-report";
+import { handleSitemap, SITEMAP_PATH } from "./lib/sitemap";
 
 type ServerEntry = {
   fetch: (
@@ -157,6 +158,14 @@ async function route(
       const limited = checkRateLimit(request, "social-sync", 5, 60_000);
       if (!limited.allowed) return tooManyRequests(limited.retryAfterSeconds);
       return await handleSocialSync(request);
+    }
+
+    // sitemap.xml: se genera en cada petición a partir del catálogo real
+    // (ver `lib/sitemap.ts`), así que nunca queda desactualizado como un
+    // archivo estático lo estaría. Público, sin límite de tasa: solo lo
+    // piden los rastreadores de los buscadores.
+    if (pathname === SITEMAP_PATH) {
+      return handleSitemap();
     }
 
     if (pathname === ICS_PATH) {

@@ -250,12 +250,12 @@ function Home() {
                 className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center px-4"
                 style={{ opacity: categoryTitleOpacity }}
               >
-                <h2 className="text-center font-display text-5xl leading-[0.95] text-chocolate drop-shadow-[0_2px_18px_rgba(232,218,209,0.9)] sm:text-7xl md:text-8xl lg:text-9xl font-medium">
+                <h1 className="text-center font-display text-5xl leading-[0.95] text-chocolate drop-shadow-[0_2px_18px_rgba(232,218,209,0.9)] sm:text-7xl md:text-8xl lg:text-9xl font-medium">
                   Comprar por{" "}
                   <span className="italic text-terracota font-normal block sm:inline">
                     categoría
                   </span>
-                </h2>
+                </h1>
               </div>
 
               {/* `w-[min(100%,64vh)]`: la tarjeta es 4/5, así que su alto
@@ -306,12 +306,12 @@ function Home() {
       ) : (
         <section className="relative bg-nude px-4 py-12 sm:px-6">
           <Reveal className="text-center">
-            <h2 className="font-display text-5xl sm:text-6xl md:text-7xl leading-[0.95] text-chocolate font-medium">
+            <h1 className="font-display text-5xl sm:text-6xl md:text-7xl leading-[0.95] text-chocolate font-medium">
               Comprar por{" "}
               <span className="italic text-terracota font-normal">
                 categoría
               </span>
-            </h2>
+            </h1>
           </Reveal>
 
           <div className="mt-7 grid grid-cols-2 gap-4">
