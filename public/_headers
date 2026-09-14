@@ -19,3 +19,10 @@
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
+
+# Archivos con hash en el nombre (JS/CSS que genera Vite en /assets/*):
+# el contenido nunca cambia bajo la misma URL, así que el navegador (y
+# el borde de Cloudflare) puede quedárselos un año sin volver a pedirlos.
+# No toca el HTML (ese sigue las reglas de arriba, sin este bloque).
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable

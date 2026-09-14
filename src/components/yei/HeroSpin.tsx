@@ -162,6 +162,8 @@ export function HeroSpin({
                   <img
                     src={img.src}
                     alt={img.alt}
+                    loading="lazy"
+                    decoding="async"
                     className="absolute inset-0 h-full w-full object-cover"
                   />
                 </div>
@@ -183,6 +185,8 @@ export function HeroSpin({
                 <motion.img
                   src={centerSrc}
                   alt={centerAlt}
+                  fetchPriority="high"
+                  decoding="async"
                   initial={{ opacity: 0, scale: 1.15 }}
                   animate={{
                     opacity: 1,
@@ -236,6 +240,8 @@ export function HeroSpin({
                   <img
                     src={img.src}
                     alt={img.alt}
+                    loading="lazy"
+                    decoding="async"
                     className="absolute inset-0 h-full w-full object-cover"
                   />
                 </div>

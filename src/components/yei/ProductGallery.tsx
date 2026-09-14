@@ -104,6 +104,7 @@ export function ProductGallery({
               alt=""
               aria-hidden="true"
               loading="lazy"
+              decoding="async"
               width={92}
               height={122}
               className="h-16 w-14 bg-nude object-cover sm:h-[72px] sm:w-[72px] lg:h-[88px] lg:w-[88px]"
@@ -132,6 +133,8 @@ export function ProductGallery({
                 alt={i === active ? alt : ""}
                 aria-hidden={i === active ? undefined : true}
                 loading={i === 0 ? undefined : "lazy"}
+                decoding="async"
+                fetchPriority={i === 0 ? "high" : undefined}
                 className="h-full w-full bg-nude object-cover"
               />
             </button>

@@ -220,6 +220,8 @@ function PortadaNosotros() {
                 alt="Mesa de trabajo del atelier de YEI Apparel en Bogotá"
                 width={1400}
                 height={1050}
+                fetchPriority="high"
+                decoding="async"
                 className="h-full w-full object-cover"
               />
             </div>

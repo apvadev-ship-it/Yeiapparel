@@ -64,6 +64,7 @@ export function ProductCard({
             src={activeImages[0]}
             alt={product.name}
             loading="lazy"
+            decoding="async"
             width={900}
             height={1200}
             className="aspect-[3/4] w-full object-cover transition-all duration-700 ease-out group-hover:scale-[1.04] group-hover:opacity-0"
@@ -73,6 +74,7 @@ export function ProductCard({
             alt=""
             aria-hidden="true"
             loading="lazy"
+            decoding="async"
             className="absolute inset-0 h-full w-full object-cover opacity-0 transition-all duration-700 ease-out group-hover:scale-[1.04] group-hover:opacity-100"
           />
           <span

@@ -117,6 +117,8 @@ function Tienda() {
           src={heroImage}
           alt=""
           aria-hidden="true"
+          fetchPriority="high"
+          decoding="async"
           className="absolute inset-0 h-full w-full object-cover opacity-10"
         />
         <div className="absolute inset-0 bg-chocolate/60" />
