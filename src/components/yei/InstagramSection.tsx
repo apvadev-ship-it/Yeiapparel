@@ -172,7 +172,7 @@ export function InstagramSection() {
           .from("instagram_reels")
           .select("*")
           .limit(1)
-          .single();
+          .maybeSingle();
 
         if (!reelError && reelQuery) {
           setReelData(reelQuery);
