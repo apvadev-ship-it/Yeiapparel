@@ -13,13 +13,27 @@
 
 import { readEnv } from "@/lib/runtime-env";
 
-/** Paleta de la marca, la misma de la web. */
-const CHOCOLATE = "#351A17";
-const TERRACOTA = "#B74F3F";
-const NUDE = "#EBD8CF";
-const MARFIL = "#F7F3EE";
-/** El mismo tono de "src/styles.css" que usa /nueva-coleccion. */
+/**
+ * Paleta de la marca — los mismos valores de `:root` en `src/styles.css`
+ * (`--chocolate`, `--terracota`, `--nude`, `--marfil`, `--rosa`), no una
+ * aproximación. En ese archivo `--nude` y `--marfil` son literalmente el
+ * mismo valor; se mantienen como dos constantes aquí solo por
+ * legibilidad (una es "fondo de página", la otra "raya/superficie").
+ */
+const CHOCOLATE = "#35221F";
+const TERRACOTA = "#8F4A3D";
+const TERRACOTA_CLARO = "#D29A88";
+const NUDE = "#E8DAD1";
+const MARFIL = "#E8DAD1";
 const ROSA = "#8A4552";
+const ROSA_CLARO = "#F0C4B8";
+/**
+ * Línea divisoria sutil para tablas internas (aviso de compra, reporte
+ * semanal). No hay un tono "gris claro" en la paleta de la marca — todo
+ * es chocolate/terracota/nude/rosa — así que en vez de inventar uno se
+ * usa el propio chocolate a baja opacidad.
+ */
+const LINEA = "rgba(53, 34, 31, 0.15)";
 
 const DISPLAY =
   "'Cormorant Garamond', Didot, Georgia, 'Times New Roman', serif";
@@ -84,10 +98,12 @@ function shell({ preheader, content, unsubscribeUrl }: ShellOptions): string {
       <td align="center" style="padding:32px 16px;">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;">
 
-          <!-- Cabecera -->
+          <!-- Cabecera, con el logo real -->
           <tr>
-            <td align="center" style="padding:8px 0 28px;">
-              <span style="font-family:${DISPLAY};font-size:30px;letter-spacing:10px;color:${CHOCOLATE};">
+            <td align="center" style="padding:8px 0 20px;">
+              <img src="${escapeHtml(logoUrl())}" width="40" height="40" alt="YEI"
+                   style="display:block;width:40px;height:40px;border-radius:6px;margin:0 auto 12px;" />
+              <span style="font-family:${DISPLAY};font-size:26px;letter-spacing:9px;color:${CHOCOLATE};">
                 Y E I
               </span>
             </td>
@@ -126,7 +142,10 @@ type AdminShellOptions = {
 /**
  * Carcasa para correos INTERNOS (avisos de compra, reporte semanal) —
  * los que solo lee el dueño de la tienda, nunca un cliente. Comparte la
- * paleta y tipografía de `shell()`, pero con dos diferencias a propósito:
+ * paleta, tipografía Y el mismo fondo directo de `shell()` (sin caja
+ * blanca: esta marca no usa superficies blancas en ningún lado del
+ * sitio — todo es marfil/chocolate/terracota — así que una tarjeta
+ * `#ffffff` desentonaba). Dos diferencias a propósito frente a `shell()`:
  *
  *  1. Lleva el logo real (imagen), no el wordmark en texto: esto es un
  *     panel de negocio, y el logo ayuda a distinguirlo de un vistazo en
@@ -155,19 +174,19 @@ function adminShell({ preheader, content }: AdminShellOptions): string {
 
           <!-- Cabecera con el logo real -->
           <tr>
-            <td align="center" style="padding:8px 0 24px;">
+            <td align="center" style="padding:8px 0 20px;">
               <img src="${escapeHtml(logoUrl())}" width="44" height="44" alt="YEI"
-                   style="display:block;width:44px;height:44px;border-radius:6px;" />
+                   style="display:block;width:44px;height:44px;border-radius:6px;margin:0 auto;" />
               <p style="margin:10px 0 0;font-family:${SANS};font-size:10px;letter-spacing:3px;
-                        text-transform:uppercase;color:#8A7A73;">
+                        text-transform:uppercase;color:${TERRACOTA};">
                 Panel interno
               </p>
             </td>
           </tr>
 
-          <!-- Tarjeta de contenido -->
+          <!-- Contenido, directo sobre el fondo marfil -->
           <tr>
-            <td style="background-color:#ffffff;border:1px solid ${NUDE};border-radius:6px;">
+            <td style="border-top:1px solid ${LINEA};">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                 ${content}
               </table>
@@ -176,7 +195,7 @@ function adminShell({ preheader, content }: AdminShellOptions): string {
 
           <!-- Pie -->
           <tr>
-            <td align="center" style="padding:20px 24px 8px;">
+            <td align="center" style="padding:20px 24px 8px;border-top:1px solid ${LINEA};">
               <p style="margin:0;font-family:${SANS};font-size:11px;line-height:1.7;color:#8A7A73;">
                 Correo automático de yeiapparel.co · no reenviar a clientes
               </p>
@@ -671,7 +690,7 @@ export function renderOrderApprovedEmail(params: {
         .map(
           (item) => `
       <tr>
-        <td style="padding:6px 0;font-family:${SANS};font-size:14px;color:#5C4A44;border-bottom:1px solid ${MARFIL};">
+        <td style="padding:6px 0;font-family:${SANS};font-size:14px;color:#5C4A44;border-bottom:1px solid ${LINEA};">
           ${escapeHtml(itemLine(item))}
         </td>
       </tr>`,
@@ -721,7 +740,7 @@ export function renderOrderApprovedEmail(params: {
     <tr>
       <td style="padding:16px 28px 28px;">
         <p style="margin:0 0 8px;font-family:${SANS};font-size:11px;letter-spacing:2px;
-                  text-transform:uppercase;color:#8A7A73;border-top:1px solid ${MARFIL};padding-top:16px;">
+                  text-transform:uppercase;color:#8A7A73;border-top:1px solid ${LINEA};padding-top:16px;">
           Productos
         </p>
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -781,36 +800,39 @@ export function renderWeeklyReportEmail(params: {
 }): { subject: string; html: string; text: string } {
   const { rangeLabel, orderCount, paidCount, revenueLabel, orders } = params;
 
+  // Mismo lenguaje visual que la caja del cupón en `renderWelcomeEmail`:
+  // fondo chocolate sólido, texto marfil — así se distingue de un
+  // vistazo, en vez de un tono casi igual al fondo de la página.
   const stat = (label: string, value: string) => `
     <td width="33%" align="center" style="padding:16px 6px;">
-      <span style="display:block;font-family:${DISPLAY};font-size:26px;font-weight:500;color:${CHOCOLATE};">
+      <span style="display:block;font-family:${DISPLAY};font-size:26px;font-weight:500;color:${MARFIL};">
         ${escapeHtml(value)}
       </span>
       <span style="display:block;margin-top:4px;font-family:${SANS};font-size:10px;letter-spacing:1.5px;
-                  text-transform:uppercase;color:#8A7A73;">
+                  text-transform:uppercase;color:${ROSA_CLARO};">
         ${escapeHtml(label)}
       </span>
     </td>`;
 
   const orderRow = (order: WeeklyReportOrderRow) => `
     <tr>
-      <td style="padding:8px 6px;font-family:${SANS};font-size:12px;color:#5C4A44;border-bottom:1px solid ${MARFIL};white-space:nowrap;">
+      <td style="padding:8px 6px;font-family:${SANS};font-size:12px;color:#5C4A44;border-bottom:1px solid ${LINEA};white-space:nowrap;">
         ${escapeHtml(order.dateLabel)}
       </td>
-      <td style="padding:8px 6px;font-family:${SANS};font-size:12px;color:#5C4A44;border-bottom:1px solid ${MARFIL};">
+      <td style="padding:8px 6px;font-family:${SANS};font-size:12px;color:#5C4A44;border-bottom:1px solid ${LINEA};">
         ${escapeHtml(order.reference)}
       </td>
-      <td style="padding:8px 6px;font-family:${SANS};font-size:11px;font-weight:600;color:${TERRACOTA};border-bottom:1px solid ${MARFIL};white-space:nowrap;">
+      <td style="padding:8px 6px;font-family:${SANS};font-size:11px;font-weight:600;color:${TERRACOTA};border-bottom:1px solid ${LINEA};white-space:nowrap;">
         ${escapeHtml(order.status)}
       </td>
-      <td style="padding:8px 6px;font-family:${SANS};font-size:12px;font-weight:600;color:${CHOCOLATE};border-bottom:1px solid ${MARFIL};white-space:nowrap;">
+      <td style="padding:8px 6px;font-family:${SANS};font-size:12px;font-weight:600;color:${CHOCOLATE};border-bottom:1px solid ${LINEA};white-space:nowrap;">
         ${escapeHtml(order.totalLabel)}
       </td>
-      <td style="padding:8px 6px;font-family:${SANS};font-size:12px;color:#5C4A44;border-bottom:1px solid ${MARFIL};">
+      <td style="padding:8px 6px;font-family:${SANS};font-size:12px;color:#5C4A44;border-bottom:1px solid ${LINEA};">
         ${escapeHtml(order.customerName)}<br/>
         <span style="color:#8A7A73;font-size:11px;">${escapeHtml(order.customerEmail)} · ${escapeHtml(order.customerPhone)}</span>
       </td>
-      <td style="padding:8px 6px;font-family:${SANS};font-size:12px;color:#5C4A44;border-bottom:1px solid ${MARFIL};white-space:nowrap;">
+      <td style="padding:8px 6px;font-family:${SANS};font-size:12px;color:#5C4A44;border-bottom:1px solid ${LINEA};white-space:nowrap;">
         ${escapeHtml(order.shippingCity)}
       </td>
     </tr>`;
@@ -837,7 +859,7 @@ export function renderWeeklyReportEmail(params: {
     <tr>
       <td style="padding:8px 22px 8px;">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
-               style="background-color:${MARFIL};border-radius:4px;">
+               style="background-color:${CHOCOLATE};border-radius:4px;">
           <tr>
             ${stat("Pedidos", String(orderCount))}
             ${stat("Pagados", String(paidCount))}
@@ -851,12 +873,12 @@ export function renderWeeklyReportEmail(params: {
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="min-width:520px;">
           <thead>
             <tr>
-              <th align="left" style="padding:0 6px 8px;font-family:${SANS};font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#8A7A73;border-bottom:2px solid ${NUDE};">Fecha</th>
-              <th align="left" style="padding:0 6px 8px;font-family:${SANS};font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#8A7A73;border-bottom:2px solid ${NUDE};">Referencia</th>
-              <th align="left" style="padding:0 6px 8px;font-family:${SANS};font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#8A7A73;border-bottom:2px solid ${NUDE};">Estado</th>
-              <th align="left" style="padding:0 6px 8px;font-family:${SANS};font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#8A7A73;border-bottom:2px solid ${NUDE};">Total</th>
-              <th align="left" style="padding:0 6px 8px;font-family:${SANS};font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#8A7A73;border-bottom:2px solid ${NUDE};">Cliente</th>
-              <th align="left" style="padding:0 6px 8px;font-family:${SANS};font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#8A7A73;border-bottom:2px solid ${NUDE};">Ciudad</th>
+              <th align="left" style="padding:0 6px 8px;font-family:${SANS};font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#8A7A73;border-bottom:2px solid ${TERRACOTA_CLARO};">Fecha</th>
+              <th align="left" style="padding:0 6px 8px;font-family:${SANS};font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#8A7A73;border-bottom:2px solid ${TERRACOTA_CLARO};">Referencia</th>
+              <th align="left" style="padding:0 6px 8px;font-family:${SANS};font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#8A7A73;border-bottom:2px solid ${TERRACOTA_CLARO};">Estado</th>
+              <th align="left" style="padding:0 6px 8px;font-family:${SANS};font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#8A7A73;border-bottom:2px solid ${TERRACOTA_CLARO};">Total</th>
+              <th align="left" style="padding:0 6px 8px;font-family:${SANS};font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#8A7A73;border-bottom:2px solid ${TERRACOTA_CLARO};">Cliente</th>
+              <th align="left" style="padding:0 6px 8px;font-family:${SANS};font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#8A7A73;border-bottom:2px solid ${TERRACOTA_CLARO};">Ciudad</th>
             </tr>
           </thead>
           <tbody>
