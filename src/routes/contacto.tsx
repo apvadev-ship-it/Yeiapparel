@@ -27,9 +27,9 @@ export const Route = createFileRoute("/contacto")({
           "Cuéntanos qué necesitas y te contactamos. Atención personalizada de YEI Apparel.",
       },
       { property: "og:title", content: "Contacto — YEI Apparel" },
-      { property: "og:url", content: "/contacto" },
+      { property: "og:url", content: "https://yeiapparel.co/contacto" },
     ],
-    links: [{ rel: "canonical", href: "/contacto" }],
+    links: [{ rel: "canonical", href: "https://yeiapparel.co/contacto" }],
   }),
   component: Contacto,
 });

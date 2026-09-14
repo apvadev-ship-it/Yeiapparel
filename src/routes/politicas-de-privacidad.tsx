@@ -12,9 +12,17 @@ export const Route = createFileRoute("/politicas-de-privacidad")({
           "Políticas de envíos, cambios y devoluciones, y tratamiento de datos personales de YEI Apparel, conforme a la Ley 1480 de 2011 y la Ley 1581 de 2012 de Colombia.",
       },
       { property: "og:title", content: "Políticas legales — YEI" },
-      { property: "og:url", content: "/politicas-de-privacidad" },
+      {
+        property: "og:url",
+        content: "https://yeiapparel.co/politicas-de-privacidad",
+      },
     ],
-    links: [{ rel: "canonical", href: "/politicas-de-privacidad" }],
+    links: [
+      {
+        rel: "canonical",
+        href: "https://yeiapparel.co/politicas-de-privacidad",
+      },
+    ],
   }),
   component: PoliticasLegales,
 });

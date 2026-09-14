@@ -84,9 +84,9 @@ export const Route = createFileRoute("/tienda")({
         content:
           "Vestidos, tops y sastrería femenina de elegancia contemporánea.",
       },
-      { property: "og:url", content: "/tienda" },
+      { property: "og:url", content: "https://yeiapparel.co/tienda" },
     ],
-    links: [{ rel: "canonical", href: "/tienda" }],
+    links: [{ rel: "canonical", href: "https://yeiapparel.co/tienda" }],
   }),
   component: Tienda,
 });

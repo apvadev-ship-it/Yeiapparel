@@ -65,9 +65,9 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content: "Más que moda, una forma de vivir tu esencia. YEI APPAREL.",
       },
-      { property: "og:url", content: "/" },
+      { property: "og:url", content: "https://yeiapparel.co/" },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [{ rel: "canonical", href: "https://yeiapparel.co/" }],
   }),
   component: Home,
 });

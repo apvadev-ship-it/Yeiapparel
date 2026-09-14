@@ -18,9 +18,9 @@ export const Route = createFileRoute("/historia")({
         property: "og:description",
         content: "El origen de YEI, casa de moda femenina latinoamericana.",
       },
-      { property: "og:url", content: "/historia" },
+      { property: "og:url", content: "https://yeiapparel.co/historia" },
     ],
-    links: [{ rel: "canonical", href: "/historia" }],
+    links: [{ rel: "canonical", href: "https://yeiapparel.co/historia" }],
   }),
   component: Historia,
 });

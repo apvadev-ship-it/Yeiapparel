@@ -25,9 +25,9 @@ export const Route = createFileRoute("/nosotros")({
         content:
           "Las manos, las horas y el oficio detrás de cada prenda de YEI Apparel.",
       },
-      { property: "og:url", content: "/nosotros" },
+      { property: "og:url", content: "https://yeiapparel.co/nosotros" },
     ],
-    links: [{ rel: "canonical", href: "/nosotros" }],
+    links: [{ rel: "canonical", href: "https://yeiapparel.co/nosotros" }],
   }),
   component: Nosotros,
 });
