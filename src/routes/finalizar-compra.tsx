@@ -6,6 +6,7 @@ import { formatPrice } from "@/lib/products";
 import { FREE_SHIPPING_FROM } from "@/lib/stock";
 import { startCheckout } from "@/lib/checkout";
 import { previewCoupon } from "@/lib/coupons";
+import { subscribeToNewsletter } from "@/lib/newsletter";
 import { useIsMobile } from "@/hooks/use-mobile";
 import {
   CHECKOUT_FAILED_MESSAGE,
@@ -72,6 +73,7 @@ function FinalizarCompra() {
   const [buyer, setBuyer] = useState<Buyer>(EMPTY_BUYER);
   const [sending, setSending] = useState(false);
   const [feedback, setFeedback] = useState<Feedback | null>(null);
+  const [subscribeNewsletter, setSubscribeNewsletter] = useState(false);
 
   // El cupón se muestra en pantalla con `previewCoupon` (solo lectura,
   // no cambia nada en la base). El descuento que de verdad se cobra
@@ -144,6 +146,18 @@ function FinalizarCompra() {
       if (!result.ok) {
         setFeedback({ message: CHECKOUT_NOT_CONFIGURED_MESSAGE });
         return;
+      }
+
+      // El alta al boletín es aparte del pago: si falla, no debe tumbar
+      // ni retrasar la compra. Por eso no se espera (`await`) ni se
+      // muestra su resultado aquí — a lo sumo, la persona no recibe el
+      // cupón de bienvenida, pero su pedido sigue su curso normal.
+      if (subscribeNewsletter && buyer.email.trim()) {
+        subscribeToNewsletter({ data: { email: buyer.email.trim() } }).catch(
+          () => {
+            // Silencioso a propósito: ver el comentario de arriba.
+          },
+        );
       }
 
       // El servidor volvió a validar el cupón al cobrar, sobre el
@@ -295,6 +309,19 @@ function FinalizarCompra() {
                   />
                 </div>
               </div>
+
+              <label className="flex cursor-pointer items-start gap-3 text-sm text-chocolate/80">
+                <input
+                  type="checkbox"
+                  checked={subscribeNewsletter}
+                  onChange={(e) => setSubscribeNewsletter(e.target.checked)}
+                  className="mt-0.5 h-4 w-4 shrink-0 accent-terracota"
+                />
+                <span>
+                  Suscribirme al boletín de YEI Apparel — lanzamientos,
+                  cupones y noticias, sin spam.
+                </span>
+              </label>
             </fieldset>
           </form>
 

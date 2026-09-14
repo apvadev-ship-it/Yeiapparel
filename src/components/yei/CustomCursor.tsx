@@ -91,8 +91,8 @@ export function CustomCursor() {
     let frame = 0;
     const tick = () => {
       // La estrella persigue al mouse con un ligero retraso.
-      ring.current.x += (target.current.x - ring.current.x) * 0.16;
-      ring.current.y += (target.current.y - ring.current.y) * 0.16;
+      ring.current.x += (target.current.x - ring.current.x) * 0.35;
+      ring.current.y += (target.current.y - ring.current.y) * 0.35;
 
       if (ringRef.current) {
         ringRef.current.style.transform = `translate3d(${ring.current.x}px, ${ring.current.y}px, 0) translate(-50%, -50%)`;
