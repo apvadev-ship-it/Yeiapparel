@@ -45,7 +45,7 @@ const DEFAULT_POSTS: InstagramPost[] = [
   {
     id: "post-2",
     image_url:
-      "https://cdn.builder.io/api/v1/image/assets%2Fd593854069c14b2bb2cc8227c9adc563%2Fe9212970421845c792f32d40841a0d12",
+      "https://cdn.builder.io/api/v1/image/assets%2Fd593854069c14b2bb2cc8227c9adc563%2Fe9212970421845c792f32d40841a0d12?format=webp&width=800&height=1200",
     caption:
       "Tejido fino en punto Milano en color terracota. Textura envolvente y diseño de autor. #Colección2026",
     likes_count: 2150,
