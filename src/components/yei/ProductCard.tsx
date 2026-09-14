@@ -187,21 +187,28 @@ export function ProductCard({
         </div>
       </div>
 
-      <motion.button
-        whileHover={{ scale: 1.01 }}
-        whileTap={{ scale: 0.98 }}
+      <button
+        type="button"
         onClick={handleBuyNow}
-        className={`btn-yei notch-frame-sm w-full bg-terracota text-marfil hover:bg-terracota/90 shadow-sm font-semibold ${
+        className={`comprar-ahora w-full rounded-full shadow-sm active:scale-[0.98] transition-transform ${
           compact
-            ? "hidden lg:inline-flex lg:mt-5 lg:py-2 lg:text-xs lg:tracking-[0.15em]"
-            : "mt-5 py-3.5 text-xs tracking-[0.22em] lg:py-2 lg:text-xs lg:tracking-[0.15em]"
+            ? "comprar-ahora--compact hidden h-10 lg:mt-5 lg:flex"
+            : "mt-5 h-12"
         }`}
       >
-        <ArrowRight
-          className={`btn-yei-arrow ${compact ? "h-3 w-3 lg:h-3.5 lg:w-3.5" : "h-4 w-4 lg:h-3.5 lg:w-3.5"}`}
-        />
-        <span>Comprar ahora</span>
-      </motion.button>
+        <span className="comprar-ahora-icon">
+          <ArrowRight
+            className={compact ? "h-3 w-3 text-marfil" : "h-3.5 w-3.5 text-marfil"}
+          />
+        </span>
+        <span
+          className={`comprar-ahora-text font-semibold ${
+            compact ? "text-xs tracking-[0.15em]" : "text-xs tracking-[0.22em] lg:text-xs lg:tracking-[0.15em]"
+          }`}
+        >
+          Comprar ahora
+        </span>
+      </button>
 
       {showAddToCart && (
         <motion.button

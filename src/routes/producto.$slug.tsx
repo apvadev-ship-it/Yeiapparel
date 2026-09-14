@@ -527,15 +527,18 @@ function ProductoDetalle() {
                   <span>Añadir al carrito</span>
                 )}
               </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.98 }}
+              <button
+                type="button"
                 onClick={handleBuyNow}
-                className="btn-yei notch-frame-sm flex-1 bg-terracota text-marfil hover:bg-terracota/90 text-xs lg:text-sm py-4 active:scale-[0.99] shadow-lg font-semibold tracking-[0.22em]"
+                className="comprar-ahora flex-1 h-14 rounded-full shadow-lg"
               >
-                <ArrowRight className="btn-yei-arrow h-4 w-4" />
-                <span>Comprar ahora</span>
-              </motion.button>
+                <span className="comprar-ahora-icon">
+                  <ArrowRight className="h-4 w-4 text-marfil" />
+                </span>
+                <span className="comprar-ahora-text text-xs lg:text-sm font-semibold tracking-[0.22em]">
+                  Comprar ahora
+                </span>
+              </button>
             </div>
 
             {/* Envíos: tres cuadritos con fechas reales */}

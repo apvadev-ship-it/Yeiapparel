@@ -272,6 +272,73 @@
   transition: transform 250ms ease;
 }
 
+/* ---------------------------------------------------------------
+   Botón "Comprar ahora"
+   ---------------------------------------------------------------
+   Adaptado de un diseño de referencia (pastilla oscura con una
+   cápsula de icono que se expande y tapa el texto al pasar el
+   cursor). La referencia tenía un ancho FIJO de 100px; aquí el
+   icono crece en PORCENTAJE del ancho del botón en vez de a un
+   número de píxeles fijo, para que el mismo componente sirva tanto
+   en una tarjeta angosta (2 por fila en celular) como en el botón de
+   ancho completo de la ficha de producto. */
+.comprar-ahora {
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+  border: 1px solid var(--terracota-claro);
+  background-color: var(--chocolate);
+}
+
+.comprar-ahora-icon {
+  flex: 0 0 2.75rem;
+  display: grid;
+  place-items: center;
+  margin: 0.3rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    to bottom,
+    var(--terracota-claro),
+    var(--terracota)
+  );
+  transition: flex-basis 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.comprar-ahora-text {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+  color: var(--marfil);
+  transition:
+    opacity 200ms ease,
+    flex-basis 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.comprar-ahora:hover .comprar-ahora-icon,
+.comprar-ahora:focus-visible .comprar-ahora-icon {
+  flex-basis: 100%;
+}
+
+.comprar-ahora:hover .comprar-ahora-text,
+.comprar-ahora:focus-visible .comprar-ahora-text {
+  flex-basis: 0%;
+  opacity: 0;
+}
+
+.comprar-ahora:active {
+  transform: scale(0.97);
+}
+
+/* Variante compacta: la usa ProductCard en su modo `compact` (2
+   tarjetas por fila en celular). */
+.comprar-ahora--compact .comprar-ahora-icon {
+  flex-basis: 2.1rem;
+  margin: 0.2rem;
+}
+
 .btn-yei:hover .btn-yei-arrow,
 .btn-yei:active .btn-yei-arrow,
 .btn-yei:focus-visible .btn-yei-arrow {
