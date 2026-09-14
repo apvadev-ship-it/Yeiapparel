@@ -420,7 +420,7 @@ export const products: Product[] = [
 ];
 
 export const heroImage =
-  "https://cdn.builder.io/api/v1/image/assets%2Fd593854069c14b2bb2cc8227c9adc563%2F511db63247684159857362359fec7616";
+  "https://cdn.builder.io/api/v1/image/assets%2Fd593854069c14b2bb2cc8227c9adc563%2F511db63247684159857362359fec7616?format=webp&quality=82";
 
 export const getProduct = (slug: string) =>
   products.find((p) => p.slug === slug);
