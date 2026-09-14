@@ -1,10 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Check, Copy, MessageCircle, ShoppingBag } from "lucide-react";
+import lottie from "lottie-web";
 import { getOrderSummary, type PublicOrderSummary } from "@/lib/orders";
 import { getProduct, imagesForColor, defaultImage, formatPrice } from "@/lib/products";
 import { describeWompiOutcome } from "@/lib/wompi-errors";
 import { Reveal } from "@/components/yei/Reveal";
+import shoppingDoneData from "@/assets/shopping-done.json";
 
 export const Route = createFileRoute("/pedido/$reference")({
   loader: async ({ params }) => {
@@ -102,23 +104,23 @@ function PedidoConfirmado() {
     <div className="bg-marfil px-5 pb-24 pt-36 lg:px-10 lg:pt-48">
       <div className="mx-auto max-w-[760px]">
         <Reveal className="text-center">
-          <div
-            className={`mx-auto grid h-16 w-16 place-items-center notch-frame-sm ${
-              isApproved
-                ? "bg-terracota text-marfil"
-                : isPending
+          {isApproved ? (
+            <SuccessAnimation />
+          ) : (
+            <div
+              className={`mx-auto grid h-16 w-16 place-items-center notch-frame-sm ${
+                isPending
                   ? "bg-chocolate/15 text-chocolate"
                   : "bg-chocolate/10 text-chocolate/60"
-            }`}
-          >
-            {isApproved ? (
-              <Check className="h-8 w-8 stroke-[2.5]" />
-            ) : isPending ? (
-              <span className="h-3 w-3 animate-pulse rounded-full bg-chocolate/60" />
-            ) : (
-              <Check className="h-8 w-8 stroke-[2.5] opacity-40" />
-            )}
-          </div>
+              }`}
+            >
+              {isPending ? (
+                <span className="h-3 w-3 animate-pulse rounded-full bg-chocolate/60" />
+              ) : (
+                <Check className="h-8 w-8 stroke-[2.5] opacity-40" />
+              )}
+            </div>
+          )}
 
           <h1 className="mt-6 font-display text-4xl leading-[1.05] text-chocolate lg:text-6xl font-medium">
             {isApproved ? (
@@ -219,6 +221,45 @@ function PedidoConfirmado() {
       </div>
     </div>
   );
+}
+
+/**
+ * Animación de bolsa de compra con check, en los colores de la marca
+ * (terracota + chocolate en vez del verde original). Se reproduce una
+ * sola vez; respeta `prefers-reduced-motion` mostrando el ícono
+ * estático de siempre en su lugar.
+ */
+function SuccessAnimation() {
+  const boxRef = useRef<HTMLDivElement>(null);
+  const [calm, setCalm] = useState(false);
+
+  useEffect(() => {
+    setCalm(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }, []);
+
+  useEffect(() => {
+    if (calm || !boxRef.current) return;
+
+    const anim = lottie.loadAnimation({
+      container: boxRef.current,
+      renderer: "svg",
+      loop: false,
+      autoplay: true,
+      animationData: shoppingDoneData,
+    });
+
+    return () => anim.destroy();
+  }, [calm]);
+
+  if (calm) {
+    return (
+      <div className="mx-auto grid h-16 w-16 place-items-center notch-frame-sm bg-terracota text-marfil">
+        <Check className="h-8 w-8 stroke-[2.5]" />
+      </div>
+    );
+  }
+
+  return <div ref={boxRef} aria-hidden="true" className="mx-auto h-40 w-40" />;
 }
 
 /** Agradecimiento que nombra la(s) prenda(s), no solo "tu pedido". */
