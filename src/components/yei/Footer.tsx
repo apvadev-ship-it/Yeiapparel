@@ -39,8 +39,8 @@ export function Footer() {
             <p className="font-display text-4xl lg:text-5xl tracking-[0.25em] text-marfil">
               YEI APPAREL
             </p>
-            <p className="mt-5 max-w-xs text-sm lg:text-base leading-relaxed text-nude/75 font-light">
-              Necesitas sentir la calidad antes de comprar.
+            <p className="mt-5 max-w-xs text-sm lg:text-base leading-relaxed text-nude/75 font-light italic">
+              Más que moda, una forma de vivir tu esencia.
             </p>
             <div className="mt-6 flex gap-3">
               <a

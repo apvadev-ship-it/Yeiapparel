@@ -82,7 +82,7 @@ export const Route = createRootRouteWithContext<{
       {
         name: "description",
         content:
-          "YEI APPAREL: sastrería y vestidos de mujer con estética editorial. Comodidad eterna, colección 2026.",
+          "Más que moda, una forma de vivir tu esencia. YEI APPAREL: sastrería y vestidos de mujer con estética editorial, colección 2026.",
       },
       { property: "og:site_name", content: "YEI APPAREL" },
       { property: "og:type", content: "website" },
@@ -111,7 +111,8 @@ export const Route = createRootRouteWithContext<{
           "@context": "https://schema.org",
           "@type": "Organization",
           name: "YEI",
-          description: "Marca de moda femenina de elegancia contemporánea.",
+          description: "Más que moda, una forma de vivir tu esencia.",
+          slogan: "Más que moda, una forma de vivir tu esencia",
         }),
       },
       // Google Analytics. Se activa solo si VITE_GA_MEASUREMENT_ID está

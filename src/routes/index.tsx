@@ -55,7 +55,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Descubre lo más destacado de la colección 2026 de YEI APPAREL. Sastrería y vestidos de satín diseñados con proporciones audaces y comodidad eterna.",
+          "Más que moda, una forma de vivir tu esencia. Descubre lo más destacado de la colección 2026 de YEI APPAREL: sastrería y vestidos de satín con proporciones audaces y comodidad eterna.",
       },
       {
         property: "og:title",
@@ -63,8 +63,7 @@ export const Route = createFileRoute("/")({
       },
       {
         property: "og:description",
-        content:
-          "Sastrería femenina y vestidos en series limitadas. Colección 2026 de YEI APPAREL.",
+        content: "Más que moda, una forma de vivir tu esencia. YEI APPAREL.",
       },
       { property: "og:url", content: "/" },
     ],
@@ -227,6 +226,17 @@ function Home() {
           { src: piezaUnicaLook, alt: "Pieza única YEI", position: "right" },
         ]}
       />
+
+      {/* Lema de la marca, justo debajo del hero. */}
+      <section className="bg-marfil px-5 py-14 text-center lg:py-20">
+        <p className="eyebrow text-terracota text-xs lg:text-sm">
+          ✦ Nuestra esencia ✦
+        </p>
+        <p className="mx-auto mt-4 max-w-2xl font-display text-3xl leading-tight text-chocolate lg:text-5xl">
+          Más que moda, una forma de vivir tu{" "}
+          <span className="italic text-terracota font-normal">esencia</span>.
+        </p>
+      </section>
 
       {/* ============================================================
           SECCIÓN 2: COMPRAR POR CATEGORÍA (Sets / Piezas únicas, deslizan desde los lados)
