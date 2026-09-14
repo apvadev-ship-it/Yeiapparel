@@ -70,7 +70,7 @@ function PedidoConfirmado() {
 
   if (!summary) {
     return (
-      <div className="bg-marfil px-5 pb-24 pt-36 lg:px-10 lg:pt-48">
+      <div className="bg-marfil px-5 pb-24 pt-24 lg:px-10 lg:pt-32">
         <div className="mx-auto max-w-md text-center">
           <ShoppingBag
             className="mx-auto h-10 w-10 text-chocolate/30"
@@ -101,7 +101,7 @@ function PedidoConfirmado() {
   const isPending = summary.status.toUpperCase() === "PENDING";
 
   return (
-    <div className="bg-marfil px-5 pb-24 pt-36 lg:px-10 lg:pt-48">
+    <div className="bg-marfil px-5 pb-24 pt-24 lg:px-10 lg:pt-32">
       <div className="mx-auto max-w-[760px]">
         <Reveal className="text-center">
           {isApproved ? (
