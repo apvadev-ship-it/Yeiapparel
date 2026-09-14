@@ -29,8 +29,8 @@
 
 # Videos en /public/videos/: a diferencia de /assets/*, el nombre de
 # archivo NO lleva hash (no pasan por el pipeline de Vite), así que un año
-# "immutable" sería peligroso si el contenido cambia algún día. Una semana
-# es suficiente para que el navegador no los vuelva a descargar en cada
-# visita, sin arriesgar una caché vieja imposible de invalidar.
+# "immutable" sería peligroso si el contenido cambia algún día. 30 días
+# es el piso que pide la auditoría de PageSpeed sin llegar a "para
+# siempre" — si el video cambia, 30 días de caché vieja es tolerable.
 /videos/*
-  Cache-Control: public, max-age=604800
+  Cache-Control: public, max-age=2592000
