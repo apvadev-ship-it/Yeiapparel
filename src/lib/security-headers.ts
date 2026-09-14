@@ -39,7 +39,6 @@ const CLOUDFLARE_INSIGHTS = "https://static.cloudflareinsights.com";
  * las fichas de producto se quedaban en negro contra `default-src`.
  */
 const MEDIA_HOSTS = [
-  "https://cdn.builder.io",
   "https://imagedelivery.net",
   "https://grainy-gradients.vercel.app",
 ];

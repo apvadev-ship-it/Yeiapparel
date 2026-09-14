@@ -26,3 +26,11 @@
 # No toca el HTML (ese sigue las reglas de arriba, sin este bloque).
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
+
+# Videos en /public/videos/: a diferencia de /assets/*, el nombre de
+# archivo NO lleva hash (no pasan por el pipeline de Vite), así que un año
+# "immutable" sería peligroso si el contenido cambia algún día. Una semana
+# es suficiente para que el navegador no los vuelva a descargar en cada
+# visita, sin arriesgar una caché vieja imposible de invalidar.
+/videos/*
+  Cache-Control: public, max-age=604800

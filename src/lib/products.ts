@@ -1,4 +1,9 @@
 import heroNewCollection from "@/assets/hero-new-collection.webp";
+import lookA from "@/assets/productos-placeholder/look-a.webp";
+import lookB from "@/assets/productos-placeholder/look-b.webp";
+import lookC from "@/assets/productos-placeholder/look-c.webp";
+import lookD from "@/assets/productos-placeholder/look-d.webp";
+import lookE from "@/assets/productos-placeholder/look-e.webp";
 import nalaBorgona1 from "@/assets/productos/nala/nala-borgona-1.webp";
 import nalaBorgona2 from "@/assets/productos/nala/nala-borgona-2.webp";
 import nalaBorgona3 from "@/assets/productos/nala/nala-borgona-3.webp";
@@ -107,21 +112,13 @@ export function imagesForColor(product: Product, colorName: string): string[] {
 }
 
 /**
- * Fotos placeholder, alojadas en el CDN de Builder.io (las mismas que
- * ya usa el resto del sitio) — a propósito, NO son archivos locales
- * del proyecto (`src/assets/...`). Un archivo local solo existe una
- * vez que el sitio está desplegado; hasta entonces, cualquier correo
- * que arme una URL como "https://yeiapparel.co/assets/..." no carga
- * nada, porque ahí no hay nada todavía. Estas sí se ven siempre,
- * desde ya, estén donde estén (la tienda, un correo, cualquier lado).
+ * Fotos placeholder para productos que aún no tienen su propia sesión de
+ * fotos. Antes vivían en el CDN de Builder.io; se trajeron al proyecto
+ * (no se usan en correos — eso solo pasa con `heroImage`/`imagesForColor`
+ * de productos reales — así que no aplica la razón original para dejarlas
+ * remotas).
  */
-const LOOKS = [
-  "https://cdn.builder.io/api/v1/image/assets%2Fd593854069c14b2bb2cc8227c9adc563%2Ffda4d2ea1ec14fcf869a672d641d7312?format=webp&width=800&height=1200",
-  "https://cdn.builder.io/api/v1/image/assets%2Fd593854069c14b2bb2cc8227c9adc563%2F37d99a14b43d4a969f449943b0c7b836?format=webp&width=800&height=1200",
-  "https://cdn.builder.io/api/v1/image/assets%2Fd593854069c14b2bb2cc8227c9adc563%2F5cb4c41d07f045f1a742af0faa6f0f67?format=webp&width=800&height=1200",
-  "https://cdn.builder.io/api/v1/image/assets%2Fd593854069c14b2bb2cc8227c9adc563%2Fb11348411e2c4d1b9a7aa9020eacd481?format=webp&width=800&height=1200",
-  "https://cdn.builder.io/api/v1/image/assets%2Fd593854069c14b2bb2cc8227c9adc563%2F6e3f81d8228343219a6dc754b0745d25?format=webp&width=800&height=1200",
-];
+const LOOKS = [lookA, lookB, lookC, lookD, lookE];
 
 /** Mismas 5 fotos, en un orden distinto — para que cada combinación
  * prenda×color se vea con un orden distinto mientras son placeholders. */

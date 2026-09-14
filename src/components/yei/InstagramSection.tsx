@@ -21,6 +21,10 @@ import look4 from "@/assets/look-4.jpg";
 import look5 from "@/assets/look-5.jpg";
 import hero from "@/assets/hero.jpg";
 import newsletter from "@/assets/newsletter.jpg";
+import defaultPost1 from "@/assets/instagram-defaults/post-1.webp";
+import defaultPost2 from "@/assets/instagram-defaults/post-2.webp";
+import defaultPost3 from "@/assets/instagram-defaults/post-3.webp";
+import defaultPost4 from "@/assets/productos-placeholder/look-e.webp";
 import { Reveal } from "@/components/yei/Reveal";
 import {
   supabase,
@@ -32,8 +36,7 @@ import {
 const DEFAULT_POSTS: InstagramPost[] = [
   {
     id: "post-1",
-    image_url:
-      "https://cdn.builder.io/api/v1/image/assets%2Fd593854069c14b2bb2cc8227c9adc563%2F774d5a280d224cc380f3acde7780b20d?format=webp&width=800&height=1200",
+    image_url: defaultPost1,
     caption:
       "Siluetas arquitectónicas esculpidas en satín de alto gramaje. La caída líquida que redefine la elegancia nocturna. #YEIApparel #AltaModa",
     likes_count: 1420,
@@ -44,8 +47,7 @@ const DEFAULT_POSTS: InstagramPost[] = [
   },
   {
     id: "post-2",
-    image_url:
-      "https://cdn.builder.io/api/v1/image/assets%2Fd593854069c14b2bb2cc8227c9adc563%2Fe9212970421845c792f32d40841a0d12?format=webp&width=800&height=1200",
+    image_url: defaultPost2,
     caption:
       "Tejido fino en punto Milano en color terracota. Textura envolvente y diseño de autor. #Colección2026",
     likes_count: 2150,
@@ -56,8 +58,7 @@ const DEFAULT_POSTS: InstagramPost[] = [
   },
   {
     id: "post-3",
-    image_url:
-      "https://cdn.builder.io/api/v1/image/assets%2Fd593854069c14b2bb2cc8227c9adc563%2F7b7a06362b12447ba772e08ad3cfb09c?format=webp&width=800&height=1200",
+    image_url: defaultPost3,
     caption:
       "Sastrería de autor en tono chocolate tostado. Detalles de solapa biselada en el atelier. #SastreríaFemenina",
     likes_count: 1250,
@@ -68,8 +69,7 @@ const DEFAULT_POSTS: InstagramPost[] = [
   },
   {
     id: "post-4",
-    image_url:
-      "https://cdn.builder.io/api/v1/image/assets%2Fd593854069c14b2bb2cc8227c9adc563%2F6e3f81d8228343219a6dc754b0745d25?format=webp&width=800&height=1200",
+    image_url: defaultPost4,
     caption:
       "Patronaje anatómico y seda pura marfil. Cada costura respira equilibrio y carácter contemporáneo. #YEI2026",
     likes_count: 980,
@@ -80,8 +80,7 @@ const DEFAULT_POSTS: InstagramPost[] = [
   },
   {
     id: "post-5",
-    image_url:
-      "https://cdn.builder.io/o/assets%2Fd593854069c14b2bb2cc8227c9adc563%2F485f034e67904eeea6db75ca861e11d1%2Fcompressed?apiKey=d593854069c14b2bb2cc8227c9adc563&token=485f034e67904eeea6db75ca861e11d1&alt=media&optimized=true",
+    image_url: "/videos/reel-1.mp4",
     media_type: "VIDEO",
     caption:
       "Vestido midi en color tinta profunda con espalda descubierta y drapeado artesanal. Minimalismo absoluto.",
@@ -93,8 +92,7 @@ const DEFAULT_POSTS: InstagramPost[] = [
   },
   {
     id: "post-6",
-    image_url:
-      "https://cdn.builder.io/o/assets%2Fd593854069c14b2bb2cc8227c9adc563%2F6fb5c12ea55b4e7ead3395f96446df75%2Fcompressed?apiKey=d593854069c14b2bb2cc8227c9adc563&token=6fb5c12ea55b4e7ead3395f96446df75&alt=media&optimized=true",
+    image_url: "/videos/reel-2.mp4",
     media_type: "VIDEO",
     caption:
       "Nueva Colección 2026. Elevando los estándares de la moda con piezas diseñadas para la eternidad.",
@@ -106,8 +104,7 @@ const DEFAULT_POSTS: InstagramPost[] = [
   },
   {
     id: "post-7",
-    image_url:
-      "https://cdn.builder.io/o/assets%2Fd593854069c14b2bb2cc8227c9adc563%2F458fa129df9c4412bfccf5e32787ae77?alt=media&token=cdae13d7-97c7-4555-a3e3-3df0746e2d2f&apiKey=d593854069c14b2bb2cc8227c9adc563",
+    image_url: "/videos/reel-3.mp4",
     media_type: "VIDEO",
     caption:
       "Acabados a mano en satín pesado y costuras anatómicas pulidas al milímetro en nuestro atelier.",
@@ -119,8 +116,7 @@ const DEFAULT_POSTS: InstagramPost[] = [
   },
   {
     id: "post-8",
-    image_url:
-      "https://cdn.builder.io/o/assets%2Fd593854069c14b2bb2cc8227c9adc563%2F1f1fd0fd75c04ccf9a9079592a0f464a?alt=media&token=3db62401-9d73-4966-ade7-48b38ced2cc4&apiKey=d593854069c14b2bb2cc8227c9adc563",
+    image_url: "/videos/reel-4.mp4",
     media_type: "VIDEO",
     caption:
       "Únete a nuestro universo. Suscríbete para acceso anticipado a nuestras piezas de sastrería de autor.",

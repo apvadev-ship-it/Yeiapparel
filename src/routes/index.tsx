@@ -699,8 +699,7 @@ const TESTIMONIALS = [
     location: "Bogotá",
     quote:
       "La caída del satín es otro nivel. Se siente una prenda hecha para durar, no para una sola foto.",
-    video:
-      "https://cdn.builder.io/o/assets%2Fd593854069c14b2bb2cc8227c9adc563%2F485f034e67904eeea6db75ca861e11d1%2Fcompressed?apiKey=d593854069c14b2bb2cc8227c9adc563&token=485f034e67904eeea6db75ca861e11d1&alt=media&optimized=true",
+    video: "/videos/reel-1.mp4",
     poster: testimonioCamila,
   },
   {
@@ -708,8 +707,7 @@ const TESTIMONIALS = [
     location: "Medellín",
     quote:
       "Pedí mi talla habitual y llegó perfecta. El empaque y la atención se sintieron cuidados de verdad.",
-    video:
-      "https://cdn.builder.io/o/assets%2Fd593854069c14b2bb2cc8227c9adc563%2F6fb5c12ea55b4e7ead3395f96446df75%2Fcompressed?apiKey=d593854069c14b2bb2cc8227c9adc563&token=6fb5c12ea55b4e7ead3395f96446df75&alt=media&optimized=true",
+    video: "/videos/reel-2.mp4",
     poster: testimonioValentina,
   },
   {
@@ -717,8 +715,7 @@ const TESTIMONIALS = [
     location: "Cali",
     quote:
       "Tengo piezas de hace un año que siguen intactas. Ahí se nota la calidad de la tela.",
-    video:
-      "https://cdn.builder.io/o/assets%2Fd593854069c14b2bb2cc8227c9adc563%2F458fa129df9c4412bfccf5e32787ae77?alt=media&token=cdae13d7-97c7-4555-a3e3-3df0746e2d2f&apiKey=d593854069c14b2bb2cc8227c9adc563",
+    video: "/videos/reel-3.mp4",
     poster: testimonioIsabella,
   },
   {
@@ -726,8 +723,7 @@ const TESTIMONIALS = [
     location: "Bogotá",
     quote:
       "Me encanta que sean series cortas: sé que no me voy a encontrar con alguien más en la misma prenda.",
-    video:
-      "https://cdn.builder.io/o/assets%2Fd593854069c14b2bb2cc8227c9adc563%2F1f1fd0fd75c04ccf9a9079592a0f464a?alt=media&token=3db62401-9d73-4966-ade7-48b38ced2cc4&apiKey=d593854069c14b2bb2cc8227c9adc563",
+    video: "/videos/reel-4.mp4",
     poster: testimonioDaniela,
   },
 ];
@@ -1128,8 +1124,7 @@ function Typewriter({
    que el cliente decidía su propio código de descuento. */
 
 /** Video de fondo de la sección del cupón (mismo material de la marca). */
-const NEWSLETTER_BG_VIDEO =
-  "https://cdn.builder.io/o/assets%2Fd593854069c14b2bb2cc8227c9adc563%2F485f034e67904eeea6db75ca861e11d1%2Fcompressed?apiKey=d593854069c14b2bb2cc8227c9adc563&token=485f034e67904eeea6db75ca861e11d1&alt=media&optimized=true";
+const NEWSLETTER_BG_VIDEO = "/videos/reel-1.mp4";
 
 const TYPEWRITER_PHRASES: Phrase[] = [
   { prefix: "Todo lo ", accent: "único", suffix: "" },
