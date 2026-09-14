@@ -27,6 +27,13 @@ const WOMPI_API = ["https://production.wompi.co", "https://sandbox.wompi.co"];
 const GOOGLE_FONTS_CSS = "https://fonts.googleapis.com";
 const GOOGLE_FONTS_FILES = "https://fonts.gstatic.com";
 /**
+ * Beacon de Cloudflare Web Analytics/Speed: si está activado en el panel
+ * del dominio, Cloudflare lo inyecta solo en cada respuesta HTML. No lo
+ * pide el código de la app, así que sin este origen el propio proxy que
+ * sirve la página queda bloqueando su propio script.
+ */
+const CLOUDFLARE_INSIGHTS = "https://static.cloudflareinsights.com";
+/**
  * Los mismos orígenes sirven imágenes y vídeo. `media-src` va aparte:
  * no hereda de `img-src`, y sin declararlo los vídeos de la portada y de
  * las fichas de producto se quedaban en negro contra `default-src`.
@@ -67,7 +74,12 @@ function supabaseOrigin(): string | null {
 function buildCsp(isDev: boolean): string {
   const supabase = supabaseOrigin();
 
-  const scriptSrc = ["'self'", "'unsafe-inline'", WOMPI_CHECKOUT];
+  const scriptSrc = [
+    "'self'",
+    "'unsafe-inline'",
+    WOMPI_CHECKOUT,
+    CLOUDFLARE_INSIGHTS,
+  ];
   const connectSrc = ["'self'", ...WOMPI_API];
   if (supabase) connectSrc.push(supabase);
 
