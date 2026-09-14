@@ -259,12 +259,20 @@ function SuccessAnimation() {
     );
   }
 
+  // El archivo trae mucho relleno vacío alrededor del círculo (así lo
+  // exportaron): a tamaño natural, gran parte de la caja es aire y deja
+  // un salto grande entre la animación y el texto de abajo. Se recorta
+  // ese sobrante agrandando el lienzo con `scale` dentro de una caja
+  // más chica y con `overflow-hidden` — el círculo llena la caja en
+  // vez de flotar en el centro con márgenes enormes.
   return (
-    <div
-      ref={boxRef}
-      aria-hidden="true"
-      className="mx-auto h-64 w-64 lg:h-72 lg:w-72"
-    />
+    <div className="mx-auto h-40 w-40 overflow-hidden lg:h-44 lg:w-44">
+      <div
+        ref={boxRef}
+        aria-hidden="true"
+        className="h-full w-full scale-[2.05]"
+      />
+    </div>
   );
 }
 
