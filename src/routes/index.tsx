@@ -11,7 +11,6 @@ import {
   X,
 } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/stateful-button";
 import eventoBandera from "@/assets/evento/video1_poster.jpg";
 import eventoDia2 from "@/assets/evento/video2_poster.jpg";
 import eventoDia1 from "@/assets/evento/video3_poster.jpg";
@@ -1200,13 +1199,13 @@ function NewsletterSection() {
                   placeholder="tucorreo@ejemplo.com"
                   className="notch-frame-sm min-w-0 flex-1 bg-marfil/15 px-5 py-4 text-sm text-marfil placeholder:text-nude/50 outline-none focus-visible:bg-marfil/25"
                 />
-                <Button
+                <button
                   type="submit"
-                  status={sending ? "loading" : "idle"}
-                  className="shrink-0 bg-terracota text-marfil hover:bg-terracota/90 disabled:opacity-60 px-8 py-4 text-xs font-medium"
+                  disabled={sending}
+                  className="btn-yei notch-frame-sm shrink-0 bg-terracota text-marfil hover:bg-terracota/90 disabled:opacity-60 px-8 py-4 text-xs font-medium"
                 >
-                  Quiero mi cupón
-                </Button>
+                  {sending ? "Enviando…" : "Quiero mi cupón"}
+                </button>
               </motion.form>
             ) : (
               <motion.div
