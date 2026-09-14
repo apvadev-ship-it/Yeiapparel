@@ -44,13 +44,7 @@ export default defineConfig(({ mode }) => {
       tailwindcss(),
       tsConfigPaths({ projects: ["./tsconfig.json"] }),
       // Redirige la entrada del servidor de TanStack Start a src/server.ts.
-      // `inlineCss`: el CSS de la ruta se manda directo en el HTML en vez
-      // de como <link rel="stylesheet"> aparte — evita esa solicitud
-      // bloqueante del render y baja el FCP (PageSpeed la marcaba como el
-      // recurso que más retrasaba el primer pintado).
-      tanstackStart({
-        server: { entry: "server", build: { inlineCss: true } },
-      }),
+      tanstackStart({ server: { entry: "server" } }),
       nitro({ preset: "cloudflare-module" }),
       viteReact(),
     ],

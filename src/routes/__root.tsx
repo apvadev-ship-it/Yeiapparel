@@ -9,7 +9,7 @@ import {
 } from "@tanstack/react-router";
 import { type ReactNode } from "react";
 
-import "../styles.css";
+import appCss from "../styles.css?url";
 import { CartProvider } from "@/lib/cart";
 import { Header } from "@/components/yei/Header";
 import { Footer } from "@/components/yei/Footer";
@@ -89,6 +89,7 @@ export const Route = createRootRouteWithContext<{
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
+      { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
       { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
