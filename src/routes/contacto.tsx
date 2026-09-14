@@ -10,6 +10,7 @@ import {
   ShoppingBag,
 } from "lucide-react";
 import { Reveal } from "@/components/yei/Reveal";
+import { Button } from "@/components/ui/stateful-button";
 import { submitContactMessage } from "@/lib/contact";
 
 export const Route = createFileRoute("/contacto")({
@@ -463,14 +464,14 @@ function Contacto() {
                       </p>
                     )}
 
-                    <button
+                    <Button
                       type="submit"
-                      disabled={sending}
-                      className="btn-yei notch-frame-sm mt-2 bg-chocolate text-marfil hover:bg-chocolate/90 disabled:opacity-60 shadow-lg px-8 py-4 text-xs font-semibold tracking-widest cursor-pointer"
+                      status={sending ? "loading" : "idle"}
+                      className="mt-2 bg-chocolate text-marfil hover:bg-chocolate/90 disabled:opacity-60 shadow-lg px-8 py-4 text-xs font-semibold tracking-widest cursor-pointer"
                     >
-                      <span>{sending ? "Enviando…" : "Enviar"}</span>
+                      <span>Enviar</span>
                       <ArrowRight className="h-4 w-4 text-terracota" />
-                    </button>
+                    </Button>
                   </form>
                 </Reveal>
               )}

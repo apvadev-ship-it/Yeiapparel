@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { ShoppingBag, Lock, ArrowLeft, Check, X } from "lucide-react";
 import { useCart } from "@/lib/cart";
+import { Button } from "@/components/ui/stateful-button";
 import { formatPrice } from "@/lib/products";
 import { FREE_SHIPPING_FROM } from "@/lib/stock";
 import { startCheckout } from "@/lib/checkout";
@@ -435,17 +436,15 @@ function FinalizarCompra() {
                 </div>
               </dl>
 
-              <button
+              <Button
                 type="submit"
                 form="checkout-form"
-                disabled={sending}
-                className="btn-yei notch-frame-sm mt-7 w-full bg-terracota text-marfil hover:bg-terracota/90 disabled:opacity-60 py-4 text-xs font-semibold tracking-[0.22em] shadow-md"
+                status={sending ? "loading" : "idle"}
+                className="mt-7 w-full bg-terracota text-marfil hover:bg-terracota/90 disabled:opacity-60 py-4 text-xs font-semibold tracking-[0.22em] shadow-md"
               >
                 <Lock className="h-3.5 w-3.5" />
-                <span>
-                  {sending ? "Conectando con Wompi…" : "Pagar con Wompi"}
-                </span>
-              </button>
+                <span>Pagar con Wompi</span>
+              </Button>
 
               {feedback && (
                 <div
