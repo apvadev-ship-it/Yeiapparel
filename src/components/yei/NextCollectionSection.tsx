@@ -71,7 +71,7 @@ export function NextCollectionSection() {
       <section className="relative overflow-hidden bg-nude/40 px-5 py-20 lg:px-10 lg:py-32">
         {/* Elemento de fondo geométrico con irregularidad */}
         <div className="pointer-events-none absolute -left-20 top-20 h-72 w-72 rotate-12 rounded-3xl border border-terracota/15 bg-terracota/5 blur-xl" />
-        <div className="pointer-events-none absolute -right-20 bottom-10 h-80 w-80 -rotate-12 border border-chocolate/10 bg-chocolate/5 blur-2xl" />
+        <div className="pointer-events-none absolute -right-20 bottom-10 h-80 w-80 -rotate-12 border border-terracota/25 bg-chocolate/5 blur-2xl" />
 
         <div className="relative mx-auto max-w-[1500px]">
           {/* HEADER PRINCIPAL PRÓXIMA COLECCIÓN + CUENTA REGRESIVA */}
@@ -201,7 +201,7 @@ export function NextCollectionSection() {
 
                       {/* Header dentro de la tarjeta del Reel */}
                       <div className="absolute top-5 left-5 right-5 flex items-center justify-between z-10">
-                        <span className="notch-frame-sm bg-chocolate/85 backdrop-blur-md px-3.5 py-1.5 text-[11px] font-mono tracking-widest text-marfil border border-marfil/20 flex items-center gap-2">
+                        <span className="notch-frame-sm bg-chocolate/85 backdrop-blur-md px-3.5 py-1.5 text-[11px] font-mono tracking-widest text-marfil border border-terracota-claro/40 flex items-center gap-2">
                           <span className="h-2 w-2 rounded-full bg-terracota animate-ping" />
                           <span>REEL · ATELIER</span>
                         </span>
@@ -218,7 +218,7 @@ export function NextCollectionSection() {
                           className="relative flex items-center justify-center"
                         >
                           <div className="absolute -inset-4 rounded-full bg-terracota/40 blur-lg group-hover:bg-terracota/65 transition-all" />
-                          <div className="relative grid h-20 w-20 sm:h-24 sm:w-24 place-items-center rounded-full bg-terracota text-marfil shadow-2xl border-2 border-marfil/40">
+                          <div className="relative grid h-20 w-20 sm:h-24 sm:w-24 place-items-center rounded-full bg-terracota text-marfil shadow-2xl border-2 border-terracota-claro/70">
                             <Play className="h-8 w-8 sm:h-10 sm:w-10 fill-marfil translate-x-0.5" />
                           </div>
                         </motion.div>
@@ -323,9 +323,9 @@ function ReelModal({
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="pointer-events-auto relative w-full max-w-md overflow-hidden notch-frame bg-chocolate text-marfil shadow-2xl border border-marfil/20"
+              className="pointer-events-auto relative w-full max-w-md overflow-hidden notch-frame bg-chocolate text-marfil shadow-2xl border border-terracota-claro/40"
             >
-              <div className="relative z-10 flex items-center justify-between px-5 py-4 border-b border-marfil/10 bg-chocolate/90 backdrop-blur-sm">
+              <div className="relative z-10 flex items-center justify-between px-5 py-4 border-b border-terracota-claro/30 bg-chocolate/90 backdrop-blur-sm">
                 <div className="flex items-center gap-2.5">
                   <div className="h-2.5 w-2.5 rounded-full bg-terracota animate-pulse" />
                   <span className="font-mono text-xs tracking-widest text-marfil font-bold">
@@ -356,7 +356,7 @@ function ReelModal({
                     type="button"
                     onClick={() => setIsMuted(!isMuted)}
                     aria-label={isMuted ? "Activar audio" : "Silenciar"}
-                    className="grid h-10 w-10 place-items-center rounded-full bg-chocolate/70 backdrop-blur-md text-marfil hover:bg-chocolate transition-colors border border-marfil/20 cursor-pointer"
+                    className="grid h-10 w-10 place-items-center rounded-full bg-chocolate/70 backdrop-blur-md text-marfil hover:bg-chocolate transition-colors border border-terracota-claro/40 cursor-pointer"
                   >
                     {isMuted ? (
                       <VolumeX className="h-4 w-4" />
@@ -369,7 +369,7 @@ function ReelModal({
                     type="button"
                     onClick={() => setIsPlaying(!isPlaying)}
                     aria-label={isPlaying ? "Pausar" : "Reproducir"}
-                    className="grid h-10 w-10 place-items-center rounded-full bg-chocolate/70 backdrop-blur-md text-marfil hover:bg-chocolate transition-colors border border-marfil/20 cursor-pointer"
+                    className="grid h-10 w-10 place-items-center rounded-full bg-chocolate/70 backdrop-blur-md text-marfil hover:bg-chocolate transition-colors border border-terracota-claro/40 cursor-pointer"
                   >
                     {isPlaying ? (
                       <Pause className="h-4 w-4" />
@@ -386,7 +386,7 @@ function ReelModal({
                     className={`notch-frame-sm px-3 py-1 text-xs font-semibold tracking-wider transition-all cursor-pointer ${
                       activeTab === "look"
                         ? "bg-terracota text-marfil"
-                        : "bg-chocolate/80 text-nude border border-marfil/20"
+                        : "bg-chocolate/80 text-nude border border-terracota-claro/40"
                     }`}
                   >
                     Silueta
@@ -397,7 +397,7 @@ function ReelModal({
                     className={`notch-frame-sm px-3 py-1 text-xs font-semibold tracking-wider transition-all cursor-pointer ${
                       activeTab === "proceso"
                         ? "bg-terracota text-marfil"
-                        : "bg-chocolate/80 text-nude border border-marfil/20"
+                        : "bg-chocolate/80 text-nude border border-terracota-claro/40"
                     }`}
                   >
                     Detalle
@@ -427,7 +427,7 @@ function ReelModal({
                     </div>
                   </div>
 
-                  <div className="mt-4 pt-3 border-t border-marfil/15 flex items-center justify-between">
+                  <div className="mt-4 pt-3 border-t border-terracota-claro/35 flex items-center justify-between">
                     <span className="font-mono text-xs text-nude/70">
                       Bogotá · Atelier YEI
                     </span>

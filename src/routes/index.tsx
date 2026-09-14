@@ -422,7 +422,7 @@ function Home() {
           TikTok a la derecha (apiladas en móvil). Cada una lee su
           propia tabla en Supabase; ver SOCIAL_FEEDS_SETUP.md.
           ============================================================ */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 lg:divide-x lg:divide-chocolate/10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 lg:divide-x lg:divide-terracota/25">
         <InstagramSection />
         <TikTokSection />
       </div>
@@ -655,7 +655,7 @@ function CollaboratorsSection() {
       </div>
 
       <Reveal delay={100}>
-        <div className="relative mt-6 border-y border-chocolate/10 py-5 lg:mt-8 lg:py-6">
+        <div className="relative mt-6 border-y border-terracota/25 py-5 lg:mt-8 lg:py-6">
           <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-nude to-transparent sm:w-32" />
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-nude to-transparent sm:w-32" />
 
@@ -1263,7 +1263,7 @@ function FAQSection() {
           </h2>
         </Reveal>
 
-        <div className="mt-10 divide-y divide-chocolate/10 border-t border-b border-chocolate/10 lg:mt-14">
+        <div className="mt-10 divide-y divide-terracota/25 border-t border-b border-terracota/25 lg:mt-14">
           {FAQS.map((item, i) => {
             const isOpen = openIndex === i;
             return (
@@ -1279,7 +1279,7 @@ function FAQSection() {
                       {item.q}
                     </span>
                     <span
-                      className={`grid h-8 w-8 shrink-0 place-items-center rounded-full border border-chocolate/20 text-chocolate transition-transform duration-300 ${
+                      className={`grid h-8 w-8 shrink-0 place-items-center rounded-full border border-terracota/40 text-chocolate transition-transform duration-300 ${
                         isOpen
                           ? "rotate-45 border-terracota text-terracota"
                           : ""
@@ -1343,7 +1343,7 @@ function CategoryTile({
       <Link
         to="/tienda"
         search={{ categoria }}
-        className={`group hover-lift relative block aspect-[3/4] sm:aspect-[4/5] overflow-hidden ${notch} bg-marfil shadow-lg border border-chocolate/10 hover:shadow-2xl active:scale-[0.97]`}
+        className={`group hover-lift relative block aspect-[3/4] sm:aspect-[4/5] overflow-hidden ${notch} bg-marfil shadow-lg border border-terracota/25 hover:shadow-2xl active:scale-[0.97]`}
       >
         <img
           src={img}

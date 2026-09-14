@@ -76,7 +76,7 @@ function Historia() {
                 «Hoy vestimos a mujeres que no siguen tendencias: las
                 anteceden.»
               </p>
-              <div className="border-t border-chocolate/15 pt-8">
+              <div className="border-t border-terracota/30 pt-8">
                 <p>Pero detrás de cada prenda hay mucho más que una marca.</p>
                 <Link
                   to="/nosotros"

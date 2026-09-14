@@ -15,8 +15,10 @@ import { Route as FinalizarCompraRouteImport } from './routes/finalizar-compra'
 import { Route as HistoriaRouteImport } from './routes/historia'
 import { Route as NosotrosRouteImport } from './routes/nosotros'
 import { Route as NuevaColeccionRouteImport } from './routes/nueva-coleccion'
+import { Route as PedidoConfirmadoRouteImport } from './routes/pedido-confirmado'
 import { Route as PoliticasDePrivacidadRouteImport } from './routes/politicas-de-privacidad'
 import { Route as TiendaRouteImport } from './routes/tienda'
+import { Route as PedidoReferenceRouteImport } from './routes/pedido.$reference'
 import { Route as ProductoSlugRouteImport } from './routes/producto.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -49,6 +51,11 @@ const NuevaColeccionRoute = NuevaColeccionRouteImport.update({
   path: '/nueva-coleccion',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PedidoConfirmadoRoute = PedidoConfirmadoRouteImport.update({
+  id: '/pedido-confirmado',
+  path: '/pedido-confirmado',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PoliticasDePrivacidadRoute = PoliticasDePrivacidadRouteImport.update({
   id: '/politicas-de-privacidad',
   path: '/politicas-de-privacidad',
@@ -57,6 +64,11 @@ const PoliticasDePrivacidadRoute = PoliticasDePrivacidadRouteImport.update({
 const TiendaRoute = TiendaRouteImport.update({
   id: '/tienda',
   path: '/tienda',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PedidoReferenceRoute = PedidoReferenceRouteImport.update({
+  id: '/pedido/$reference',
+  path: '/pedido/$reference',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProductoSlugRoute = ProductoSlugRouteImport.update({
@@ -72,8 +84,10 @@ export interface FileRoutesByFullPath {
   '/historia': typeof HistoriaRoute
   '/nosotros': typeof NosotrosRoute
   '/nueva-coleccion': typeof NuevaColeccionRoute
+  '/pedido-confirmado': typeof PedidoConfirmadoRoute
   '/politicas-de-privacidad': typeof PoliticasDePrivacidadRoute
   '/tienda': typeof TiendaRoute
+  '/pedido/$reference': typeof PedidoReferenceRoute
   '/producto/$slug': typeof ProductoSlugRoute
 }
 export interface FileRoutesByTo {
@@ -83,8 +97,10 @@ export interface FileRoutesByTo {
   '/historia': typeof HistoriaRoute
   '/nosotros': typeof NosotrosRoute
   '/nueva-coleccion': typeof NuevaColeccionRoute
+  '/pedido-confirmado': typeof PedidoConfirmadoRoute
   '/politicas-de-privacidad': typeof PoliticasDePrivacidadRoute
   '/tienda': typeof TiendaRoute
+  '/pedido/$reference': typeof PedidoReferenceRoute
   '/producto/$slug': typeof ProductoSlugRoute
 }
 export interface FileRoutesById {
@@ -95,8 +111,10 @@ export interface FileRoutesById {
   '/historia': typeof HistoriaRoute
   '/nosotros': typeof NosotrosRoute
   '/nueva-coleccion': typeof NuevaColeccionRoute
+  '/pedido-confirmado': typeof PedidoConfirmadoRoute
   '/politicas-de-privacidad': typeof PoliticasDePrivacidadRoute
   '/tienda': typeof TiendaRoute
+  '/pedido/$reference': typeof PedidoReferenceRoute
   '/producto/$slug': typeof ProductoSlugRoute
 }
 export interface FileRouteTypes {
@@ -108,8 +126,10 @@ export interface FileRouteTypes {
     | '/historia'
     | '/nosotros'
     | '/nueva-coleccion'
+    | '/pedido-confirmado'
     | '/politicas-de-privacidad'
     | '/tienda'
+    | '/pedido/$reference'
     | '/producto/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -119,8 +139,10 @@ export interface FileRouteTypes {
     | '/historia'
     | '/nosotros'
     | '/nueva-coleccion'
+    | '/pedido-confirmado'
     | '/politicas-de-privacidad'
     | '/tienda'
+    | '/pedido/$reference'
     | '/producto/$slug'
   id:
     | '__root__'
@@ -130,8 +152,10 @@ export interface FileRouteTypes {
     | '/historia'
     | '/nosotros'
     | '/nueva-coleccion'
+    | '/pedido-confirmado'
     | '/politicas-de-privacidad'
     | '/tienda'
+    | '/pedido/$reference'
     | '/producto/$slug'
   fileRoutesById: FileRoutesById
 }
@@ -142,8 +166,10 @@ export interface RootRouteChildren {
   HistoriaRoute: typeof HistoriaRoute
   NosotrosRoute: typeof NosotrosRoute
   NuevaColeccionRoute: typeof NuevaColeccionRoute
+  PedidoConfirmadoRoute: typeof PedidoConfirmadoRoute
   PoliticasDePrivacidadRoute: typeof PoliticasDePrivacidadRoute
   TiendaRoute: typeof TiendaRoute
+  PedidoReferenceRoute: typeof PedidoReferenceRoute
   ProductoSlugRoute: typeof ProductoSlugRoute
 }
 
@@ -191,6 +217,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NuevaColeccionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pedido-confirmado': {
+      id: '/pedido-confirmado'
+      path: '/pedido-confirmado'
+      fullPath: '/pedido-confirmado'
+      preLoaderRoute: typeof PedidoConfirmadoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/politicas-de-privacidad': {
       id: '/politicas-de-privacidad'
       path: '/politicas-de-privacidad'
@@ -203,6 +236,13 @@ declare module '@tanstack/react-router' {
       path: '/tienda'
       fullPath: '/tienda'
       preLoaderRoute: typeof TiendaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pedido/$reference': {
+      id: '/pedido/$reference'
+      path: '/pedido/$reference'
+      fullPath: '/pedido/$reference'
+      preLoaderRoute: typeof PedidoReferenceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/producto/$slug': {
@@ -222,8 +262,10 @@ const rootRouteChildren: RootRouteChildren = {
   HistoriaRoute: HistoriaRoute,
   NosotrosRoute: NosotrosRoute,
   NuevaColeccionRoute: NuevaColeccionRoute,
+  PedidoConfirmadoRoute: PedidoConfirmadoRoute,
   PoliticasDePrivacidadRoute: PoliticasDePrivacidadRoute,
   TiendaRoute: TiendaRoute,
+  PedidoReferenceRoute: PedidoReferenceRoute,
   ProductoSlugRoute: ProductoSlugRoute,
 }
 export const routeTree = rootRouteImport

@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { z } from "zod";
 import {
   ArrowLeft,
   ArrowRight,
@@ -12,6 +13,11 @@ import { Reveal } from "@/components/yei/Reveal";
 import { submitContactMessage } from "@/lib/contact";
 
 export const Route = createFileRoute("/contacto")({
+  // `ref` llega desde la página de agradecimiento tras el pago
+  // (`/pedido/$reference`), para que la persona pueda escribirnos sobre
+  // ese pedido concreto sin tener que copiarlo a mano.
+  validateSearch: (search: Record<string, unknown>) =>
+    z.object({ ref: z.string().trim().min(1).max(80).optional() }).parse(search),
   head: () => ({
     meta: [
       { title: "Contacto — YEI Apparel" },
@@ -65,6 +71,7 @@ const SUBTOPICS: Record<Topic, string[]> = {
     "Compra al por mayor",
   ],
   pedido: [
+    "Sobre mi compra reciente",
     "Mi pedido no ha llegado",
     "Cambios o devoluciones",
     "Modificar o cancelar mi pedido",
@@ -76,6 +83,8 @@ const SUBTOPICS: Record<Topic, string[]> = {
 /** Guía el mensaje libre según el subtema, para que la persona sepa qué
  * detalles conviene incluir y la respuesta pueda ser certera de una. */
 const MESSAGE_HINTS: Record<string, string> = {
+  "Sobre mi compra reciente":
+    "Cuéntanos qué necesitas sobre este pedido (cambiar la talla, confirmar el envío, etc.).",
   "Tallas y guía de medidas":
     "Ej: Soy talla M en H&M, ¿qué talla me recomiendan para el Set Nala?",
   "Disponibilidad de una pieza o color":
@@ -99,18 +108,35 @@ const MESSAGE_HINTS: Record<string, string> = {
 };
 
 function Contacto() {
-  const [step, setStep] = useState<1 | 2 | 3>(1);
-  const [topic, setTopic] = useState<Topic | null>(null);
-  const [subtopic, setSubtopic] = useState<string | null>(null);
+  const { ref } = Route.useSearch();
+
+  const [step, setStep] = useState<1 | 2 | 3>(ref ? 3 : 1);
+  const [topic, setTopic] = useState<Topic | null>(ref ? "pedido" : null);
+  const [subtopic, setSubtopic] = useState<string | null>(
+    ref ? "Sobre mi compra reciente" : null,
+  );
   const [name, setName] = useState("");
   const [contactMethod, setContactMethod] = useState<"email" | "telefono">(
     "email",
   );
   const [contactValue, setContactValue] = useState("");
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState(
+    ref ? `Mi número de pedido es ${ref}. ` : "",
+  );
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Si `ref` cambia (por ejemplo, se navega aquí de nuevo desde otro
+  // pedido sin recargar la página), el flujo se re-arma con el nuevo
+  // número en vez de quedarse con el mensaje del pedido anterior.
+  useEffect(() => {
+    if (!ref) return;
+    setStep(3);
+    setTopic("pedido");
+    setSubtopic("Sobre mi compra reciente");
+    setMessage(`Mi número de pedido es ${ref}. `);
+  }, [ref]);
 
   const chooseTopic = (t: Topic) => {
     setTopic(t);
@@ -363,7 +389,7 @@ function Contacto() {
                           (subtopic && MESSAGE_HINTS[subtopic]) ||
                           "Entre más detalle nos des, más rápido y preciso podemos responderte."
                         }
-                        className="w-full resize-none notch-frame-sm bg-nude px-5 py-3.5 text-sm text-chocolate placeholder:text-chocolate/40 outline-none transition-all focus:bg-marfil"
+                        className="w-full resize-none notch-frame-sm notch-outline bg-nude px-5 py-3.5 text-sm text-chocolate placeholder:text-chocolate/40 outline-none transition-all focus:bg-marfil"
                       />
                     </div>
 
@@ -381,7 +407,7 @@ function Contacto() {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="¿Cómo te llamas?"
-                        className="w-full notch-frame-sm bg-nude px-5 py-3.5 text-sm text-chocolate placeholder:text-chocolate/40 outline-none transition-all focus:bg-marfil"
+                        className="w-full notch-frame-sm notch-outline bg-nude px-5 py-3.5 text-sm text-chocolate placeholder:text-chocolate/40 outline-none transition-all focus:bg-marfil"
                       />
                     </div>
 
@@ -398,7 +424,7 @@ function Contacto() {
                             className={`notch-frame-sm px-5 py-2.5 text-xs font-semibold tracking-widest uppercase transition-colors cursor-pointer ${
                               contactMethod === m
                                 ? "bg-chocolate text-marfil"
-                                : "border border-chocolate/20 text-chocolate/60 hover:text-chocolate"
+                                : "border border-terracota/40 text-chocolate/60 hover:text-chocolate"
                             }`}
                           >
                             {m === "email" ? "Correo" : "Teléfono"}
@@ -427,7 +453,7 @@ function Contacto() {
                             ? "tu@correo.com"
                             : "+57 300 000 0000"
                         }
-                        className="w-full notch-frame-sm bg-nude px-5 py-3.5 text-sm text-chocolate placeholder:text-chocolate/40 outline-none transition-all focus:bg-marfil"
+                        className="w-full notch-frame-sm notch-outline bg-nude px-5 py-3.5 text-sm text-chocolate placeholder:text-chocolate/40 outline-none transition-all focus:bg-marfil"
                       />
                     </div>
 

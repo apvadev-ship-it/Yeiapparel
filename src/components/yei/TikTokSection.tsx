@@ -91,7 +91,7 @@ export function TikTokSection() {
       id="tiktok"
       className="relative overflow-hidden bg-nude/50 px-4 py-8 sm:px-6 lg:px-10 lg:py-8"
     >
-      <div className="pointer-events-none absolute -right-20 top-20 h-72 w-72 rotate-12 rounded-3xl border border-chocolate/15 bg-chocolate/5 blur-2xl" />
+      <div className="pointer-events-none absolute -right-20 top-20 h-72 w-72 rotate-12 rounded-3xl border border-terracota/30 bg-chocolate/5 blur-2xl" />
       <div className="pointer-events-none absolute -left-20 bottom-10 h-72 w-72 -rotate-12 border border-terracota/10 bg-terracota/5 blur-2xl" />
 
       {/* Compactado en escritorio, igual que InstagramSection, para que
@@ -175,7 +175,7 @@ function TikTokCard({
             {post.caption}
           </p>
 
-          <div className="mt-3 flex items-center justify-between border-t border-marfil/20 pt-3 text-[11px] font-mono">
+          <div className="mt-3 flex items-center justify-between border-t border-terracota-claro/40 pt-3 text-[11px] font-mono">
             <div className="flex items-center gap-4">
               <span className="inline-flex items-center gap-1 text-marfil font-bold">
                 <Heart className="h-3.5 w-3.5 fill-marfil" />

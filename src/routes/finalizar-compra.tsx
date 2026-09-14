@@ -10,8 +10,6 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import {
   CHECKOUT_FAILED_MESSAGE,
   CHECKOUT_NOT_CONFIGURED_MESSAGE,
-  describeWidgetResult,
-  type OutcomeTone,
 } from "@/lib/wompi-errors";
 
 const COUPON_ERROR_MESSAGES: Record<string, string> = {
@@ -56,8 +54,11 @@ const EMPTY_BUYER: Buyer = {
   notas: "",
 };
 
-/** Lo que se le muestra al comprador tras intentar pagar. */
-type Feedback = { title: string | null; message: string; tone: OutcomeTone };
+/**
+ * Solo para errores ANTES de llegar a pagar (sin credenciales, sin red).
+ * El resultado del pago en sí ya no se muestra aquí: ver `/pedido/$reference`.
+ */
+type Feedback = { message: string };
 
 function FinalizarCompra() {
   const { lines, subtotal, setQty } = useCart();
@@ -141,11 +142,7 @@ function FinalizarCompra() {
       });
 
       if (!result.ok) {
-        setFeedback({
-          title: null,
-          message: CHECKOUT_NOT_CONFIGURED_MESSAGE,
-          tone: "error",
-        });
+        setFeedback({ message: CHECKOUT_NOT_CONFIGURED_MESSAGE });
         return;
       }
 
@@ -166,25 +163,17 @@ function FinalizarCompra() {
       // que mostrar aquí.
       if (result.mode === "redirect") return;
 
-      // El widget se cerró. Lo que dice es informativo: el pedido solo se
-      // da por pagado cuando llega el evento firmado al webhook y el
-      // servidor le vuelve a preguntar a Wompi.
-      const outcome = describeWidgetResult(
-        result.status
-          ? { status: result.status, status_message: result.statusMessage }
-          : null,
-      );
-      setFeedback({
-        title: outcome.title,
-        message: outcome.message,
-        tone: outcome.tone,
+      // El widget se cerró. Lo que haya dicho el navegador es solo
+      // informativo — el pedido no se da por pagado aquí. Por eso no se
+      // muestra ese estado en esta página: se manda a `/pedido/$reference`,
+      // que lee el estado real (el que confirma el webhook tras volver a
+      // preguntarle a Wompi) y se refresca sola mientras está PENDING.
+      navigate({
+        to: "/pedido/$reference",
+        params: { reference: result.reference },
       });
     } catch {
-      setFeedback({
-        title: null,
-        message: CHECKOUT_FAILED_MESSAGE,
-        tone: "error",
-      });
+      setFeedback({ message: CHECKOUT_FAILED_MESSAGE });
     } finally {
       setSending(false);
     }
@@ -361,7 +350,7 @@ function FinalizarCompra() {
               </ul>
 
               {/* Cupón del boletín */}
-              <div className="mt-8 border-t border-chocolate/15 pt-6">
+              <div className="mt-8 border-t border-terracota/30 pt-6">
                 {appliedCoupon ? (
                   <div className="flex items-center justify-between notch-frame-sm bg-terracota/10 px-4 py-3">
                     <span className="flex items-center gap-2 text-xs font-semibold text-chocolate">
@@ -395,7 +384,7 @@ function FinalizarCompra() {
                           if (couponError) setCouponError(null);
                         }}
                         placeholder="YEI15-XXXXXXXX"
-                        className="notch-frame-sm min-w-0 flex-1 bg-nude px-4 py-3 text-sm text-chocolate outline-none transition-colors focus:bg-nude/70"
+                        className="notch-frame-sm notch-outline min-w-0 flex-1 bg-nude px-4 py-3 text-sm text-chocolate outline-none transition-colors focus:bg-nude/70"
                       />
                       <button
                         type="button"
@@ -462,20 +451,9 @@ function FinalizarCompra() {
                 <div
                   role="status"
                   aria-live="polite"
-                  className={`mt-4 text-xs leading-relaxed ${
-                    feedback.tone === "ok"
-                      ? "text-chocolate"
-                      : feedback.tone === "pendiente"
-                        ? "text-chocolate/80"
-                        : "text-terracota"
-                  }`}
+                  className="mt-4 text-xs leading-relaxed text-terracota"
                 >
-                  {feedback.title && (
-                    <span className="block font-semibold">
-                      {feedback.title}
-                    </span>
-                  )}
-                  <span className="block">{feedback.message}</span>
+                  {feedback.message}
                 </div>
               )}
 
@@ -527,7 +505,7 @@ function Field({
         autoComplete={autoComplete}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="notch-frame-sm mt-1.5 w-full bg-nude px-4 py-3 text-sm text-chocolate outline-none transition-colors focus:bg-nude/70"
+        className="notch-frame-sm notch-outline mt-1.5 w-full bg-nude px-4 py-3 text-sm text-chocolate outline-none transition-colors focus:bg-nude/70"
       />
     </div>
   );

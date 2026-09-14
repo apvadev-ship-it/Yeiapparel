@@ -374,11 +374,11 @@ function ElOficio() {
         {/* --- Escritorio: lista de pasos + panel de detalle al lado --- */}
         <div className="mt-12 hidden gap-12 lg:mt-16 lg:grid lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
           <Reveal>
-            <ol className="border-t border-chocolate/15">
+            <ol className="border-t border-terracota/30">
               {PROCESO.map((p, i) => {
                 const esActivo = i === activoEscritorio;
                 return (
-                  <li key={p.id} className="border-b border-chocolate/15">
+                  <li key={p.id} className="border-b border-terracota/30">
                     <button
                       type="button"
                       onClick={() => setActivo(i)}
@@ -447,11 +447,11 @@ function ElOficio() {
         </div>
 
         {/* --- Móvil y tableta: acordeón, el detalle se abre en su sitio --- */}
-        <div className="mt-10 border-t border-chocolate/15 lg:hidden">
+        <div className="mt-10 border-t border-terracota/30 lg:hidden">
           {PROCESO.map((p, i) => {
             const abierto = i === activo;
             return (
-              <div key={p.id} className="border-b border-chocolate/15">
+              <div key={p.id} className="border-b border-terracota/30">
                 <button
                   type="button"
                   onClick={() => setActivo(abierto ? -1 : i)}

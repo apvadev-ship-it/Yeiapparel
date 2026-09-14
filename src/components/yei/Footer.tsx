@@ -31,7 +31,7 @@ const columns = [
 
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-chocolate px-5 pt-8 pb-20 text-nude lg:px-10 lg:pt-10 lg:pb-24 border-t border-marfil/10">
+    <footer className="relative overflow-hidden bg-chocolate px-5 pt-8 pb-20 text-nude lg:px-10 lg:pt-10 lg:pb-24 border-t border-terracota-claro/30">
       <StarField />
       <div className="relative mx-auto max-w-[1500px]">
         <div className="grid gap-16 text-center lg:text-left lg:grid-cols-[1.3fr_2.4fr]">
@@ -115,7 +115,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-20 border-t border-nude/20 pt-8 text-center lg:text-left text-xs lg:text-sm tracking-[0.2em] text-nude/60 font-mono">
+        <div className="mt-20 border-t border-terracota-claro/35 pt-8 text-center lg:text-left text-xs lg:text-sm tracking-[0.2em] text-nude/60 font-mono">
           <span>
             © {new Date().getFullYear()} YEI APPAREL · ALL RIGHTS RESERVED
           </span>

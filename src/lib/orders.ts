@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { z } from "zod";
 import { serviceClient } from "@/lib/supabase-server";
 import { toMinorUnits } from "@/lib/money";
 
@@ -135,22 +136,8 @@ export async function markOrderStatus(input: {
  * columna viene con algo que no son piezas. Quien llama no debe suponer
  * que hay algo que descontar.
  */
-export async function findOrderItems(reference: string): Promise<OrderItem[]> {
-  const db = serviceClient();
-  if (!db) return [];
-
-  const { data, error } = await db
-    .from("orders")
-    .select("items")
-    .eq("reference", reference)
-    .maybeSingle();
-
-  if (error || !data) {
-    if (error) console.error("[orders] no se pudieron leer las piezas:", error);
-    return [];
-  }
-
-  const raw = data["items"];
+/** Convierte lo que sea que haya en la columna `items` en piezas válidas. */
+function parseOrderItems(raw: unknown): OrderItem[] {
   if (!Array.isArray(raw)) return [];
 
   const items: OrderItem[] = [];
@@ -174,6 +161,24 @@ export async function findOrderItems(reference: string): Promise<OrderItem[]> {
   }
 
   return items;
+}
+
+export async function findOrderItems(reference: string): Promise<OrderItem[]> {
+  const db = serviceClient();
+  if (!db) return [];
+
+  const { data, error } = await db
+    .from("orders")
+    .select("items")
+    .eq("reference", reference)
+    .maybeSingle();
+
+  if (error || !data) {
+    if (error) console.error("[orders] no se pudieron leer las piezas:", error);
+    return [];
+  }
+
+  return parseOrderItems(data["items"]);
 }
 
 /** Lo que se necesita saber de un pedido ya guardado. */
@@ -283,6 +288,60 @@ export const getWeeklyTopSellingSlugs = createServerFn({
     .sort((a, b) => b[1] - a[1])
     .map(([slug, qty]) => ({ slug, qty }));
 });
+
+/** Lo que se le puede mostrar al COMPRADOR en la página de agradecimiento. */
+export type PublicOrderSummary = {
+  reference: string;
+  status: string;
+  total: number;
+  items: OrderItem[];
+  paymentMethod: string | null;
+};
+
+const referenceInputSchema = z.object({
+  reference: z.string().trim().min(1).max(80),
+});
+
+/**
+ * Lo mismo que `findOrder`, pero pensado para exponerse al navegador sin
+ * sesión: la usa la página de agradecimiento tras el pago, a la que
+ * cualquiera con el enlace puede llegar.
+ *
+ * Por eso NO trae nada personal del comprador (nombre, correo, teléfono,
+ * dirección) — Regla 11, aplicada también a lo que se muestra, no solo a
+ * lo que se guarda. Solo lo necesario para agradecer la compra y darle a
+ * la persona su número de pedido: qué se compró, cuánto costó y en qué
+ * va el pago.
+ *
+ * Devuelve `null` si no hay base configurada o si esa referencia no
+ * existe — la página lo trata igual en los dos casos, sin distinguir
+ * "pedido ajeno" de "typo en la URL".
+ */
+export const getOrderSummary = createServerFn({ method: "GET" })
+  .inputValidator((data: unknown) => referenceInputSchema.parse(data))
+  .handler(async ({ data }): Promise<PublicOrderSummary | null> => {
+    const db = serviceClient();
+    if (!db) return null;
+
+    const { data: row, error } = await db
+      .from("orders")
+      .select("reference, status, total, items, payment_method")
+      .eq("reference", data.reference)
+      .maybeSingle();
+
+    if (error || !row) {
+      if (error) console.error("[orders] no se pudo leer el resumen:", error);
+      return null;
+    }
+
+    return {
+      reference: String(row["reference"]),
+      status: String(row["status"] ?? ""),
+      total: Number(row["total"] ?? 0),
+      items: parseOrderItems(row["items"]),
+      paymentMethod: row["payment_method"] ? String(row["payment_method"]) : null,
+    };
+  });
 
 /** Estados de los que un pedido ya no debería retroceder. */
 export const TERMINAL_ORDER_STATUSES = new Set([

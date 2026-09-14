@@ -177,7 +177,7 @@ function AccordionItem({
       >
         <span className="label-xs">{title}</span>
         <span
-          className={`grid h-8 w-8 shrink-0 place-items-center rounded-full border border-chocolate/20 text-chocolate transition-transform duration-300 ${
+          className={`grid h-8 w-8 shrink-0 place-items-center rounded-full border border-terracota/40 text-chocolate transition-transform duration-300 ${
             open ? "rotate-45 border-terracota text-terracota" : ""
           }`}
         >
