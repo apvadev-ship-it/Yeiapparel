@@ -64,12 +64,13 @@ export function CartDrawer() {
                   <p className="mt-2 text-sm text-muted-foreground max-w-[220px]">
                     Descubre nuestras piezas de la nueva colección 2026.
                   </p>
-                  <button
+                  <Link
+                    to="/tienda"
                     onClick={() => setOpen(false)}
                     className="btn-yei notch-frame-sm mt-6 bg-chocolate text-marfil text-xs px-7 py-3.5"
                   >
                     Explorar tienda
-                  </button>
+                  </Link>
                 </div>
               ) : (
                 <ul className="divide-y divide-border/60">
