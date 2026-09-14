@@ -1,7 +1,7 @@
 import { useLocation } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import lottie, { type AnimationItem } from "lottie-web";
+import type { AnimationItem } from "lottie-web";
 import introData from "@/assets/luxury-intro.json";
 
 /**
@@ -42,22 +42,32 @@ export function PageTransition() {
   }, [location.pathname, calm]);
 
   // Monta la animación cuando aparece la cortinilla y la destruye al salir.
+  // `lottie-web` se importa dinámicamente: en la carga inicial nunca se
+  // reproduce (ver el guard de `firstRender` arriba), así que cargarla de
+  // entrada solo suma peso al bundle inicial sin usarla.
   useEffect(() => {
     if (!isChanging || calm || !boxRef.current) return;
 
-    const anim = lottie.loadAnimation({
-      container: boxRef.current,
-      renderer: "svg",
-      loop: false,
-      autoplay: true,
-      animationData: introData,
+    let cancelled = false;
+    const container = boxRef.current;
+
+    import("lottie-web").then(({ default: lottie }) => {
+      if (cancelled || !container) return;
+      const anim = lottie.loadAnimation({
+        container,
+        renderer: "svg",
+        loop: false,
+        autoplay: true,
+        animationData: introData,
+      });
+      anim.setSpeed(SPEED);
+      anim.playSegments([0, LAST_FRAME], true);
+      animRef.current = anim;
     });
-    anim.setSpeed(SPEED);
-    anim.playSegments([0, LAST_FRAME], true);
-    animRef.current = anim;
 
     return () => {
-      anim.destroy();
+      cancelled = true;
+      animRef.current?.destroy();
       animRef.current = null;
     };
   }, [isChanging, calm]);
