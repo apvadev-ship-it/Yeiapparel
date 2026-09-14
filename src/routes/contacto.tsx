@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { Reveal } from "@/components/yei/Reveal";
 import { submitContactMessage } from "@/lib/contact";
+import { heroImage } from "@/lib/products";
 
 export const Route = createFileRoute("/contacto")({
   // `ref` llega desde la página de agradecimiento tras el pago
@@ -27,7 +28,14 @@ export const Route = createFileRoute("/contacto")({
           "Cuéntanos qué necesitas y te contactamos. Atención personalizada de YEI Apparel.",
       },
       { property: "og:title", content: "Contacto — YEI Apparel" },
+      {
+        property: "og:description",
+        content:
+          "Cuéntanos qué necesitas y te contactamos. Atención personalizada de YEI Apparel.",
+      },
       { property: "og:url", content: "https://yeiapparel.co/contacto" },
+      { property: "og:image", content: `https://yeiapparel.co${heroImage}` },
+      { name: "twitter:image", content: `https://yeiapparel.co${heroImage}` },
     ],
     links: [{ rel: "canonical", href: "https://yeiapparel.co/contacto" }],
   }),

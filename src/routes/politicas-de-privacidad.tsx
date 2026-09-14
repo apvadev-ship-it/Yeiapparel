@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Reveal } from "@/components/yei/Reveal";
 import { POLITICAS, type Bloque } from "@/lib/politicas";
+import { heroImage } from "@/lib/products";
 
 export const Route = createFileRoute("/politicas-de-privacidad")({
   head: () => ({
@@ -9,13 +10,15 @@ export const Route = createFileRoute("/politicas-de-privacidad")({
       {
         name: "description",
         content:
-          "Políticas de envíos, cambios y devoluciones, y tratamiento de datos personales de YEI Apparel, conforme a la Ley 1480 de 2011 y la Ley 1581 de 2012 de Colombia.",
+          "Políticas de envíos, cambios, devoluciones y datos personales de YEI Apparel — Ley 1480 de 2011 y Ley 1581 de 2012 de Colombia.",
       },
       { property: "og:title", content: "Políticas legales — YEI" },
       {
         property: "og:url",
         content: "https://yeiapparel.co/politicas-de-privacidad",
       },
+      { property: "og:image", content: `https://yeiapparel.co${heroImage}` },
+      { name: "twitter:image", content: `https://yeiapparel.co${heroImage}` },
     ],
     links: [
       {

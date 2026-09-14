@@ -51,7 +51,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Más que moda, una forma de vivir tu esencia. Descubre lo más destacado de la colección 2026 de YEI APPAREL: sastrería y vestidos de satín con proporciones audaces y comodidad eterna.",
+          "Más que moda, una forma de vivir tu esencia. YEI APPAREL: sastrería y vestidos de satín de la colección 2026, elegancia contemporánea.",
       },
       {
         property: "og:title",
@@ -62,6 +62,8 @@ export const Route = createFileRoute("/")({
         content: "Más que moda, una forma de vivir tu esencia. YEI APPAREL.",
       },
       { property: "og:url", content: "https://yeiapparel.co/" },
+      { property: "og:image", content: `https://yeiapparel.co${heroImage}` },
+      { name: "twitter:image", content: `https://yeiapparel.co${heroImage}` },
     ],
     links: [{ rel: "canonical", href: "https://yeiapparel.co/" }],
   }),
@@ -767,7 +769,7 @@ function TestimonialCard({
             el modal. */}
         <img
           src={t.poster}
-          alt=""
+          alt={`Testimonio en video de ${t.name}`}
           aria-hidden="true"
           loading={index < 4 ? "eager" : "lazy"}
           className="absolute inset-0 h-full w-full object-cover"

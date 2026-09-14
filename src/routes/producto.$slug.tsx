@@ -58,8 +58,27 @@ export const Route = createFileRoute("/producto/$slug")({
           property: "og:description",
           content: p?.description ?? "Moda femenina contemporánea.",
         },
-        { property: "og:image", content: p ? defaultImage(p) : undefined },
+        {
+          property: "og:url",
+          content: p ? `https://yeiapparel.co/producto/${p.slug}` : undefined,
+        },
+        {
+          property: "og:image",
+          content: p ? `https://yeiapparel.co${defaultImage(p)}` : undefined,
+        },
+        {
+          name: "twitter:image",
+          content: p ? `https://yeiapparel.co${defaultImage(p)}` : undefined,
+        },
       ],
+      links: p
+        ? [
+            {
+              rel: "canonical",
+              href: `https://yeiapparel.co/producto/${p.slug}`,
+            },
+          ]
+        : [],
       scripts: [
         {
           type: "application/ld+json",

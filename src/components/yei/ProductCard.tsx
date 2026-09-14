@@ -71,7 +71,7 @@ export function ProductCard({
           />
           <img
             src={activeImages[1] ?? activeImages[0]}
-            alt=""
+            alt={`${product.name} — otro ángulo`}
             aria-hidden="true"
             loading="lazy"
             decoding="async"

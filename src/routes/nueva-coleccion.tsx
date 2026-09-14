@@ -46,7 +46,7 @@ function NuevaColeccion() {
       {/* Imagen de fondo, muy atenuada para no competir con el contador */}
       <img
         src={heroImage}
-        alt=""
+        alt="Campaña YEI APPAREL, colección 2026"
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.04]"
       />

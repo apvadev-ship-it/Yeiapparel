@@ -85,6 +85,8 @@ export const Route = createFileRoute("/tienda")({
           "Vestidos, tops y sastrería femenina de elegancia contemporánea.",
       },
       { property: "og:url", content: "https://yeiapparel.co/tienda" },
+      { property: "og:image", content: `https://yeiapparel.co${heroImage}` },
+      { name: "twitter:image", content: `https://yeiapparel.co${heroImage}` },
     ],
     links: [{ rel: "canonical", href: "https://yeiapparel.co/tienda" }],
   }),
@@ -115,7 +117,7 @@ function Tienda() {
       <section className="relative flex h-[50vh] flex-col items-center justify-center overflow-hidden bg-chocolate lg:h-[92vh]">
         <img
           src={heroImage}
-          alt=""
+          alt="Campaña YEI APPAREL, colección 2026"
           aria-hidden="true"
           fetchPriority="high"
           decoding="async"

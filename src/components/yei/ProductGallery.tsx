@@ -101,7 +101,7 @@ export function ProductGallery({
           >
             <img
               src={img}
-              alt=""
+              alt={`${alt} — miniatura ${i + 1}`}
               aria-hidden="true"
               loading="lazy"
               decoding="async"
