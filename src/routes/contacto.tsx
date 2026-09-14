@@ -389,7 +389,7 @@ function Contacto() {
                           (subtopic && MESSAGE_HINTS[subtopic]) ||
                           "Entre más detalle nos des, más rápido y preciso podemos responderte."
                         }
-                        className="w-full resize-none notch-frame-sm notch-outline bg-nude px-5 py-3.5 text-sm text-chocolate placeholder:text-chocolate/40 outline-none transition-all focus:bg-marfil"
+                        className="w-full resize-none notch-frame-sm bg-terracota/10 px-5 py-3.5 text-sm text-chocolate placeholder:text-chocolate/40 outline-none transition-all focus:bg-terracota/16"
                       />
                     </div>
 
@@ -407,7 +407,7 @@ function Contacto() {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="¿Cómo te llamas?"
-                        className="w-full notch-frame-sm notch-outline bg-nude px-5 py-3.5 text-sm text-chocolate placeholder:text-chocolate/40 outline-none transition-all focus:bg-marfil"
+                        className="w-full notch-frame-sm bg-terracota/10 px-5 py-3.5 text-sm text-chocolate placeholder:text-chocolate/40 outline-none transition-all focus:bg-terracota/16"
                       />
                     </div>
 
@@ -453,7 +453,7 @@ function Contacto() {
                             ? "tu@correo.com"
                             : "+57 300 000 0000"
                         }
-                        className="w-full notch-frame-sm notch-outline bg-nude px-5 py-3.5 text-sm text-chocolate placeholder:text-chocolate/40 outline-none transition-all focus:bg-marfil"
+                        className="w-full notch-frame-sm bg-terracota/10 px-5 py-3.5 text-sm text-chocolate placeholder:text-chocolate/40 outline-none transition-all focus:bg-terracota/16"
                       />
                     </div>
 

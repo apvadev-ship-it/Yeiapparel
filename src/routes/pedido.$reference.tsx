@@ -259,7 +259,13 @@ function SuccessAnimation() {
     );
   }
 
-  return <div ref={boxRef} aria-hidden="true" className="mx-auto h-40 w-40" />;
+  return (
+    <div
+      ref={boxRef}
+      aria-hidden="true"
+      className="mx-auto h-64 w-64 lg:h-72 lg:w-72"
+    />
+  );
 }
 
 /** Agradecimiento que nombra la(s) prenda(s), no solo "tu pedido". */

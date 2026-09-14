@@ -54,10 +54,6 @@
   --nude: #e8dad1;
   --marfil: #e8dad1;
   --tinta: #35221f;
-  /* Terracota al 70%, para el contorno permanente de los campos de
-     formulario (ver .notch-outline abajo): visible pero sin competir
-     con el terracota sólido del foco. */
-  --terracota-campo: #8f4a3db3;
 
   --background: #e8dad1;
   --foreground: #35221f;
@@ -435,27 +431,6 @@ html.has-custom-cursor * {
 .notch-frame-sm:focus-visible,
 .notch-frame-lg:focus-visible {
   outline: none;
-  filter: drop-shadow(2px 0 0 var(--terracota))
-    drop-shadow(-2px 0 0 var(--terracota)) drop-shadow(0 2px 0 var(--terracota))
-    drop-shadow(0 -2px 0 var(--terracota));
-}
-
-/* ---------------------------------------------------------------
-   Contorno PERMANENTE para campos de formulario biselados
-   ---------------------------------------------------------------
-   Un input `bg-nude` sobre una página `bg-marfil` (o dentro de una
-   tarjeta `bg-nude`) son casi el mismo beige: sin esto, el campo es
-   invisible hasta que alguien hace foco. Mismo truco de drop-shadow de
-   arriba, pero permanente y más tenue (45%), para que se note el campo
-   sin que se confunda con el foco (que sigue siendo terracota sólido). */
-.notch-outline {
-  filter: drop-shadow(1px 0 0 var(--terracota-campo))
-    drop-shadow(-1px 0 0 var(--terracota-campo))
-    drop-shadow(0 1px 0 var(--terracota-campo))
-    drop-shadow(0 -1px 0 var(--terracota-campo));
-}
-
-.notch-outline:focus-visible {
   filter: drop-shadow(2px 0 0 var(--terracota))
     drop-shadow(-2px 0 0 var(--terracota)) drop-shadow(0 2px 0 var(--terracota))
     drop-shadow(0 -2px 0 var(--terracota));
