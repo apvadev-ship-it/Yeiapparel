@@ -227,17 +227,6 @@ function Home() {
         ]}
       />
 
-      {/* Lema de la marca, justo debajo del hero. */}
-      <section className="bg-marfil px-5 py-14 text-center lg:py-20">
-        <p className="eyebrow text-terracota text-xs lg:text-sm">
-          ✦ Nuestra esencia ✦
-        </p>
-        <p className="mx-auto mt-4 max-w-2xl font-display text-3xl leading-tight text-chocolate lg:text-5xl">
-          Más que moda, una forma de vivir tu{" "}
-          <span className="italic text-terracota font-normal">esencia</span>.
-        </p>
-      </section>
-
       {/* ============================================================
           SECCIÓN 2: COMPRAR POR CATEGORÍA (Sets / Piezas únicas, deslizan desde los lados)
           ============================================================ */}
@@ -736,6 +725,60 @@ const TESTIMONIALS = [
   },
 ];
 
+/** Una tarjeta de testimonio, compartida entre el carrusel táctil
+ * (celular/tablet) y la cinta que se arrastra con mouse (escritorio). */
+function TestimonialCard({
+  t,
+  index,
+  className = "",
+  onClick,
+}: {
+  t: (typeof TESTIMONIALS)[number];
+  index: number;
+  className?: string;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`notch-frame hover-lift flex h-64 w-[85vw] shrink-0 cursor-pointer overflow-hidden bg-nude text-left shadow-sm sm:h-72 sm:w-[480px] lg:h-80 lg:w-[560px] ${className}`}
+    >
+      <div className="flex w-1/2 flex-col justify-center p-5 sm:p-7">
+        <span className="font-display text-4xl leading-none text-terracota/50">
+          “
+        </span>
+        <p className="mt-1 text-sm leading-relaxed text-chocolate/85 font-light sm:text-base">
+          {t.quote}
+        </p>
+        <p className="mt-4 font-display text-lg text-chocolate font-medium">
+          {t.name}
+        </p>
+        <p className="text-xs text-chocolate/55 font-light">{t.location}</p>
+      </div>
+      <div className="group relative h-full w-1/2 shrink-0 bg-chocolate/10">
+        {/* Miniatura estática (no video autoplay): con hasta 4
+            repeticiones de 4 testimonios en la pista de escritorio,
+            reproducir videos reales a la vez saturaría el ancho de
+            banda. El video completo con audio solo se carga al abrir
+            el modal. */}
+        <img
+          src={t.poster}
+          alt=""
+          aria-hidden="true"
+          loading={index < 4 ? "eager" : "lazy"}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 flex items-center justify-center bg-chocolate/0 transition-colors group-hover:bg-chocolate/20">
+          <span className="grid h-12 w-12 place-items-center rounded-full bg-marfil/90 text-chocolate opacity-0 shadow-lg transition-opacity group-hover:opacity-100">
+            <Play className="h-4 w-4 translate-x-0.5 fill-chocolate" />
+          </span>
+        </div>
+      </div>
+    </button>
+  );
+}
+
 function TestimonialsSection() {
   const [viewportWidth, setViewportWidth] = useState(0);
   // El carrusel se mueve solo (animación CSS en bucle) en los tres
@@ -817,6 +860,27 @@ function TestimonialsSection() {
           <div className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-16 bg-gradient-to-r from-marfil to-transparent sm:w-32 lg:block" />
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden w-16 bg-gradient-to-l from-marfil to-transparent sm:w-32 lg:block" />
 
+          {/* Celular/tablet: carrusel deslizable con el dedo, sin la
+              animación automática — el scroll-snap nativo y la
+              animación en bucle (que mueve la pista con `transform`)
+              se pisaban entre sí, y por eso no se podía arrastrar con
+              el dedo. Aquí no hay repeticiones: alcanza con la lista
+              una vez. */}
+          <div className="flex w-full snap-x snap-mandatory gap-6 overflow-x-auto px-4 [scrollbar-width:none] sm:px-6 lg:hidden [&::-webkit-scrollbar]:hidden">
+            {TESTIMONIALS.map((t, i) => (
+              <TestimonialCard
+                key={i}
+                t={t}
+                index={i}
+                className="snap-center"
+                onClick={() => setActive(i)}
+              />
+            ))}
+          </div>
+
+          {/* Escritorio: cinta que se desliza sola, se puede arrastrar
+              con el mouse, y se pausa al pasar el cursor o al tocar
+              (con mouse). */}
           <div
             ref={trackRef}
             onMouseDown={handleMouseDown}
@@ -825,8 +889,7 @@ function TestimonialsSection() {
             onMouseLeave={() => {
               if (isDragging) stopDrag();
             }}
-            onTouchStart={pauseThenResume}
-            className={`flex w-max items-stretch overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
+            className={`hidden w-max items-stretch overflow-x-auto [scrollbar-width:none] lg:flex [&::-webkit-scrollbar]:hidden ${
               isDragging ? "cursor-grabbing" : "cursor-grab"
             } ${
               paused
@@ -835,50 +898,17 @@ function TestimonialsSection() {
             }`}
           >
             {track.map((t, i) => (
-              <button
-                type="button"
+              <TestimonialCard
                 key={i}
+                t={t}
+                index={i}
+                className="mr-6"
                 onClick={() => {
                   if (dragState.current.dragged) return;
                   pauseThenResume();
                   setActive(i % TESTIMONIALS.length);
                 }}
-                className="notch-frame hover-lift mr-6 flex h-64 w-[85vw] shrink-0 cursor-pointer overflow-hidden bg-nude text-left shadow-sm sm:h-72 sm:w-[480px] lg:h-80 lg:w-[560px]"
-              >
-                <div className="flex w-1/2 flex-col justify-center p-5 sm:p-7">
-                  <span className="font-display text-4xl leading-none text-terracota/50">
-                    “
-                  </span>
-                  <p className="mt-1 text-sm leading-relaxed text-chocolate/85 font-light sm:text-base">
-                    {t.quote}
-                  </p>
-                  <p className="mt-4 font-display text-lg text-chocolate font-medium">
-                    {t.name}
-                  </p>
-                  <p className="text-xs text-chocolate/55 font-light">
-                    {t.location}
-                  </p>
-                </div>
-                <div className="group relative h-full w-1/2 shrink-0 bg-chocolate/10">
-                  {/* Miniatura estática (no video autoplay): con hasta
-                      4 repeticiones de 4 testimonios en la pista,
-                      reproducir videos reales a la vez saturaría el
-                      ancho de banda. El video completo con audio solo
-                      se carga al abrir el modal. */}
-                  <img
-                    src={t.poster}
-                    alt=""
-                    aria-hidden="true"
-                    loading={i < 4 ? "eager" : "lazy"}
-                    className="absolute inset-0 h-full w-full object-cover"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center bg-chocolate/0 transition-colors group-hover:bg-chocolate/20">
-                    <span className="grid h-12 w-12 place-items-center rounded-full bg-marfil/90 text-chocolate opacity-0 shadow-lg transition-opacity group-hover:opacity-100">
-                      <Play className="h-4 w-4 translate-x-0.5 fill-chocolate" />
-                    </span>
-                  </div>
-                </div>
-              </button>
+              />
             ))}
           </div>
         </div>
