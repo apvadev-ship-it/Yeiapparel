@@ -212,14 +212,18 @@ export function HeroSpin({
                   alt={centerAlt}
                   fetchPriority="high"
                   decoding="async"
-                  initial={{ opacity: 0, scale: 1.15 }}
+                  // Sin `initial`: la foto es el elemento LCP de la portada.
+                  // Animar su opacidad desde 0 la deja invisible hasta que
+                  // React hidrata y Framer Motion corre la animación —
+                  // PageSpeed no cuenta el primer pintado hasta ese punto,
+                  // lo que sumaba +1.1s de retraso artificial al LCP. Se
+                  // conserva el efecto de encogimiento al hacer scroll
+                  // (que sí depende de estado y no puede evitarse).
                   animate={{
-                    opacity: 1,
                     scale: isDesktop ? 1 : 1.08,
                     y: isDesktop ? 0 : mobileParallax,
                   }}
                   transition={{
-                    opacity: { duration: 1.1, ease: [0.16, 1, 0.3, 1] },
                     scale: { duration: 1.4, ease: [0.16, 1, 0.3, 1] },
                     y: { duration: 0.1, ease: "linear" },
                   }}
@@ -274,9 +278,13 @@ export function HeroSpin({
             </div>
           </div>
 
-          {/* CTA visible sólo con la imagen grande; se desvanece al encoger */}
+          {/* CTA visible sólo con la imagen grande; se desvanece al encoger.
+              Sin `initial`: PageSpeed marcó este botón como el elemento LCP
+              y no lo contaba como "pintado" hasta que la animación de
+              aparición terminaba tras la hidratación (+2.5s de retraso). Se
+              mantiene la transición para cuando `ctaOpacity` cambia por el
+              scroll — solo se salta la animación de la primera aparición. */}
           <motion.div
-            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: ctaOpacity, y: 0 }}
             transition={{
               opacity: { duration: 0.3, ease: "linear" },
