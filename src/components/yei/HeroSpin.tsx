@@ -256,14 +256,10 @@ export function HeroSpin({
           >
             <Link
               to="/tienda"
-              className="comprar-ahora h-14 w-52 rounded-full shadow-2xl transition-transform active:scale-95"
+              className="btn-yei notch-frame-sm bg-chocolate text-marfil hover:bg-chocolate/90 shadow-2xl transition-all active:scale-95 font-medium text-xs lg:text-sm px-9 py-4"
             >
-              <span className="comprar-ahora-icon">
-                <ArrowRight className="h-4 w-4 text-marfil" />
-              </span>
-              <span className="comprar-ahora-text text-xs lg:text-sm font-medium">
-                Comprar ahora
-              </span>
+              <ArrowRight className="btn-yei-arrow h-4 w-4 text-terracota" />
+              <span>Comprar ahora</span>
             </Link>
           </motion.div>
         </div>
