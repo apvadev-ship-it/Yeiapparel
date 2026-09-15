@@ -802,11 +802,16 @@ function TestimonialCard({
 
 function TestimonialsSection() {
   const [viewportWidth, setViewportWidth] = useState(0);
-  // El carrusel se mueve solo (animación CSS en bucle) en los tres
-  // formatos. Se pausa apenas alguien lo toca o le pasa el mouse por
-  // encima — sea para arrastrarlo a mano o para abrir un testimonio —
-  // y retoma sola un rato después de soltar.
+  // El carrusel se mueve solo, moviendo `scrollLeft` a mano en vez de
+  // animar con `transform`: así, al pausarlo (para arrastrarlo o para
+  // abrir un testimonio), se queda exactamente donde iba en vez de
+  // saltar de vuelta al inicio. Se pausa apenas alguien lo toca o le
+  // pasa el mouse por encima, y retoma sola un rato después de soltar.
   const [paused, setPaused] = useState(false);
+  const pausedRef = useRef(paused);
+  useEffect(() => {
+    pausedRef.current = paused;
+  }, [paused]);
   const [active, setActive] = useState<number | null>(null);
   const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -831,6 +836,31 @@ function TestimonialsSection() {
 
   useEffect(() => () => {
     if (resumeTimer.current) clearTimeout(resumeTimer.current);
+  }, []);
+
+  // Avanza `scrollLeft` cuadro a cuadro en las dos cintas (la que se ve
+  // depende del breakpoint). La pista está repetida, así que al pasar
+  // la mitad del ancho se resta esa mitad y el bucle no se nota.
+  useEffect(() => {
+    const speed = 32; // px por segundo
+    let raf = 0;
+    let last = performance.now();
+    const step = (now: number) => {
+      const dt = (now - last) / 1000;
+      last = now;
+      if (!pausedRef.current) {
+        for (const el of [trackRef.current, mobileTrackRef.current]) {
+          if (!el) continue;
+          const half = el.scrollWidth / 2;
+          if (half <= 0) continue;
+          el.scrollLeft += speed * dt;
+          if (el.scrollLeft >= half) el.scrollLeft -= half;
+        }
+      }
+      raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -858,11 +888,11 @@ function TestimonialsSection() {
     pauseThenResume();
   };
 
-  // La cinta salta a `translateX(-50%)`: para que el corte no se note,
-  // la mitad de la pista tiene que ser más ancha que la pantalla. En
-  // monitores muy anchos hacían falta más copias o se veía un hueco
-  // vacío al final de cada vuelta.
-  const repeats = viewportWidth >= 2200 ? 4 : viewportWidth >= 640 ? 2 : 3;
+  // Cuántas veces se repite la lista de testimonios en la pista: tiene
+  // que ser par (para que "la mitad" del scroll caiga justo donde se
+  // repite) y lo bastante ancha para que no se vea un hueco vacío al
+  // final de la vuelta en monitores anchos.
+  const repeats = viewportWidth >= 2200 ? 4 : 2;
   const track = Array.from({ length: repeats }, () => TESTIMONIALS).flat();
   const activeTestimonial = active !== null ? TESTIMONIALS[active] : null;
 
@@ -882,27 +912,22 @@ function TestimonialsSection() {
           <div className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-16 bg-gradient-to-r from-marfil to-transparent sm:w-32 lg:block" />
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden w-16 bg-gradient-to-l from-marfil to-transparent sm:w-32 lg:block" />
 
-          {/* Celular/tablet: se mueve sola con la misma animación de
-              `transform` que el escritorio (mover `scrollLeft` a mano
-              no sirve porque el scroll-snap nativo lo revierte de
-              inmediato). Al tocarla se apaga la animación y queda el
-              scroll táctil nativo con snap; retoma sola un rato después
-              de soltar. La pista se repite para que el salto al
-              reiniciar el bucle no se note. */}
+          {/* Celular/tablet: se mueve sola (JS mueve `scrollLeft`) y se
+              puede seguir arrastrando con el dedo — el scroll nativo
+              queda libre, sin snap, para que no pelee con el avance
+              automático. Al tocarla se pausa donde va, sin saltar al
+              inicio, y retoma sola un rato después de soltar. */}
           <div
             ref={mobileTrackRef}
             onTouchStart={() => setPaused(true)}
             onTouchEnd={pauseThenResume}
-            className={`flex w-max snap-x snap-mandatory gap-6 overflow-x-auto px-4 [scrollbar-width:none] sm:px-6 lg:hidden [&::-webkit-scrollbar]:hidden ${
-              paused ? "" : "animate-[yei-marquee_42s_linear_infinite]"
-            }`}
+            className="flex w-full gap-6 overflow-x-auto px-4 [scrollbar-width:none] sm:px-6 lg:hidden [&::-webkit-scrollbar]:hidden"
           >
             {track.map((t, i) => (
               <TestimonialCard
                 key={i}
                 t={t}
                 index={i}
-                className="snap-center"
                 onClick={() => {
                   pauseThenResume();
                   setActive(i % TESTIMONIALS.length);
@@ -911,23 +936,22 @@ function TestimonialsSection() {
             ))}
           </div>
 
-          {/* Escritorio: cinta que se desliza sola, se puede arrastrar
-              con el mouse, y se pausa al pasar el cursor o al tocar
-              (con mouse). */}
+          {/* Escritorio: cinta que se desliza sola (JS mueve
+              `scrollLeft`), se puede arrastrar con el mouse, y se
+              pausa donde va —sin saltar al inicio— al pasar el cursor,
+              tocarla o abrir un testimonio. */}
           <div
             ref={trackRef}
+            onMouseEnter={() => setPaused(true)}
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={stopDrag}
             onMouseLeave={() => {
               if (isDragging) stopDrag();
+              else pauseThenResume();
             }}
-            className={`hidden w-max items-stretch overflow-x-auto [scrollbar-width:none] lg:flex [&::-webkit-scrollbar]:hidden ${
+            className={`hidden w-full items-stretch overflow-x-auto [scrollbar-width:none] lg:flex [&::-webkit-scrollbar]:hidden ${
               isDragging ? "cursor-grabbing" : "cursor-grab"
-            } ${
-              paused
-                ? ""
-                : "animate-[yei-marquee_42s_linear_infinite] hover:[animation-play-state:paused]"
             }`}
           >
             {track.map((t, i) => (
