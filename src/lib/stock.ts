@@ -126,6 +126,151 @@ export function useProductStock(
   return state;
 }
 
+/**
+ * Stock de CADA talla para un color, de una sola vez — para pintar el
+ * selector de tallas (tachar/deshabilitar las agotadas) sin tener que
+ * elegir una talla primero para saber si tiene unidades.
+ *
+ * `null` en una talla significa "la hoja no trae ese dato": se trata
+ * como disponible (no se tacha), igual que hace `useProductStock` al
+ * caer al valor de respaldo — una fila vacía en la hoja no debe agotar
+ * una talla que sí existe en el catálogo.
+ */
+export type SizeAvailabilityMap = Record<string, number | null>;
+
+export function useSizeAvailability(
+  slug: string,
+  sizes: string[],
+  color: string,
+): { map: SizeAvailabilityMap; loading: boolean } {
+  const sizesKey = sizes.join("|");
+  const [state, setState] = useState<{
+    map: SizeAvailabilityMap;
+    loading: boolean;
+  }>(() => ({
+    map: Object.fromEntries(sizes.map((s) => [s, null])),
+    loading: true,
+  }));
+
+  useEffect(() => {
+    let cancelled = false;
+    const list = sizesKey ? sizesKey.split("|") : [];
+
+    loadAvailability()
+      .then((stock) => {
+        if (cancelled) return;
+        const map: SizeAvailabilityMap = {};
+        for (const s of list) {
+          const value = stock[variantKey(slug, s, color)];
+          map[s] =
+            typeof value === "number" && Number.isFinite(value) && value >= 0
+              ? value
+              : null;
+        }
+        setState({ map, loading: false });
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setState({
+          map: Object.fromEntries(list.map((s) => [s, null])),
+          loading: false,
+        });
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [slug, sizesKey, color]);
+
+  return state;
+}
+
+/**
+ * `true` cuando un producto no tiene NINGUNA unidad en NINGUNA
+ * combinación de talla y color — para tachar "Agotado" en la tienda y
+ * avisar al entrar a la ficha, en vez de descubrirlo talla por talla.
+ *
+ * Prioridad de la fuente de verdad, la misma que ya usa el resto del
+ * módulo:
+ *  1. Si la hoja trae una fila a nivel de producto (sin talla/color),
+ *     esa manda sola.
+ *  2. Si no, se miran todas las combinaciones talla×color que trae la
+ *     hoja: agotado solo si TODAS las que sí tienen dato están en 0.
+ *  3. Si la hoja no trae ningún dato de este producto, se cae al valor
+ *     de respaldo de `products.ts` — nunca se asume agotado por falta
+ *     de información.
+ */
+export function useProductSoldOut(product: {
+  slug: string;
+  sizes: string[];
+  colors: { name: string }[];
+  stock?: number;
+}): { soldOut: boolean; loading: boolean } {
+  const slug = product.slug;
+  const sizesKey = product.sizes.join("|");
+  const colorsKey = product.colors.map((c) => c.name).join("|");
+  const fallback = product.stock;
+
+  const [state, setState] = useState<{ soldOut: boolean; loading: boolean }>({
+    soldOut: false,
+    loading: true,
+  });
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const fromFallback = (): { soldOut: boolean; loading: false } => ({
+      soldOut: typeof fallback === "number" && fallback <= 0,
+      loading: false,
+    });
+
+    loadAvailability()
+      .then((stock) => {
+        if (cancelled) return;
+
+        const productLevel = stock[slug];
+        if (
+          typeof productLevel === "number" &&
+          Number.isFinite(productLevel)
+        ) {
+          setState({ soldOut: productLevel <= 0, loading: false });
+          return;
+        }
+
+        const sizes = sizesKey ? sizesKey.split("|") : [];
+        const colors = colorsKey ? colorsKey.split("|") : [];
+
+        let anyKnown = false;
+        let everyKnownZero = true;
+        for (const size of sizes) {
+          for (const color of colors) {
+            const value = stock[variantKey(slug, size, color)];
+            if (
+              typeof value === "number" &&
+              Number.isFinite(value) &&
+              value >= 0
+            ) {
+              anyKnown = true;
+              if (value > 0) everyKnownZero = false;
+            }
+          }
+        }
+
+        setState(anyKnown ? { soldOut: everyKnownZero, loading: false } : fromFallback());
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setState(fromFallback());
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [slug, sizesKey, colorsKey, fallback]);
+
+  return state;
+}
+
 /** Cómo se le presenta el inventario al cliente. */
 export function describeStock(stock: number | null): {
   label: string;

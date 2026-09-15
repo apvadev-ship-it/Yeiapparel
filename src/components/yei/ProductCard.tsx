@@ -2,6 +2,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { Check, ShoppingBag, ArrowRight, Plus } from "lucide-react";
 import { formatPrice, imagesForColor, type Product } from "@/lib/products";
 import { useCart } from "@/lib/cart";
+import { useProductSoldOut } from "@/lib/stock";
 import { useState } from "react";
 import { motion } from "motion/react";
 
@@ -24,6 +25,7 @@ export function ProductCard({
   const navigate = useNavigate();
   const [added, setAdded] = useState(false);
   const [activeColor, setActiveColor] = useState(product.colors[0]?.name ?? "");
+  const { soldOut } = useProductSoldOut(product);
 
   // Las fotos que se ven en la tarjeta son las del color elegido, no
   // siempre las del primer color — así el swatch de abajo sí cambia lo
@@ -41,6 +43,7 @@ export function ProductCard({
 
   // Suma la pieza y deja seguir viendo el catálogo.
   const handleAdd = () => {
+    if (soldOut) return;
     add(line(), { open: false });
     setAdded(true);
     setTimeout(() => setAdded(false), 1800);
@@ -48,6 +51,7 @@ export function ProductCard({
 
   // Suma la pieza y va derecho a finalizar la compra.
   const handleBuyNow = () => {
+    if (soldOut) return;
     add(line(), { open: false });
     navigate({ to: "/finalizar-compra" });
   };
@@ -92,7 +96,7 @@ export function ProductCard({
             texto, así que se reemplazan por este cuadrito: un toque
             agrega la pieza al carrito, sin salir del catálogo. En
             escritorio (lg+) no se muestra — ahí siguen los botones. */}
-        {compact && (
+        {compact && !soldOut && (
           <button
             type="button"
             onClick={(e) => {
@@ -115,6 +119,18 @@ export function ProductCard({
               <Plus className="h-4 w-4" />
             )}
           </button>
+        )}
+
+        {/* Franja roja sobre la foto: se ve sin tener que llegar hasta
+            los botones de abajo, igual en la grilla de /tienda que en
+            "Completa el look". */}
+        {soldOut && (
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute left-2.5 top-2.5 z-10 notch-frame-sm bg-marfil/95 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.15em] text-red-600 shadow-sm"
+          >
+            Agotado
+          </span>
         )}
       </div>
 
@@ -190,37 +206,51 @@ export function ProductCard({
       </div>
 
       <motion.button
-        whileHover={{ scale: 1.01 }}
-        whileTap={{ scale: 0.98 }}
+        whileHover={{ scale: soldOut ? 1 : 1.01 }}
+        whileTap={{ scale: soldOut ? 1 : 0.98 }}
         onClick={handleBuyNow}
-        className={`btn-yei notch-frame-sm w-full bg-terracota text-marfil hover:bg-terracota/90 shadow-sm font-semibold ${
+        disabled={soldOut}
+        aria-disabled={soldOut}
+        className={`btn-yei notch-frame-sm w-full shadow-sm font-semibold ${
           compact
             ? "hidden lg:inline-flex lg:mt-5 lg:py-2 lg:text-xs lg:tracking-[0.15em]"
             : "mt-5 py-3.5 text-xs tracking-[0.22em] lg:py-2 lg:text-xs lg:tracking-[0.15em]"
+        } ${
+          soldOut
+            ? "cursor-not-allowed bg-terracota/30 text-marfil/70"
+            : "bg-terracota text-marfil hover:bg-terracota/90"
         }`}
       >
-        <ArrowRight
-          className={`btn-yei-arrow ${compact ? "h-3 w-3 lg:h-3.5 lg:w-3.5" : "h-4 w-4 lg:h-3.5 lg:w-3.5"}`}
-        />
-        <span>Comprar ahora</span>
+        {!soldOut && (
+          <ArrowRight
+            className={`btn-yei-arrow ${compact ? "h-3 w-3 lg:h-3.5 lg:w-3.5" : "h-4 w-4 lg:h-3.5 lg:w-3.5"}`}
+          />
+        )}
+        <span>{soldOut ? "Agotado" : "Comprar ahora"}</span>
       </motion.button>
 
       {showAddToCart && (
         <motion.button
-          whileHover={{ scale: 1.01 }}
-          whileTap={{ scale: 0.98 }}
+          whileHover={{ scale: soldOut ? 1 : 1.01 }}
+          whileTap={{ scale: soldOut ? 1 : 0.98 }}
           onClick={handleAdd}
+          disabled={soldOut}
+          aria-disabled={soldOut}
           className={`btn-yei notch-frame-sm w-full transition-all duration-300 font-semibold ${
             compact
               ? "hidden lg:inline-flex lg:mt-2 lg:py-2 lg:text-xs lg:tracking-[0.15em]"
               : "mt-2 py-3.5 text-xs tracking-[0.22em] lg:py-2 lg:text-xs lg:tracking-[0.15em]"
           } ${
-            added
-              ? "bg-terracota text-marfil shadow-md"
-              : "bg-chocolate text-marfil hover:bg-chocolate/85 shadow-sm"
+            soldOut
+              ? "cursor-not-allowed bg-chocolate/25 text-marfil/70"
+              : added
+                ? "bg-terracota text-marfil shadow-md"
+                : "bg-chocolate text-marfil hover:bg-chocolate/85 shadow-sm"
           }`}
         >
-          {added ? (
+          {soldOut ? (
+            <span>Agotado</span>
+          ) : added ? (
             <>
               <Check
                 className={

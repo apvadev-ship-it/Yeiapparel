@@ -5,7 +5,7 @@ import {
   useNavigate,
   useRouter,
 } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -27,6 +27,8 @@ import {
 } from "@/lib/products";
 import {
   useProductStock,
+  useSizeAvailability,
+  useProductSoldOut,
   describeStock,
   useDeliveryDates,
   DELIVERY_BUSINESS_DAYS,
@@ -36,6 +38,7 @@ import { ProductCard } from "@/components/yei/ProductCard";
 import { ProductGallery } from "@/components/yei/ProductGallery";
 import { Reveal } from "@/components/yei/Reveal";
 import { SizeGuide } from "@/components/yei/SizeGuide";
+import { OutOfStockNotice } from "@/components/yei/OutOfStockNotice";
 import { motion } from "motion/react";
 
 export const Route = createFileRoute("/producto/$slug")({
@@ -292,6 +295,55 @@ function ProductoDetalle() {
     { size, color },
   );
   const stockInfo = describeStock(stock);
+
+  // Stock de cada talla para el color elegido, para tachar/deshabilitar
+  // en el selector las que están agotadas sin tener que probarlas una
+  // por una. `null` = la hoja no trae ese dato -> se trata como
+  // disponible (mismo criterio conservador que `useProductStock`).
+  const { map: sizeStock } = useSizeAvailability(
+    product.slug,
+    product.sizes,
+    color,
+  );
+  const isSizeOut = (s: string) => {
+    const v = sizeStock[s];
+    return typeof v === "number" && v <= 0;
+  };
+
+  // Sin unidades de esta combinación exacta (talla + color): no se deja
+  // comprar. `stock === null` (hoja caída o sin dato) no cuenta como
+  // agotado — ahí se confía en el valor de respaldo del catálogo.
+  const outOfStock = !stockLoading && stock !== null && stock <= 0;
+
+  // Aviso de "agotado" con alta al boletín (ver OutOfStockNotice). Se
+  // abre solo, una vez, si el producto entero no tiene unidades en
+  // ninguna talla/color; también se abre a mano al tocar una talla
+  // tachada — en ese caso `noticeSize` lleva cuál, para que el mensaje
+  // hable de esa talla puntual en vez de todo el producto.
+  const { soldOut: productSoldOut, loading: soldOutLoading } =
+    useProductSoldOut(product);
+  const [noticeOpen, setNoticeOpen] = useState(false);
+  const [noticeSize, setNoticeSize] = useState<string | undefined>(undefined);
+  const autoNoticeShown = useRef(false);
+
+  useEffect(() => {
+    if (soldOutLoading || !productSoldOut || autoNoticeShown.current) return;
+    autoNoticeShown.current = true;
+    setNoticeSize(undefined);
+    setNoticeOpen(true);
+  }, [soldOutLoading, productSoldOut]);
+
+  // Al tocar una talla tachada no se salta sola a otra: se avisa de que
+  // esa talla está agotada y se ofrece dejar el correo para el aviso.
+  const handleSizeClick = (s: string) => {
+    if (isSizeOut(s)) {
+      setNoticeSize(s);
+      setNoticeOpen(true);
+      return;
+    }
+    setSize(s);
+  };
+
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
   const [techOpen, setTechOpen] = useState(false);
@@ -428,19 +480,26 @@ function ProductoDetalle() {
                   <span className="text-terracota">{size}</span>
                 </p>
                 <div className="mt-3 flex flex-wrap justify-center gap-2.5 lg:justify-start">
-                  {product.sizes.map((s) => (
-                    <button
-                      key={s}
-                      onClick={() => setSize(s)}
-                      className={`min-w-14 px-5 py-2.5 text-xs lg:text-sm font-semibold tracking-[0.2em] transition-colors duration-300 notch-frame-sm cursor-pointer ${
-                        size === s
-                          ? "bg-chocolate text-marfil shadow-sm"
-                          : "bg-nude text-chocolate hover:bg-chocolate/15"
-                      }`}
-                    >
-                      {s}
-                    </button>
-                  ))}
+                  {product.sizes.map((s) => {
+                    const sizeOut = isSizeOut(s);
+                    return (
+                      <button
+                        key={s}
+                        type="button"
+                        aria-label={sizeOut ? `${s}, agotada` : s}
+                        onClick={() => handleSizeClick(s)}
+                        className={`min-w-14 px-5 py-2.5 text-xs lg:text-sm font-semibold tracking-[0.2em] transition-colors duration-300 notch-frame-sm cursor-pointer ${
+                          sizeOut
+                            ? "bg-nude/60 text-chocolate/35 line-through hover:bg-nude/80"
+                            : size === s
+                              ? "bg-chocolate text-marfil shadow-sm"
+                              : "bg-nude text-chocolate hover:bg-chocolate/15"
+                        }`}
+                      >
+                        {s}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -529,19 +588,28 @@ function ProductoDetalle() {
               )}
             </div>
 
-            {/* Añadir al carrito / Comprar ahora, uno junto al otro */}
+            {/* Añadir al carrito / Comprar ahora, uno junto al otro.
+                Deshabilitados cuando la combinación talla+color elegida
+                está agotada: no tiene sentido dejar sumar al carrito
+                algo que no hay. */}
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <motion.button
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={{ scale: outOfStock ? 1 : 1.01 }}
+                whileTap={{ scale: outOfStock ? 1 : 0.98 }}
                 onClick={handleAddToCart}
+                disabled={outOfStock}
+                aria-disabled={outOfStock}
                 className={`btn-yei notch-frame-sm flex-1 text-xs lg:text-sm py-4 active:scale-[0.99] transition-all font-semibold tracking-[0.22em] ${
-                  added
-                    ? "bg-terracota text-marfil shadow-lg"
-                    : "bg-chocolate text-marfil hover:bg-chocolate/85 shadow-md"
+                  outOfStock
+                    ? "cursor-not-allowed bg-chocolate/25 text-marfil/70"
+                    : added
+                      ? "bg-terracota text-marfil shadow-lg"
+                      : "bg-chocolate text-marfil hover:bg-chocolate/85 shadow-md"
                 }`}
               >
-                {added ? (
+                {outOfStock ? (
+                  <span>Agotado</span>
+                ) : added ? (
                   <>
                     <Check className="h-4 w-4" />
                     <span>¡Añadido!</span>
@@ -551,13 +619,21 @@ function ProductoDetalle() {
                 )}
               </motion.button>
               <motion.button
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={{ scale: outOfStock ? 1 : 1.01 }}
+                whileTap={{ scale: outOfStock ? 1 : 0.98 }}
                 onClick={handleBuyNow}
-                className="btn-yei notch-frame-sm flex-1 bg-terracota text-marfil hover:bg-terracota/90 text-xs lg:text-sm py-4 active:scale-[0.99] shadow-lg font-semibold tracking-[0.22em]"
+                disabled={outOfStock}
+                aria-disabled={outOfStock}
+                className={`btn-yei notch-frame-sm flex-1 text-xs lg:text-sm py-4 active:scale-[0.99] font-semibold tracking-[0.22em] ${
+                  outOfStock
+                    ? "cursor-not-allowed bg-terracota/30 text-marfil/70"
+                    : "bg-terracota text-marfil hover:bg-terracota/90 shadow-lg"
+                }`}
               >
-                <ArrowRight className="btn-yei-arrow h-4 w-4" />
-                <span>Comprar ahora</span>
+                {!outOfStock && (
+                  <ArrowRight className="btn-yei-arrow h-4 w-4" />
+                )}
+                <span>{outOfStock ? "Agotado" : "Comprar ahora"}</span>
               </motion.button>
             </div>
 
@@ -690,6 +766,13 @@ function ProductoDetalle() {
           </div>
         </section>
       </div>
+
+      <OutOfStockNotice
+        open={noticeOpen}
+        onClose={() => setNoticeOpen(false)}
+        productName={product.name}
+        size={noticeSize}
+      />
     </div>
   );
 }
