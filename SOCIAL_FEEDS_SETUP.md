@@ -11,11 +11,12 @@ justo ese "lo único que falta".
 | Archivo | Qué hace |
 |---|---|
 | `supabase/migrations/0009_social_feeds.sql` | Tablas `instagram_posts`, `instagram_reels`, `tiktok_posts`, `tiktok_oauth_state`. Lectura pública, escritura solo desde el servidor. |
-| `src/lib/instagram-sync.ts` | Llama a la Instagram Graph API y guarda las publicaciones en Supabase. |
+| `src/lib/instagram-sync.ts` | Trae los posts (de Behold o de la Graph API directa) y los guarda en Supabase. |
 | `src/lib/tiktok-sync.ts` | Renueva el token de TikTok y guarda los videos en Supabase. |
 | `src/lib/social-sync-endpoint.ts` | `POST /api/social/sync` — dispara ambas sincronizaciones a mano. |
 | `src/server.ts` | Corre las dos sincronizaciones automáticamente una vez al día (mismo cron del boletín/catálogo, ver `wrangler.toml`). |
-| `src/components/yei/InstagramSection.tsx` / `TikTokSection.tsx` | Leen las tablas de Supabase. Si están vacías, muestran publicaciones de ejemplo — nada se rompe mientras conectas todo esto. |
+| `src/lib/social-feed.ts` | Función de servidor que lee las tablas de Supabase para el home. Existe porque el cliente anónimo de Supabase desde el navegador necesita `VITE_SUPABASE_*` en tiempo de BUILD, y el build de Cloudflare no las tiene — leerlas en el servidor evita ese problema por completo. |
+| `src/components/yei/InstagramSection.tsx` / `TikTokSection.tsx` | Piden el feed a `social-feed.ts`. Si no hay datos aún, muestran publicaciones de ejemplo — nada se rompe mientras conectas todo esto. |
 
 Aplica la migración antes de seguir (en el SQL Editor de Supabase, pega
 el contenido de `0009_social_feeds.sql` y ejecútalo — o con la CLI de
@@ -25,12 +26,46 @@ Supabase si ya la usas para las demás migraciones de este proyecto).
 
 ## Parte 1 · Instagram
 
+Hay dos caminos. **Behold es el que se está usando aquí** — evita
+crear una app en Meta y lidiar con un token que expira cada 60 días.
+El de la Graph API directa queda documentado como alternativa, por si
+en algún momento conviene dejar Behold.
+
+### Vía Behold (behold.so) — la que se está usando
+
+1. **Crea una cuenta en [behold.so](https://behold.so/)** (tienen
+   plan gratuito para un feed).
+2. **Conecta la cuenta de Instagram** desde el panel de Behold
+   (botón para vincular cuenta, pide iniciar sesión con
+   `@yei.apparel`).
+3. **Crea un feed** apuntando a esa cuenta. Behold muestra la URL del
+   feed, algo como `https://feeds.behold.so/AbC123XyZ`.
+4. **Copia solo el ID** — la parte después de `feeds.behold.so/`
+   (en el ejemplo, `AbC123XyZ`) — y ponlo como:
+
+   ```
+   BEHOLD_FEED_ID=AbC123XyZ
+   ```
+
+   en tu `.env` local **y** como secreto en Cloudflare:
+
+   ```bash
+   printf '%s' "AbC123XyZ" | npx wrangler secret put BEHOLD_FEED_ID --name yeiapparel
+   ```
+
+   (el nombre del Worker real es `yeiapparel` — se confirma con
+   `npx wrangler secret list --name yeiapparel`).
+
+Con eso queda listo. `instagram-sync.ts` detecta `BEHOLD_FEED_ID` y lo
+usa automáticamente en vez de la Graph API — no hace falta tocar nada
+más de código. Sincroniza llamando a `POST /api/social/sync` (ver la
+sección "Probarlo" más abajo) o esperando al cron diario.
+
+### Vía Instagram Graph API directa (alternativa)
+
 Instagram (Meta) solo entrega el feed por API para cuentas
 **profesionales** (Business o Creator), y siempre a través de una
-página de Facebook vinculada. No hay forma de leer un feed de
-Instagram sin este vínculo — es una regla de Meta, no de este código.
-
-### Paso a paso
+página de Facebook vinculada.
 
 1. **La cuenta de Instagram debe ser Business o Creator.**
    En la app de Instagram: Configuración → Cuenta → Cambiar a cuenta
@@ -67,12 +102,6 @@ Instagram sin este vínculo — es una regla de Meta, no de este código.
 
    La respuesta trae `access_token` — ese es tu `INSTAGRAM_ACCESS_TOKEN`.
 
-   Para no tener que repetir esto cada 60 días: activa el **modo Live**
-   de la app (Meta → Panel de la app → cambia de "En desarrollo" a
-   "Activo") y usa una cuenta de sistema o programa la renovación; en
-   la práctica, para una sola tienda basta con recalendar este paso
-   cada dos meses o automatizarlo aparte si crece el volumen.
-
 5. **Consigue el ID de la cuenta de Instagram (no el @usuario).**
    Con el mismo token:
 
@@ -89,13 +118,9 @@ Instagram sin este vínculo — es una regla de Meta, no de este código.
    El número que devuelve en `instagram_business_account.id` es tu
    `INSTAGRAM_BUSINESS_ACCOUNT_ID`.
 
-6. **Pon las dos variables en producción** (Cloudflare) y en tu `.env`
-   local:
-
-   ```
-   INSTAGRAM_ACCESS_TOKEN=el_token_largo_del_paso_4
-   INSTAGRAM_BUSINESS_ACCOUNT_ID=el_id_del_paso_5
-   ```
+6. **Pon las dos variables** en producción y en tu `.env` local. Si
+   `BEHOLD_FEED_ID` también está puesto, Behold tiene prioridad — hay
+   que dejarlo vacío para que se use esta vía.
 
 Con eso, Instagram queda listo. No hace falta tocar código.
 
