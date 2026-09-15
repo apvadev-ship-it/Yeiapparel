@@ -53,8 +53,10 @@ const MEDIA_HOSTS = [
   "https://*.fbcdn.net",
   // Behold (behold.so) re-aloja las imágenes del feed de Instagram en
   // su propio CDN para que no dependan de la URL firmada (y con
-  // vencimiento) que da Instagram. Dos subdominios: cdn2 para el
-  // avatar/perfil, hop para las fotos de cada post.
+  // vencimiento) que da Instagram. El dominio pelado (behold.pictures)
+  // sirve las fotos de cada post; los subdominios (cdn2., hop., ...)
+  // se usan para el avatar y otras variantes — de ahí las dos formas.
+  "https://behold.pictures",
   "https://*.behold.pictures",
 ];
 
