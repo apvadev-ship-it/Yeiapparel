@@ -51,6 +51,11 @@ const MEDIA_HOSTS = [
   // varía por región (scontent-bog1-1.cdninstagram.com, etc).
   "https://*.cdninstagram.com",
   "https://*.fbcdn.net",
+  // Behold (behold.so) re-aloja las imágenes del feed de Instagram en
+  // su propio CDN para que no dependan de la URL firmada (y con
+  // vencimiento) que da Instagram. Dos subdominios: cdn2 para el
+  // avatar/perfil, hop para las fotos de cada post.
+  "https://*.behold.pictures",
 ];
 
 /**

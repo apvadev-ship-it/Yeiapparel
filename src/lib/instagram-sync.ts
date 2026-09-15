@@ -129,14 +129,32 @@ type BeholdPost = {
   permalink?: string;
   mediaType?: "IMAGE" | "VIDEO" | "CAROUSEL_ALBUM";
   mediaUrl?: string;
+  /** Solo en videos: la miniatura estática (posavasos), separada del stream. */
+  thumbnailUrl?: string;
   caption?: string;
   likeCount?: number;
   commentsCount?: number;
+  /**
+   * Variantes ya optimizadas y re-alojadas por Behold (dominio
+   * behold.pictures). A diferencia de `mediaUrl` —que es el enlace
+   * directo de Instagram, con una firma que expira a los pocos días—
+   * estas sí sirven para guardarlas y mostrarlas sin que se rompan
+   * solas entre una sincronización y la siguiente.
+   */
+  sizes?: {
+    medium?: { mediaUrl?: string };
+    large?: { mediaUrl?: string };
+  };
 };
 
 type BeholdFeedResponse = {
   posts?: BeholdPost[];
 };
+
+/** La portada para la grilla: la variante optimizada de Behold si existe, si no la cruda de Instagram. */
+function beholdCoverImage(item: BeholdPost): string {
+  return item.sizes?.medium?.mediaUrl ?? item.sizes?.large?.mediaUrl ?? item.mediaUrl ?? "";
+}
 
 async function fetchFromBehold(feedId: string): Promise<FetchResult> {
   let payload: BeholdFeedResponse;
@@ -155,7 +173,10 @@ async function fetchFromBehold(feedId: string): Promise<FetchResult> {
     .filter((item) => item.mediaUrl)
     .map((item) => ({
       id: item.id,
-      image_url: item.mediaUrl ?? "",
+      // En video se guarda el stream real (autoplay en la grilla, igual
+      // que ya hacían los clips de ejemplo); en foto/carrusel, la
+      // variante optimizada de Behold.
+      image_url: item.mediaType === "VIDEO" ? (item.mediaUrl ?? "") : beholdCoverImage(item),
       caption: item.caption ?? "",
       likes_count: item.likeCount ?? 0,
       comments_count: item.commentsCount ?? null,
@@ -170,7 +191,7 @@ async function fetchFromBehold(feedId: string): Promise<FetchResult> {
     ? {
         id: latestVideo.id,
         caption: latestVideo.caption ?? "",
-        coverUrl: latestVideo.mediaUrl ?? "",
+        coverUrl: latestVideo.thumbnailUrl ?? latestVideo.mediaUrl ?? "",
         permalink: latestVideo.permalink ?? null,
         likeCount: latestVideo.likeCount ?? null,
         commentsCount: latestVideo.commentsCount ?? null,
