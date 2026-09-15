@@ -8,6 +8,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Play,
+  Star,
   X,
 } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
@@ -20,10 +21,10 @@ import eventoPremios from "@/assets/evento/video6_poster.jpg";
 import eventoBotella from "@/assets/evento/IMG_0153.jpg";
 import eventoEquipo from "@/assets/evento/IMG_0765.jpg";
 import eventoProtector from "@/assets/evento/IMG_9952.jpg";
-import testimonioCamila from "@/assets/testimonios/camila.webp";
-import testimonioValentina from "@/assets/testimonios/valentina.webp";
-import testimonioIsabella from "@/assets/testimonios/isabella.webp";
-import testimonioDaniela from "@/assets/testimonios/daniela.webp";
+import testimonioResena5 from "@/assets/testimonios/resena-5.webp";
+import testimonioResena6 from "@/assets/testimonios/resena-6.webp";
+import testimonioResena7 from "@/assets/testimonios/resena-7.webp";
+import testimonioResena8 from "@/assets/testimonios/resena-8.webp";
 import look1 from "@/assets/categorias/look1.webp";
 import look3 from "@/assets/categorias/look3.webp";
 import setLook from "@/assets/categorias/sets.webp";
@@ -697,38 +698,48 @@ function CollaboratorsSection() {
 
 const TESTIMONIALS = [
   {
-    name: "Camila R.",
-    location: "Bogotá",
+    name: "@yei.apparel",
+    location: "",
     quote:
-      "La caída del satín es otro nivel. Se siente una prenda hecha para durar, no para una sola foto.",
-    video: "/videos/reel-1.mp4",
-    poster: testimonioCamila,
+      "Mi set de @yei.apparel es simplemente hermoso, la tela y la horma son espectaculares. Me encantó.",
+    video: "/videos/reel-5.mp4",
+    poster: testimonioResena5,
   },
   {
-    name: "Valentina G.",
-    location: "Medellín",
+    name: "@yei.apparel",
+    location: "",
     quote:
-      "Pedí mi talla habitual y llegó perfecta. El empaque y la atención se sintieron cuidados de verdad.",
-    video: "/videos/reel-2.mp4",
-    poster: testimonioValentina,
+      "Este es mi set confi, la tela es súper ligerita. Me lo pongo para todo: iglesia, aeropuerto, ir de compras. Todas deberíamos tener uno.",
+    video: "/videos/reel-6.mp4",
+    poster: testimonioResena6,
   },
   {
-    name: "Isabella M.",
-    location: "Cali",
+    name: "@yei.apparel",
+    location: "",
     quote:
-      "Tengo piezas de hace un año que siguen intactas. Ahí se nota la calidad de la tela.",
-    video: "/videos/reel-3.mp4",
-    poster: testimonioIsabella,
+      "No tengo un set, tengo tres. La tela es rib, suavecita, no pica. Súper versátil y te saca de cualquier apuro.",
+    video: "/videos/reel-7.mp4",
+    poster: testimonioResena7,
   },
   {
-    name: "Daniela P.",
-    location: "Bogotá",
+    name: "@yei.apparel",
+    location: "",
     quote:
-      "Me encanta que sean series cortas: sé que no me voy a encontrar con alguien más en la misma prenda.",
-    video: "/videos/reel-4.mp4",
-    poster: testimonioDaniela,
+      "Encontré el set de uso diario perfecto. El color hermoso y la tela súper suave y fluida. Un 10 de 10.",
+    video: "/videos/reel-8.mp4",
+    poster: testimonioResena8,
   },
 ];
+
+function StarRating() {
+  return (
+    <div className="flex gap-0.5" aria-label="5 de 5 estrellas">
+      {Array.from({ length: 5 }, (_, i) => (
+        <Star key={i} className="h-3.5 w-3.5 fill-terracota text-terracota" />
+      ))}
+    </div>
+  );
+}
 
 /** Una tarjeta de testimonio, compartida entre el carrusel táctil
  * (celular/tablet) y la cinta que se arrastra con mouse (escritorio). */
@@ -750,7 +761,8 @@ function TestimonialCard({
       className={`notch-frame hover-lift flex h-64 w-[85vw] shrink-0 cursor-pointer overflow-hidden bg-nude text-left shadow-sm sm:h-72 sm:w-[480px] lg:h-80 lg:w-[560px] ${className}`}
     >
       <div className="flex w-1/2 flex-col justify-center p-5 sm:p-7">
-        <span className="font-display text-4xl leading-none text-terracota/50">
+        <StarRating />
+        <span className="mt-1 font-display text-4xl leading-none text-terracota/50">
           “
         </span>
         <p className="mt-1 text-sm leading-relaxed text-chocolate/85 font-light sm:text-base">
@@ -759,7 +771,11 @@ function TestimonialCard({
         <p className="mt-4 font-display text-lg text-chocolate font-medium">
           {t.name}
         </p>
-        <p className="text-xs text-chocolate/55 font-light">{t.location}</p>
+        {t.location && (
+          <p className="text-xs text-chocolate/55 font-light">
+            {t.location}
+          </p>
+        )}
       </div>
       <div className="group relative h-full w-1/2 shrink-0 bg-chocolate/10">
         {/* Miniatura estática (no video autoplay): con hasta 4
@@ -952,7 +968,8 @@ function TestimonialsSection() {
                 />
               </div>
               <div className="flex w-full flex-col items-center p-6 text-center lg:w-80 lg:items-start lg:justify-center lg:p-8 lg:text-left xl:w-96 xl:p-10">
-                <span className="font-display text-5xl leading-none text-terracota/60">
+                <StarRating />
+                <span className="mt-2 font-display text-5xl leading-none text-terracota/60">
                   “
                 </span>
                 <p className="mt-2 text-base leading-relaxed text-marfil/90 font-light lg:text-lg">
@@ -961,9 +978,11 @@ function TestimonialsSection() {
                 <p className="mt-5 font-display text-2xl text-marfil font-medium">
                   {activeTestimonial.name}
                 </p>
-                <p className="text-sm text-marfil/60 font-light">
-                  {activeTestimonial.location}
-                </p>
+                {activeTestimonial.location && (
+                  <p className="text-sm text-marfil/60 font-light">
+                    {activeTestimonial.location}
+                  </p>
+                )}
               </div>
               <button
                 type="button"
