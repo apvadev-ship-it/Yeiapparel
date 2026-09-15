@@ -201,10 +201,13 @@ export async function syncTikTokFeed(): Promise<TikTokSyncResult> {
       },
     );
     payload = (await response.json()) as TikTokVideoListResponse;
-    if (!response.ok || payload.error?.code) {
+    // TikTok siempre manda un objeto `error`, incluso cuando todo salió
+    // bien: en ese caso trae code "ok" y message vacío. Solo es un
+    // fallo real si el código es otra cosa.
+    if (!response.ok || (payload.error?.code && payload.error.code !== "ok")) {
       return {
         ok: false,
-        reason: payload.error?.message ?? `TikTok respondió ${response.status}.`,
+        reason: payload.error?.message || `TikTok respondió ${response.status}.`,
       };
     }
   } catch (err) {

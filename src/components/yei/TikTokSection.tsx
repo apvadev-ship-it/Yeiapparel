@@ -5,6 +5,7 @@ import look3 from "@/assets/look-3.jpg";
 import look4 from "@/assets/look-4.jpg";
 import look5 from "@/assets/look-5.jpg";
 import { Reveal } from "@/components/yei/Reveal";
+import { SocialPostModal } from "@/components/yei/SocialPostModal";
 import { supabase, isSupabaseConfigured, type TikTokPost } from "@/lib/supabase";
 
 // Mismo patrón que InstagramSection: mientras no haya datos reales en
@@ -54,6 +55,7 @@ export function TikTokSection() {
   const [posts, setPosts] = useState<TikTokPost[]>(DEFAULT_POSTS);
   const [likedPosts, setLikedPosts] = useState<Record<string, boolean>>({});
   const [likeCounts, setLikeCounts] = useState<Record<string, number>>({});
+  const [activePost, setActivePost] = useState<TikTokPost | null>(null);
 
   useEffect(() => {
     async function loadSupabaseData() {
@@ -116,11 +118,32 @@ export function TikTokSection() {
                 isLiked={likedPosts[post.id] ?? false}
                 likeCount={likeCounts[post.id] ?? post.likes_count}
                 onToggleLike={() => toggleLike(post.id, post.likes_count)}
+                onOpen={() => setActivePost(post)}
               />
             </Reveal>
           ))}
         </div>
       </div>
+
+      {/* Al tocar una publicación de la grilla, se amplía aquí mismo,
+          con el reproductor real de TikTok si hay video disponible. */}
+      <SocialPostModal
+        isOpen={activePost !== null}
+        onClose={() => setActivePost(null)}
+        media={
+          activePost
+            ? activePost.video_url
+              ? { kind: "iframe", src: activePost.video_url }
+              : { kind: "image", src: activePost.cover_url }
+            : null
+        }
+        caption={activePost?.caption ?? ""}
+        likesCount={activePost?.likes_count}
+        commentsCount={activePost?.comments_count}
+        externalUrl={activePost?.share_url ?? "https://www.tiktok.com/@yei.apparel"}
+        externalLabel="Ver en TikTok"
+        networkLabel="TIKTOK"
+      />
     </section>
   );
 }
@@ -130,15 +153,26 @@ function TikTokCard({
   isLiked,
   likeCount,
   onToggleLike,
+  onOpen,
 }: {
   post: TikTokPost;
   isLiked?: boolean;
   likeCount: number;
   onToggleLike: () => void;
+  onOpen: () => void;
 }) {
   return (
     <div className="notch-frame hover-lift bg-chocolate/15 p-[2px] shadow-xl h-full">
-      <div className="group relative notch-frame overflow-hidden bg-marfil h-full aspect-square">
+      <div
+        onClick={onOpen}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") onOpen();
+        }}
+        aria-label="Ampliar publicación"
+        className="group relative notch-frame overflow-hidden bg-marfil h-full aspect-square cursor-pointer"
+      >
         <img
           src={post.cover_url}
           alt={post.caption}
@@ -193,6 +227,7 @@ function TikTokCard({
               href={post.share_url ?? "https://www.tiktok.com/@yei.apparel"}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
               className="notch-frame-sm bg-terracota text-marfil px-2.5 py-1 text-[10px] tracking-wider hover:bg-terracota/90 transition-colors inline-flex items-center gap-1"
             >
               <span>Ver en TikTok</span>

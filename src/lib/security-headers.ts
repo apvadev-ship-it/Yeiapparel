@@ -41,6 +41,16 @@ const CLOUDFLARE_INSIGHTS = "https://static.cloudflareinsights.com";
 const MEDIA_HOSTS = [
   "https://imagedelivery.net",
   "https://grainy-gradients.vercel.app",
+  // Portadas de los videos de TikTok (instagram-sync.ts / tiktok-sync.ts):
+  // las URL firmadas que trae la API vienen de subdominios que cambian
+  // (p16-, p19-, ...), de ahí el comodín en vez de un host fijo.
+  "https://*.tiktokcdn.com",
+  "https://*.tiktokcdn-us.com",
+  "https://*.tiktokv.com",
+  // Publicaciones de Instagram: mismo motivo, el subdominio de scontent
+  // varía por región (scontent-bog1-1.cdninstagram.com, etc).
+  "https://*.cdninstagram.com",
+  "https://*.fbcdn.net",
 ];
 
 /**
@@ -98,8 +108,11 @@ function buildCsp(isDev: boolean): string {
     // El checkout por redirección envía un formulario a Wompi: sin este
     // destino, el pago deja de funcionar.
     "form-action": ["'self'", WOMPI_CHECKOUT],
-    // El widget de Wompi se abre como iframe encima de la página.
-    "frame-src": [WOMPI_CHECKOUT],
+    // El widget de Wompi se abre como iframe encima de la página. El
+    // reproductor de TikTok, igual: el modal de una publicación embebe
+    // el video real con el player oficial de TikTok (tiktok-sync.ts
+    // guarda esa URL como `video_url`).
+    "frame-src": [WOMPI_CHECKOUT, "https://www.tiktok.com"],
     "script-src": scriptSrc,
     "style-src": ["'self'", "'unsafe-inline'", GOOGLE_FONTS_CSS],
     "font-src": ["'self'", GOOGLE_FONTS_FILES, "data:"],

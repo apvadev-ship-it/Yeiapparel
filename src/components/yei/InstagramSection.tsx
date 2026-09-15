@@ -26,6 +26,7 @@ import defaultPost2 from "@/assets/instagram-defaults/post-2.webp";
 import defaultPost3 from "@/assets/instagram-defaults/post-3.webp";
 import defaultPost4 from "@/assets/productos-placeholder/look-e.webp";
 import { Reveal } from "@/components/yei/Reveal";
+import { SocialPostModal } from "@/components/yei/SocialPostModal";
 import {
   supabase,
   isSupabaseConfigured,
@@ -143,6 +144,7 @@ const DEFAULT_REEL: InstagramReel = {
 
 export function InstagramSection() {
   const [isReelOpen, setIsReelOpen] = useState(false);
+  const [activePost, setActivePost] = useState<InstagramPost | null>(null);
   const [posts, setPosts] = useState<InstagramPost[]>(DEFAULT_POSTS);
   const [reelData, setReelData] = useState<InstagramReel>(DEFAULT_REEL);
   const [likedPosts, setLikedPosts] = useState<Record<string, boolean>>({});
@@ -225,6 +227,7 @@ export function InstagramSection() {
                   isLiked={likedPosts[post.id]}
                   likeCount={likeCounts[post.id] ?? post.likes_count}
                   onToggleLike={() => toggleLike(post.id, post.likes_count)}
+                  onOpen={() => setActivePost(post)}
                 />
               </Reveal>
             ))}
@@ -238,6 +241,26 @@ export function InstagramSection() {
         reel={reelData}
         onClose={() => setIsReelOpen(false)}
       />
+
+      {/* Al tocar una publicación de la grilla, se amplía aquí mismo. */}
+      <SocialPostModal
+        isOpen={activePost !== null}
+        onClose={() => setActivePost(null)}
+        media={
+          activePost
+            ? {
+                kind: activePost.media_type === "VIDEO" ? "video" : "image",
+                src: activePost.image_url,
+              }
+            : null
+        }
+        caption={activePost?.caption ?? ""}
+        likesCount={activePost?.likes_count}
+        commentsCount={activePost?.comments_count}
+        externalUrl={activePost?.permalink ?? "https://instagram.com/yei.apparel"}
+        externalLabel="Ver en Instagram"
+        networkLabel="INSTAGRAM"
+      />
     </>
   );
 }
@@ -248,12 +271,14 @@ function InstagramImageCard({
   isLiked,
   likeCount,
   onToggleLike,
+  onOpen,
 }: {
   post: InstagramPost;
   isBig?: boolean;
   isLiked?: boolean;
   likeCount: number;
   onToggleLike: () => void;
+  onOpen: () => void;
 }) {
   const videoRef = useRef<HTMLDivElement>(null);
   const [videoInView, setVideoInView] = useState(false);
@@ -281,7 +306,14 @@ function InstagramImageCard({
     <div className="notch-frame hover-lift bg-chocolate/15 p-[2px] shadow-xl h-full">
       <div
         ref={videoRef}
-        className="group relative notch-frame overflow-hidden bg-marfil h-full aspect-square"
+        onClick={onOpen}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") onOpen();
+        }}
+        aria-label="Ampliar publicación"
+        className="group relative notch-frame overflow-hidden bg-marfil h-full aspect-square cursor-pointer"
       >
         {post.media_type === "VIDEO" ? (
           videoInView ? (
@@ -349,9 +381,10 @@ function InstagramImageCard({
             </div>
 
             <a
-              href="https://instagram.com/yei.apparel"
+              href={post.permalink ?? "https://instagram.com/yei.apparel"}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
               className="notch-frame-sm bg-terracota text-marfil px-2.5 py-1 text-[10px] tracking-wider hover:bg-terracota/90 transition-colors inline-flex items-center gap-1"
             >
               <span>Ver en IG</span>
