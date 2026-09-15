@@ -1174,6 +1174,29 @@ function NewsletterSection() {
   /** Aviso del servidor cuando el alta salió pero el correo no. */
   const [notice, setNotice] = useState<string | null>(null);
 
+  // El video de fondo pesa varios MB; con `autoPlay` el navegador lo
+  // descarga entero apenas se monta sin importar si esta sección (casi
+  // al final de la página) llega a verse — ignora `preload="metadata"`.
+  // Se monta el <video> recién cuando el contenedor se acerca al
+  // viewport, igual que se hizo con los videos del feed de Instagram.
+  const videoContainerRef = useRef<HTMLElement>(null);
+  const [videoInView, setVideoInView] = useState(false);
+
+  useEffect(() => {
+    if (!videoContainerRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setVideoInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "300px" },
+    );
+    observer.observe(videoContainerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) return;
@@ -1205,20 +1228,25 @@ function NewsletterSection() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-chocolate px-5 py-20 lg:px-10 lg:py-28">
+    <section
+      ref={videoContainerRef}
+      className="relative overflow-hidden bg-chocolate px-5 py-20 lg:px-10 lg:py-28"
+    >
       {/* Video de fondo, muy difuminado y tenue: da movimiento sin robar
           protagonismo al texto ni afectar su legibilidad. */}
-      <video
-        src={NEWSLETTER_BG_VIDEO}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        aria-hidden="true"
-        tabIndex={-1}
-        className="pointer-events-none absolute inset-0 h-full w-full scale-110 object-cover opacity-25 blur-2xl"
-      />
+      {videoInView && (
+        <video
+          src={NEWSLETTER_BG_VIDEO}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-hidden="true"
+          tabIndex={-1}
+          className="pointer-events-none absolute inset-0 h-full w-full scale-110 object-cover opacity-25 blur-2xl"
+        />
+      )}
       {/* Velo que mantiene el contraste del texto sobre el video */}
       <div
         aria-hidden="true"
