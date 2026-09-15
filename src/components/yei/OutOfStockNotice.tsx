@@ -25,7 +25,7 @@ export function OutOfStockNotice({
   onClose: () => void;
   productName: string;
   /** Si viene, el aviso es por ESTA talla puntual, no por todo el producto. */
-  size?: string;
+  size?: string | undefined;
 }) {
   const [email, setEmail] = useState("");
   const [sending, setSending] = useState(false);

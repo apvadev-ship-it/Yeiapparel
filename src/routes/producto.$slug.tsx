@@ -345,6 +345,20 @@ function ProductoDetalle() {
   };
 
   const [qty, setQty] = useState(1);
+
+  // Tope de unidades a pedir: las que de verdad hay de esta talla+color.
+  // `stock === null` (hoja caída o sin dato) no debe topar nada — ahí no
+  // hay número real con el que limitar, así que se deja el tope de
+  // siempre (20) en vez de inventar un límite.
+  const maxQty = typeof stock === "number" && stock > 0 ? stock : 20;
+
+  // Si la cantidad elegida queda por encima de lo que ya hay (se bajó el
+  // stock, o se cambió a una talla/color con menos unidades), se recorta
+  // sola: no debe quedar seleccionado un número que ya no se puede pedir.
+  useEffect(() => {
+    setQty((q) => Math.min(q, maxQty));
+  }, [maxQty]);
+
   const [added, setAdded] = useState(false);
   const [techOpen, setTechOpen] = useState(false);
   const [careOpen, setCareOpen] = useState(false);
@@ -523,8 +537,9 @@ function ProductoDetalle() {
                   <button
                     type="button"
                     aria-label="Agregar una unidad"
-                    onClick={() => setQty((q) => Math.min(20, q + 1))}
-                    className="notch-frame-sm grid h-10 w-10 place-items-center bg-chocolate/10 text-chocolate hover:bg-chocolate hover:text-marfil transition-colors cursor-pointer"
+                    disabled={qty >= maxQty}
+                    onClick={() => setQty((q) => Math.min(maxQty, q + 1))}
+                    className="notch-frame-sm grid h-10 w-10 place-items-center bg-chocolate/10 text-chocolate hover:bg-chocolate hover:text-marfil transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-chocolate/10 disabled:hover:text-chocolate"
                   >
                     <Plus className="h-3.5 w-3.5" />
                   </button>
