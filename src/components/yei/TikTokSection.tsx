@@ -101,9 +101,14 @@ export function TikTokSection() {
           <Reveal>
             <h2 className="font-display text-5xl leading-[0.95] text-chocolate sm:text-7xl lg:text-4xl font-medium">
               TikTok{" "}
-              <span className="italic text-terracota font-normal">
+              <a
+                href="https://www.tiktok.com/@yeiapparel"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="italic text-terracota font-normal hover:text-chocolate transition-colors"
+              >
                 @yei.apparel
-              </span>
+              </a>
             </h2>
           </Reveal>
         </div>
