@@ -810,6 +810,7 @@ function TestimonialsSection() {
   const [active, setActive] = useState<number | null>(null);
   const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const mobileTrackRef = useRef<HTMLDivElement>(null);
   const dragState = useRef({ startX: 0, scrollLeft: 0, dragged: false });
   const [isDragging, setIsDragging] = useState(false);
 
@@ -881,20 +882,31 @@ function TestimonialsSection() {
           <div className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-16 bg-gradient-to-r from-marfil to-transparent sm:w-32 lg:block" />
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden w-16 bg-gradient-to-l from-marfil to-transparent sm:w-32 lg:block" />
 
-          {/* Celular/tablet: carrusel deslizable con el dedo, sin la
-              animación automática — el scroll-snap nativo y la
-              animación en bucle (que mueve la pista con `transform`)
-              se pisaban entre sí, y por eso no se podía arrastrar con
-              el dedo. Aquí no hay repeticiones: alcanza con la lista
-              una vez. */}
-          <div className="flex w-full snap-x snap-mandatory gap-6 overflow-x-auto px-4 [scrollbar-width:none] sm:px-6 lg:hidden [&::-webkit-scrollbar]:hidden">
-            {TESTIMONIALS.map((t, i) => (
+          {/* Celular/tablet: se mueve sola con la misma animación de
+              `transform` que el escritorio (mover `scrollLeft` a mano
+              no sirve porque el scroll-snap nativo lo revierte de
+              inmediato). Al tocarla se apaga la animación y queda el
+              scroll táctil nativo con snap; retoma sola un rato después
+              de soltar. La pista se repite para que el salto al
+              reiniciar el bucle no se note. */}
+          <div
+            ref={mobileTrackRef}
+            onTouchStart={() => setPaused(true)}
+            onTouchEnd={pauseThenResume}
+            className={`flex w-max snap-x snap-mandatory gap-6 overflow-x-auto px-4 [scrollbar-width:none] sm:px-6 lg:hidden [&::-webkit-scrollbar]:hidden ${
+              paused ? "" : "animate-[yei-marquee_42s_linear_infinite]"
+            }`}
+          >
+            {track.map((t, i) => (
               <TestimonialCard
                 key={i}
                 t={t}
                 index={i}
                 className="snap-center"
-                onClick={() => setActive(i)}
+                onClick={() => {
+                  pauseThenResume();
+                  setActive(i % TESTIMONIALS.length);
+                }}
               />
             ))}
           </div>
