@@ -77,7 +77,7 @@ const DEFAULT_POSTS: InstagramPost[] = [
   },
   {
     id: "post-5",
-    image_url: "/videos/reel-1.mp4",
+    image_url: "/videos/reel-5.mp4",
     media_type: "VIDEO",
     caption:
       "Vestido midi en color tinta profunda con espalda descubierta y drapeado artesanal. Minimalismo absoluto.",
@@ -89,7 +89,7 @@ const DEFAULT_POSTS: InstagramPost[] = [
   },
   {
     id: "post-6",
-    image_url: "/videos/reel-2.mp4",
+    image_url: "/videos/reel-6.mp4",
     media_type: "VIDEO",
     caption:
       "Nueva Colección 2026. Elevando los estándares de la moda con piezas diseñadas para la eternidad.",
@@ -101,7 +101,7 @@ const DEFAULT_POSTS: InstagramPost[] = [
   },
   {
     id: "post-7",
-    image_url: "/videos/reel-3.mp4",
+    image_url: "/videos/reel-7.mp4",
     media_type: "VIDEO",
     caption:
       "Acabados a mano en satín pesado y costuras anatómicas pulidas al milímetro en nuestro atelier.",
@@ -113,7 +113,7 @@ const DEFAULT_POSTS: InstagramPost[] = [
   },
   {
     id: "post-8",
-    image_url: "/videos/reel-4.mp4",
+    image_url: "/videos/reel-8.mp4",
     media_type: "VIDEO",
     caption:
       "Únete a nuestro universo. Suscríbete para acceso anticipado a nuestras piezas de sastrería de autor.",

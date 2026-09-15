@@ -1157,7 +1157,7 @@ function Typewriter({
    que el cliente decidía su propio código de descuento. */
 
 /** Video de fondo de la sección del cupón (mismo material de la marca). */
-const NEWSLETTER_BG_VIDEO = "/videos/reel-1.mp4";
+const NEWSLETTER_BG_VIDEO = "/videos/reel-5.mp4";
 
 const TYPEWRITER_PHRASES: Phrase[] = [
   { prefix: "Todo lo ", accent: "único", suffix: "" },
