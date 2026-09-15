@@ -27,12 +27,8 @@ import defaultPost3 from "@/assets/instagram-defaults/post-3.webp";
 import defaultPost4 from "@/assets/productos-placeholder/look-e.webp";
 import { Reveal } from "@/components/yei/Reveal";
 import { SocialPostModal } from "@/components/yei/SocialPostModal";
-import {
-  supabase,
-  isSupabaseConfigured,
-  type InstagramPost,
-  type InstagramReel,
-} from "@/lib/supabase";
+import { getInstagramFeed } from "@/lib/social-feed";
+import type { InstagramPost, InstagramReel } from "@/lib/supabase";
 
 const DEFAULT_POSTS: InstagramPost[] = [
   {
@@ -150,37 +146,25 @@ export function InstagramSection() {
   const [likedPosts, setLikedPosts] = useState<Record<string, boolean>>({});
   const [likeCounts, setLikeCounts] = useState<Record<string, number>>({});
 
-  // Sincronización transparente con Supabase en tiempo real
+  // El feed real se lee en el servidor (ver social-feed.ts) y se pide
+  // aquí como cualquier función de servidor del proyecto. Si no hay
+  // datos aún (o falla), se queda con el set de ejemplo de arriba.
   useEffect(() => {
-    async function loadSupabaseData() {
-      if (!supabase || !isSupabaseConfigured) return;
+    let cancelled = false;
 
-      try {
-        const { data: postsData, error: postsError } = await supabase
-          .from("instagram_posts")
-          .select("*")
-          .order("created_at", { ascending: false })
-          .limit(6);
+    getInstagramFeed()
+      .then(({ posts: fetchedPosts, reel }) => {
+        if (cancelled) return;
+        if (fetchedPosts.length > 0) setPosts(fetchedPosts);
+        if (reel) setReelData(reel);
+      })
+      .catch((err) => {
+        console.warn("[instagram] no se pudo leer el feed:", err);
+      });
 
-        if (!postsError && postsData && postsData.length > 0) {
-          setPosts(postsData);
-        }
-
-        const { data: reelQuery, error: reelError } = await supabase
-          .from("instagram_reels")
-          .select("*")
-          .limit(1)
-          .maybeSingle();
-
-        if (!reelError && reelQuery) {
-          setReelData(reelQuery);
-        }
-      } catch (err) {
-        console.warn("Consulta Supabase:", err);
-      }
-    }
-
-    loadSupabaseData();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const toggleLike = (postId: string, currentLikes: number) => {

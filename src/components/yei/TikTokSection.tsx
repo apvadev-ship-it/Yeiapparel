@@ -6,7 +6,8 @@ import look4 from "@/assets/look-4.jpg";
 import look5 from "@/assets/look-5.jpg";
 import { Reveal } from "@/components/yei/Reveal";
 import { SocialPostModal } from "@/components/yei/SocialPostModal";
-import { supabase, isSupabaseConfigured, type TikTokPost } from "@/lib/supabase";
+import { getTikTokFeed } from "@/lib/social-feed";
+import type { TikTokPost } from "@/lib/supabase";
 
 // Mismo patrón que InstagramSection: mientras no haya datos reales en
 // Supabase (ver `src/lib/tiktok-sync.ts` y SOCIAL_FEEDS_SETUP.md), la
@@ -57,26 +58,23 @@ export function TikTokSection() {
   const [likeCounts, setLikeCounts] = useState<Record<string, number>>({});
   const [activePost, setActivePost] = useState<TikTokPost | null>(null);
 
+  // El feed real se lee en el servidor (ver social-feed.ts), igual que
+  // en InstagramSection. Si no hay datos aún (o falla), se queda con
+  // el set de ejemplo de arriba.
   useEffect(() => {
-    async function loadSupabaseData() {
-      if (!supabase || !isSupabaseConfigured) return;
+    let cancelled = false;
 
-      try {
-        const { data, error } = await supabase
-          .from("tiktok_posts")
-          .select("*")
-          .order("created_at", { ascending: false })
-          .limit(4);
+    getTikTokFeed()
+      .then(({ posts: fetchedPosts }) => {
+        if (!cancelled && fetchedPosts.length > 0) setPosts(fetchedPosts);
+      })
+      .catch((err) => {
+        console.warn("[tiktok] no se pudo leer el feed:", err);
+      });
 
-        if (!error && data && data.length > 0) {
-          setPosts(data);
-        }
-      } catch (err) {
-        console.warn("Consulta Supabase (tiktok):", err);
-      }
-    }
-
-    loadSupabaseData();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const toggleLike = (postId: string, currentLikes: number) => {
