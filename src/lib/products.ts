@@ -53,8 +53,8 @@ import madrilenoMarfil4 from "@/assets/productos/madrileno/madrileno-marfil-4.we
 import madrilenoMarfil5 from "@/assets/productos/madrileno/madrileno-marfil-5.webp";
 import madrilenoMarfil6 from "@/assets/productos/madrileno/madrileno-marfil-6.webp";
 import madrilenoMarfil7 from "@/assets/productos/madrileno/madrileno-marfil-7.webp";
-import breaBeige1 from "@/assets/productos/berea/berea-beige-1.png";
-import breaBeige2 from "@/assets/productos/berea/berea-beige-2.png";
+import breaBeige1 from "@/assets/productos/berea/berea-beige-1.jpg";
+import breaBeige2 from "@/assets/productos/berea/berea-beige-2.jpg";
 import bestiesMarfil1 from "@/assets/productos/besties/besties-marfil-1.jpg";
 import bestiesMarfil2 from "@/assets/productos/besties/besties-marfil-2.jpg";
 import bestiesNegro1 from "@/assets/productos/besties/besties-negro-1.jpg";
