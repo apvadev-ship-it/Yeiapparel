@@ -1050,7 +1050,7 @@ const FAQS = [
   },
   {
     q: "¿Puedo cambiar o devolver una prenda?",
-    a: "Sí. Tienes hasta 8 días calendario después de recibir tu pedido para solicitar un cambio de talla o una devolución, siempre que la prenda conserve sus etiquetas originales.",
+    a: "No hacemos cambios ni devoluciones por talla o gusto, ya que producimos en series limitadas. La excepción es si tu prenda llega con un error de fábrica: en ese caso te la cambiamos o devolvemos el dinero sin costo, avísanos por la página de contacto con fotos y el número de tu pedido.",
   },
   {
     q: "¿Por qué trabajan con series cortas y limitadas?",
