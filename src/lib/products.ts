@@ -53,6 +53,24 @@ import madrilenoMarfil4 from "@/assets/productos/madrileno/madrileno-marfil-4.we
 import madrilenoMarfil5 from "@/assets/productos/madrileno/madrileno-marfil-5.webp";
 import madrilenoMarfil6 from "@/assets/productos/madrileno/madrileno-marfil-6.webp";
 import madrilenoMarfil7 from "@/assets/productos/madrileno/madrileno-marfil-7.webp";
+import breaBeige1 from "@/assets/productos/berea/berea-beige-1.png";
+import breaBeige2 from "@/assets/productos/berea/berea-beige-2.png";
+import bestiesMarfil1 from "@/assets/productos/besties/besties-marfil-1.jpg";
+import bestiesMarfil2 from "@/assets/productos/besties/besties-marfil-2.jpg";
+import bestiesNegro1 from "@/assets/productos/besties/besties-negro-1.jpg";
+import comfyMarfil1 from "@/assets/productos/comfy/comfy-marfil-1.jpg";
+import comfyMarfil2 from "@/assets/productos/comfy/comfy-marfil-2.jpg";
+import comfyMarfil3 from "@/assets/productos/comfy/comfy-marfil-3.jpg";
+import comfyNegro1 from "@/assets/productos/comfy/comfy-negro-1.jpg";
+import comfyNegro2 from "@/assets/productos/comfy/comfy-negro-2.jpg";
+import comfyNegro3 from "@/assets/productos/comfy/comfy-negro-3.jpg";
+import comfyNegro4 from "@/assets/productos/comfy/comfy-negro-4.jpg";
+import emilianaBorgona1 from "@/assets/productos/emiliana/emiliana-borgona-1.jpg";
+import emilianaBeige1 from "@/assets/productos/emiliana/emiliana-beige-1.jpg";
+import emilianaNegro1 from "@/assets/productos/emiliana/emiliana-negro-1.jpg";
+import girlyBorgona1 from "@/assets/productos/girly/girly-borgona-1.jpg";
+import girlyNegro1 from "@/assets/productos/girly/girly-negro-1.jpg";
+import girlyNegro2 from "@/assets/productos/girly/girly-negro-2.jpg";
 
 export type ProductGroup = "sets" | "piezas-unicas";
 
@@ -201,6 +219,35 @@ const MADRILENO_BEIGE_IMAGES = [
   madrilenoBeige6,
 ];
 
+/** Fotos reales del set Berea en beige (único color con fotos por ahora). */
+const BEREA_BEIGE_IMAGES = [breaBeige1, breaBeige2];
+
+/** Fotos reales del set Besties en marfil. */
+const BESTIES_MARFIL_IMAGES = [bestiesMarfil1, bestiesMarfil2];
+
+/** Fotos reales del set Besties en negro (única foto por ahora). */
+const BESTIES_NEGRO_IMAGES = [bestiesNegro1];
+
+/** Fotos reales del set Comfy en marfil. */
+const COMFY_MARFIL_IMAGES = [comfyMarfil1, comfyMarfil2, comfyMarfil3];
+
+/** Fotos reales del set Comfy en negro. */
+const COMFY_NEGRO_IMAGES = [
+  comfyNegro1,
+  comfyNegro2,
+  comfyNegro3,
+  comfyNegro4,
+];
+
+/** Fotos reales del set Emiliana (única foto por color, por ahora). */
+const EMILIANA_BORGONA_IMAGES = [emilianaBorgona1];
+const EMILIANA_BEIGE_IMAGES = [emilianaBeige1];
+const EMILIANA_NEGRO_IMAGES = [emilianaNegro1];
+
+/** Fotos reales del set Girly. */
+const GIRLY_BORGONA_IMAGES = [girlyBorgona1];
+const GIRLY_NEGRO_IMAGES = [girlyNegro1, girlyNegro2];
+
 /** Fotos reales del set Madrileño en marfil. */
 const MADRILENO_MARFIL_IMAGES = [
   madrilenoMarfil4,
@@ -309,7 +356,13 @@ export const products: Product[] = [
     description:
       "Set de líneas suaves y silueta femenina. Disponible en negro, marfil, beige y borgoña.",
     sizes: ["XS", "S", "M", "L"],
-    colors: buildColors(2),
+    colors: buildColors(2).map((color) => {
+      if (color.name === "Negro")
+        return { ...color, images: GIRLY_NEGRO_IMAGES };
+      if (color.name === "Borgoña")
+        return { ...color, images: GIRLY_BORGONA_IMAGES };
+      return color;
+    }),
   },
   {
     slug: "emiliana",
@@ -322,7 +375,15 @@ export const products: Product[] = [
     description:
       "Set de corte limpio y caída fluida. Disponible en negro, marfil, beige y borgoña.",
     sizes: ["XS", "S", "M", "L"],
-    colors: buildColors(3),
+    colors: buildColors(3).map((color) => {
+      if (color.name === "Negro")
+        return { ...color, images: EMILIANA_NEGRO_IMAGES };
+      if (color.name === "Beige")
+        return { ...color, images: EMILIANA_BEIGE_IMAGES };
+      if (color.name === "Borgoña")
+        return { ...color, images: EMILIANA_BORGONA_IMAGES };
+      return color;
+    }),
   },
   {
     slug: "comfy",
@@ -335,7 +396,13 @@ export const products: Product[] = [
     description:
       "Set relajado sin perder estructura, para el día completo. Disponible en negro, marfil, beige y borgoña.",
     sizes: ["XS", "S", "M", "L"],
-    colors: buildColors(4),
+    colors: buildColors(4).map((color) => {
+      if (color.name === "Marfil")
+        return { ...color, images: COMFY_MARFIL_IMAGES };
+      if (color.name === "Negro")
+        return { ...color, images: COMFY_NEGRO_IMAGES };
+      return color;
+    }),
   },
   {
     slug: "besties",
@@ -348,7 +415,13 @@ export const products: Product[] = [
     description:
       "Set clásico de la casa, pensado para repetirse temporada tras temporada. Disponible en negro, marfil, beige y borgoña.",
     sizes: ["XS", "S", "M", "L"],
-    colors: buildColors(0),
+    colors: buildColors(0).map((color) => {
+      if (color.name === "Marfil")
+        return { ...color, images: BESTIES_MARFIL_IMAGES };
+      if (color.name === "Negro")
+        return { ...color, images: BESTIES_NEGRO_IMAGES };
+      return color;
+    }),
   },
   {
     slug: "berea",
@@ -359,9 +432,12 @@ export const products: Product[] = [
     price: 170000,
     alt: "Set Berea de la colección YEI",
     description:
-      "Set de textura envolvente y detalles de autor. Disponible en negro, marfil, beige y borgoña.",
+      "Set de textura envolvente y detalles de autor. Disponible en beige.",
     sizes: ["XS", "S", "M", "L"],
-    colors: buildColors(1),
+    colors: buildColorSubset(1, ["Beige"]).map((color) => ({
+      ...color,
+      images: BEREA_BEIGE_IMAGES,
+    })),
   },
   {
     slug: "blusa-nala",
