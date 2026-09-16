@@ -220,6 +220,13 @@ function Home() {
 
   return (
     <>
+      {/* Título real de la página para SEO: la portada visual dice "YEI"
+          como logotipo, no como frase, así que el H1 semántico va oculto
+          visualmente pero lo leen buscadores y lectores de pantalla. */}
+      <h1 className="sr-only">
+        YEI APPAREL — Moda femenina de elegancia contemporánea
+      </h1>
+
       {/* ============================================================
           SECCIÓN 1: HERO PORTADA (Animación de giro con scroll)
           ============================================================ */}
@@ -255,12 +262,12 @@ function Home() {
                 className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center px-4"
                 style={{ opacity: categoryTitleOpacity }}
               >
-                <h1 className="text-center font-display text-5xl leading-[0.95] text-chocolate drop-shadow-[0_2px_18px_rgba(232,218,209,0.9)] sm:text-7xl md:text-8xl lg:text-9xl font-medium">
+                <h2 className="text-center font-display text-5xl leading-[0.95] text-chocolate drop-shadow-[0_2px_18px_rgba(232,218,209,0.9)] sm:text-7xl md:text-8xl lg:text-9xl font-medium">
                   Comprar por{" "}
                   <span className="italic text-terracota font-normal block sm:inline">
                     categoría
                   </span>
-                </h1>
+                </h2>
               </div>
 
               {/* `w-[min(100%,64vh)]`: la tarjeta es 4/5, así que su alto
@@ -311,12 +318,12 @@ function Home() {
       ) : (
         <section className="relative bg-nude px-4 py-12 sm:px-6">
           <Reveal className="text-center">
-            <h1 className="font-display text-5xl sm:text-6xl md:text-7xl leading-[0.95] text-chocolate font-medium">
+            <h2 className="font-display text-5xl sm:text-6xl md:text-7xl leading-[0.95] text-chocolate font-medium">
               Comprar por{" "}
               <span className="italic text-terracota font-normal">
                 categoría
               </span>
-            </h1>
+            </h2>
           </Reveal>
 
           <div className="mt-7 grid grid-cols-2 gap-4">

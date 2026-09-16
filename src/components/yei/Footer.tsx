@@ -72,9 +72,13 @@ export function Footer() {
                   col.title === "Ayuda" ? "col-span-2 sm:col-span-1" : ""
                 }`}
               >
-                <h3 className="label-xs font-sans text-terracota-claro font-bold text-xs lg:text-sm">
+                {/* No es un encabezado real de contenido: es la misma
+                    etiqueta de navegación repetida en el pie de cada
+                    página, así que un `<p>` evita que rompa la jerarquía
+                    H1 → H2 → H3 en páginas que no tienen H2 propio. */}
+                <p className="label-xs font-sans text-terracota-claro font-bold text-xs lg:text-sm">
                   {col.title}
-                </h3>
+                </p>
                 <ul className="mt-6 space-y-4 text-sm lg:text-base text-nude/80 font-light">
                   {col.links.map((l) => {
                     const categoria =

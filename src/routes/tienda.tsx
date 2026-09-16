@@ -150,6 +150,11 @@ function Tienda() {
 
       <section className="px-5 pb-6 pt-10 lg:px-10 lg:pt-14">
         <div className="mx-auto max-w-[1500px]">
+          {/* Encabezado visualmente oculto: las tarjetas de producto usan
+              H3 para el nombre (ver ProductCard.tsx, se comparte con la
+              sección de destacados del inicio, que ya tiene su propio H2).
+              Sin este H2 aquí, esta página saltaba de H1 a H3 directo. */}
+          <h2 className="sr-only">Catálogo de productos</h2>
           <div className="flex justify-center gap-3">
             {TABS.map((tab) => (
               <button

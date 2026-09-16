@@ -532,9 +532,9 @@ function InstagramReelModal({
                       <p className="eyebrow text-terracota text-[11px] font-bold">
                         ✦ INSTAGRAM REEL · 2026 ✦
                       </p>
-                      <h4 className="font-display text-2xl font-medium text-marfil mt-1">
+                      <h3 className="font-display text-2xl font-medium text-marfil mt-1">
                         {reel.video_title}
-                      </h4>
+                      </h3>
                       <p className="text-xs text-nude/80 font-light mt-1 max-w-[280px]">
                         {reel.video_description}
                       </p>
