@@ -629,7 +629,7 @@ function EventsSection() {
               <img
                 src={s.src}
                 alt={s.alt}
-                loading={i < 2 ? "eager" : "lazy"}
+                loading="lazy"
                 className="absolute inset-0 h-full w-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-chocolate/85 via-chocolate/10 to-transparent" />
@@ -789,7 +789,7 @@ function TestimonialCard({
           src={t.poster}
           alt={`Testimonio en video de ${t.name}`}
           aria-hidden="true"
-          loading={index < 4 ? "eager" : "lazy"}
+          loading="lazy"
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 flex items-center justify-center bg-chocolate/0 transition-colors group-hover:bg-chocolate/20">

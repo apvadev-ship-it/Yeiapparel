@@ -17,6 +17,25 @@ const LAST_FRAME = 122;
 const SPEED = 1.6;
 const HOLD_MS = 1150;
 
+/**
+ * Agrupa rutas en la misma "sección" de navegación: el paso a paso de
+ * comprar (tienda -> producto -> pago -> confirmación) es un solo flujo,
+ * no un cambio de sección, así que no debe cortar con la cortinilla de
+ * marca en cada paso — solo al entrar o salir de ese flujo.
+ */
+function getSection(pathname: string): string {
+  if (
+    pathname.startsWith("/tienda") ||
+    pathname.startsWith("/producto") ||
+    pathname.startsWith("/finalizar-compra") ||
+    pathname.startsWith("/pedido")
+  ) {
+    return "tienda";
+  }
+  if (pathname === "/") return "inicio";
+  return pathname.split("/")[1] ?? "inicio";
+}
+
 export function PageTransition() {
   const location = useLocation();
   const [isChanging, setIsChanging] = useState(false);
@@ -24,6 +43,7 @@ export function PageTransition() {
   const boxRef = useRef<HTMLDivElement>(null);
   const animRef = useRef<AnimationItem | null>(null);
   const firstRender = useRef(true);
+  const prevSection = useRef(getSection(location.pathname));
 
   useEffect(() => {
     setCalm(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
@@ -33,8 +53,13 @@ export function PageTransition() {
     // La primera carga no es un cambio de página: no se interrumpe.
     if (firstRender.current) {
       firstRender.current = false;
+      prevSection.current = getSection(location.pathname);
       return;
     }
+
+    const section = getSection(location.pathname);
+    if (section === prevSection.current) return;
+    prevSection.current = section;
 
     setIsChanging(true);
     const timer = setTimeout(() => setIsChanging(false), calm ? 380 : HOLD_MS);
