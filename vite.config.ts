@@ -44,7 +44,15 @@ export default defineConfig(({ mode }) => {
       tailwindcss(),
       tsConfigPaths({ projects: ["./tsconfig.json"] }),
       // Redirige la entrada del servidor de TanStack Start a src/server.ts.
-      tanstackStart({ server: { entry: "server" } }),
+      // `inlineCss`: el CSS (21.8 KiB tras las optimizaciones de esta
+      // sesión) se embebe como <style> en el <head> en vez de un
+      // <link rel="stylesheet"> que bloquea el render con una solicitud
+      // de red aparte. Ya se probó antes con el CSS sin optimizar
+      // (~130 KiB) y empeoró el TBT sin ayudar al FCP; con este tamaño
+      // mucho menor vale la pena remedirlo.
+      tanstackStart({
+        server: { entry: "server", build: { inlineCss: true } },
+      }),
       nitro({ preset: "cloudflare-module" }),
       viteReact(),
     ],
