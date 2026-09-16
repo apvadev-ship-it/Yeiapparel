@@ -138,7 +138,6 @@ const ALLOWED_PATHS = new Set([
   "/",
   "/tienda",
   "/nueva-coleccion",
-  "/historia",
   "/contacto",
   ...products.map((p) => `/producto/${p.slug}`),
 ]);

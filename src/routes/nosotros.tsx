@@ -1,33 +1,32 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { ArrowRight, Scissors, Ruler, Package, Sparkle } from "lucide-react";
 import { Reveal } from "@/components/yei/Reveal";
 import { StarField } from "@/components/yei/StarField";
-import story from "@/assets/story.jpg";
-import look1 from "@/assets/look-1.jpg";
-import look2 from "@/assets/look-2.jpg";
-import look3 from "@/assets/look-3.jpg";
-import look4 from "@/assets/look-4.jpg";
-import look5 from "@/assets/look-5.jpg";
+import equipoProbando from "@/assets/equipo-probando.jpg";
+import rackNegras from "@/assets/rack-negras.jpg";
+import eligiendoTelas from "@/assets/eligiendo-telas.jpg";
+import muestrarioColores from "@/assets/muestrario-colores.jpg";
+import bodegaTelas from "@/assets/bodega-telas.jpg";
 
 export const Route = createFileRoute("/nosotros")({
   head: () => ({
     meta: [
-      { title: "Nosotros — Detrás de cada prenda YEI" },
+      { title: "Nosotros — La casa detrás de YEI" },
       {
         name: "description",
         content:
-          "Las manos, las horas y el oficio detrás de cada prenda de YEI Apparel. Así trabajamos: del boceto al empaque, paso a paso.",
+          "Una casa de moda pequeña, hecha con criterio: la tela se escoge a mano, cada pieza se prueba antes de venderse y nada sale del taller sin nuestra aprobación.",
       },
-      { property: "og:title", content: "Nosotros — Detrás de cada prenda YEI" },
+      { property: "og:title", content: "Nosotros — La casa detrás de YEI" },
       {
         property: "og:description",
         content:
-          "Las manos, las horas y el oficio detrás de cada prenda de YEI Apparel.",
+          "Una casa de moda pequeña, hecha con criterio: la tela se escoge a mano y cada pieza se prueba antes de venderse.",
       },
       { property: "og:url", content: "https://yeiapparel.co/nosotros" },
-      { property: "og:image", content: `https://yeiapparel.co${story}` },
-      { name: "twitter:image", content: `https://yeiapparel.co${story}` },
+      { property: "og:image", content: `https://yeiapparel.co${equipoProbando}` },
+      { name: "twitter:image", content: `https://yeiapparel.co${equipoProbando}` },
     ],
     links: [{ rel: "canonical", href: "https://yeiapparel.co/nosotros" }],
   }),
@@ -47,33 +46,23 @@ export const Route = createFileRoute("/nosotros")({
 const PROCESO = [
   {
     id: "idea",
-    titulo: "La idea",
-    resumen: "Boceto y elección de tela",
+    titulo: "La selección",
+    resumen: "Elegimos la tela con calma",
     duracion: "2 semanas",
     quien: "Diseño",
-    img: story,
+    img: eligiendoTelas,
     texto:
-      "Todo arranca con un dibujo a mano y la mesa llena de telas. Probamos caídas, comparamos gramajes y descartamos mucho más de lo que aprobamos. Una pieza solo pasa de aquí si resuelve algo que ya nos han pedido: un largo, un escote, una tela que no dé calor.",
+      "Todo empieza frente al proveedor, tocando y comparando telas una por una. No elegimos la que mejor se ve en foto, sino la que mejor cae puesta. Si no nos convence a nosotras primero, no llega a producción.",
   },
   {
-    id: "patron",
-    titulo: "El patrón",
-    resumen: "Patronaje y primera muestra",
+    id: "colores",
+    titulo: "El color",
+    resumen: "La paleta correcta, sin atajos",
     duracion: "5 días",
-    quien: "Patronaje",
-    img: look2,
+    quien: "Diseño",
+    img: muestrarioColores,
     texto:
-      "El boceto se convierte en moldes de papel, talla por talla. De ahí sale una primera muestra que nos probamos entre nosotras y sobre cuerpos distintos. Casi nunca queda bien a la primera: se corrige la sisa, se sube el tiro, se vuelve a coser.",
-  },
-  {
-    id: "corte",
-    titulo: "El corte",
-    resumen: "Trazo y corte del lote",
-    duracion: "1 día por lote",
-    quien: "Corte",
-    img: look3,
-    texto:
-      "Trazamos los moldes buscando que sobre la menor cantidad de tela posible. Cortamos por lotes pequeños, de veinte a cuarenta piezas, porque así podemos revisar cada capa y porque no queremos producir más de lo que se va a vender.",
+      "Con la tela ya decidida, viene la parte más fina: comparar decenas de tonos lado a lado hasta encontrar el que funciona sobre la prenda, no solo en el muestrario. Aquí también se descarta mucho más de lo que se aprueba.",
   },
   {
     id: "confeccion",
@@ -81,39 +70,31 @@ const PROCESO = [
     resumen: "Costura, pieza por pieza",
     duracion: "4 a 6 horas por prenda",
     quien: "Taller",
-    img: look1,
+    img: rackNegras,
     texto:
-      "Aquí está la mayor parte del trabajo. Cada prenda la arma una sola persona de principio a fin, no una cadena: quien pega la manga es quien remata el ruedo. Se tarda más, pero la costura sale pareja y sabemos exactamente quién hizo qué.",
+      "Cada prenda se cose de una en una, no en cadena de producción. Cuando el lote está listo, lo fotografiamos tal como sale del rack, sin retoques, para que veas exactamente lo que vas a recibir.",
   },
   {
-    id: "revision",
-    titulo: "La revisión",
-    resumen: "Control de calidad",
-    duracion: "15 minutos por prenda",
-    quien: "Calidad",
-    img: look4,
+    id: "prueba",
+    titulo: "El control",
+    resumen: "La probamos antes que tú",
+    duracion: "1 día",
+    quien: "Equipo",
+    img: equipoProbando,
     texto:
-      "Prenda por prenda: costuras, hilos sueltos, simetría, botones, que la etiqueta no raspe. Lo que no pasa se devuelve al taller o se queda fuera de la colección. Preferimos quedarnos cortos de inventario antes que mandar algo a medias.",
+      "Antes de subir una prenda a la tienda, la probamos sobre nuestro propio cuerpo. Así detectamos si algo aprieta, si un largo no funciona o si, simplemente, todavía no está a la altura de lo que queremos ofrecer.",
   },
   {
     id: "empaque",
-    titulo: "El empaque",
-    resumen: "Doblado, empacado y envío",
+    titulo: "El envío",
+    resumen: "Doblado, empacado y despachado",
     duracion: "El mismo día",
     quien: "Logística",
-    img: look5,
+    img: bodegaTelas,
     texto:
-      "Se dobla a mano, se envuelve y se despacha. Los pedidos que entran antes del mediodía salen ese mismo día. Si algo se retrasa, escribimos nosotros primero: preferimos avisar a que la clienta tenga que preguntar.",
+      "Se dobla a mano, se envuelve con cuidado y se despacha. Los pedidos que entran antes del mediodía salen ese mismo día. Si algo se retrasa, te escribimos nosotras primero: preferimos avisar a que tengas que preguntar.",
   },
 ] as const;
-
-/** Cifras del taller. Cámbialas por las reales antes de publicar. */
-const CIFRAS = [
-  { valor: 1240, sufijo: "", etiqueta: "Piezas confeccionadas" },
-  { valor: 5, sufijo: " h", etiqueta: "De trabajo por prenda" },
-  { valor: 4, sufijo: "", etiqueta: "Talleres aliados en Bogotá" },
-  { valor: 28, sufijo: "", etiqueta: "Ciudades a las que enviamos" },
-];
 
 /** El equipo. Reemplaza nombres y descripciones por los reales. */
 const EQUIPO = [
@@ -147,7 +128,7 @@ const EQUIPO = [
 const COMPROMISOS = [
   {
     icono: Scissors,
-    titulo: "Series cortas de verdad",
+    titulo: "Series limitadas",
     texto:
       "Entre veinte y cuarenta piezas por referencia. Cuando se agota, casi nunca vuelve en la misma tela.",
   },
@@ -159,32 +140,30 @@ const COMPROMISOS = [
   },
   {
     icono: Sparkle,
-    titulo: "Menos retal",
+    titulo: "Consumo consciente",
     texto:
-      "Trazamos buscando aprovechar la tela y lo que sobra se guarda para accesorios y muestras.",
+      "Trazamos buscando aprovechar cada centímetro de tela y lo que sobra se reserva para accesorios y muestras.",
   },
   {
     icono: Package,
-    titulo: "Precio sin teatro",
+    titulo: "Precio con criterio",
     texto:
-      "Sin precios inflados para luego tacharlos. Lo que ves es lo que cuesta hacerla y sostener el taller.",
+      "Sin precios inflados para luego tacharlos. Lo que ves es lo que cuesta hacer la prenda y sostener el taller.",
   },
 ];
 
 const GALERIA = [
-  { src: story, alt: "Mesa de trabajo del atelier YEI con telas y patrones" },
-  { src: look2, alt: "Prenda YEI en proceso sobre el maniquí" },
-  { src: look3, alt: "Detalle de costura de una pieza YEI" },
-  { src: look1, alt: "Pieza YEI terminada, lista para revisión" },
-  { src: look4, alt: "Control de calidad de una prenda YEI" },
-  { src: look5, alt: "Pedido YEI empacado a mano" },
+  { src: equipoProbando, alt: "El equipo de YEI probándose una prenda antes de subirla a la tienda" },
+  { src: eligiendoTelas, alt: "Eligiendo la tela con el proveedor" },
+  { src: muestrarioColores, alt: "Muestrario de colores para elegir la referencia" },
+  { src: rackNegras, alt: "Lote de prendas negras recién terminado, colgado en el rack" },
+  { src: bodegaTelas, alt: "Buscando telas en la bodega del proveedor" },
 ];
 
 function Nosotros() {
   return (
     <div className="bg-nude">
       <PortadaNosotros />
-      <Cifras />
       <ElOficio />
       <Equipo />
       <Manifiesto />
@@ -203,13 +182,10 @@ function PortadaNosotros() {
     <section className="relative overflow-hidden px-5 pb-16 pt-36 lg:px-10 lg:pb-24 lg:pt-48">
       <div className="mx-auto max-w-[1300px]">
         <Reveal>
-          <p className="eyebrow text-terracota text-xs lg:text-sm">
-            ✦ Quiénes somos ✦
-          </p>
-          <h1 className="mt-4 max-w-[16ch] font-display text-6xl leading-[0.92] text-chocolate font-medium lg:text-8xl xl:text-9xl">
-            Detrás de cada prenda hay{" "}
+          <h1 className="max-w-[16ch] font-display text-6xl leading-[0.92] text-chocolate font-medium lg:text-8xl xl:text-9xl">
+            Una casa de moda hecha con{" "}
             <span className="italic text-terracota font-normal">
-              manos, nombres y horas
+              criterio, no en serie
             </span>
           </h1>
         </Reveal>
@@ -218,8 +194,8 @@ function PortadaNosotros() {
           <Reveal delay={100}>
             <div className="notch-frame-lg hover-zoom relative aspect-[4/3] overflow-hidden bg-chocolate/10 shadow-2xl sm:aspect-[16/9] lg:aspect-[4/3]">
               <img
-                src={story}
-                alt="Mesa de trabajo del atelier de YEI Apparel en Bogotá"
+                src={equipoProbando}
+                alt="El equipo de YEI Apparel probando una prenda antes de subirla a la tienda"
                 width={1400}
                 height={1050}
                 fetchPriority="high"
@@ -232,14 +208,15 @@ function PortadaNosotros() {
           <Reveal delay={180}>
             <div className="space-y-6 text-base leading-relaxed text-chocolate/85 font-light lg:text-lg">
               <p>
-                YEI no es una fábrica ni una tienda que revende. Somos un taller
-                pequeño en Bogotá donde todavía se dibuja a mano, se prueba la
-                prenda en cuerpos reales y se cose de a una.
+                YEI es una casa de moda propia: elegimos cada tela a mano,
+                probamos la prenda sobre el cuerpo antes de sacarla a la venta
+                y cosemos pieza por pieza, nunca en cadena.
               </p>
               <p>
-                Esta página no es sobre la marca: es sobre el trabajo. Cuánto se
-                demora una pieza, quién la hace, qué se descarta y por qué a
-                veces algo no vuelve a estar disponible.
+                Así trabajamos: con tiempo, con criterio y con la disciplina
+                de saber cuándo algo todavía no está a la altura de llevar
+                nuestro nombre. Por eso una referencia, al agotarse, rara vez
+                vuelve a repetirse.
               </p>
               <p className="font-display text-2xl italic leading-snug text-chocolate lg:text-3xl">
                 «Si te vas a poner algo durante años, tienes derecho a saber
@@ -247,100 +224,6 @@ function PortadaNosotros() {
               </p>
             </div>
           </Reveal>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ============================================================
-   CIFRAS
-   ============================================================ */
-
-/**
- * Número que cuenta hacia arriba la primera vez que entra en pantalla.
- * Si el usuario pidió menos movimiento, muestra el valor final de una.
- */
-function Contador({ valor, sufijo }: { valor: number; sufijo: string }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const [n, setN] = useState(0);
-
-  useEffect(() => {
-    const nodo = ref.current;
-    if (!nodo) return;
-
-    const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let raf: number | null = null;
-    let respaldo: ReturnType<typeof setTimeout> | null = null;
-
-    const io = new IntersectionObserver(
-      ([entrada]) => {
-        if (!entrada?.isIntersecting) return;
-        io.disconnect();
-
-        if (calm) {
-          setN(valor);
-          return;
-        }
-
-        const duracion = 1400;
-        const inicio = performance.now();
-        const paso = (ahora: number) => {
-          const p = Math.min(1, (ahora - inicio) / duracion);
-          setN(Math.round(valor * (1 - Math.pow(1 - p, 3))));
-          if (p < 1) raf = requestAnimationFrame(paso);
-        };
-        raf = requestAnimationFrame(paso);
-
-        // El navegador congela rAF mientras no está pintando (pestaña de
-        // fondo, ventana minimizada). Sin este respaldo la cifra podría
-        // quedarse en cero al volver.
-        respaldo = setTimeout(() => setN(valor), duracion + 500);
-      },
-      { threshold: 0.4 },
-    );
-
-    io.observe(nodo);
-
-    return () => {
-      io.disconnect();
-      if (raf) cancelAnimationFrame(raf);
-      if (respaldo) clearTimeout(respaldo);
-    };
-  }, [valor]);
-
-  return (
-    <span ref={ref}>
-      {n.toLocaleString("es-CO")}
-      {sufijo}
-    </span>
-  );
-}
-
-function Cifras() {
-  return (
-    <section className="relative overflow-hidden bg-chocolate px-5 py-16 lg:px-10 lg:py-24">
-      <StarField />
-      <div className="relative mx-auto max-w-[1300px]">
-        <Reveal>
-          <p className="eyebrow text-center text-xs text-rosa-claro lg:text-sm">
-            ✦ El taller en cifras ✦
-          </p>
-        </Reveal>
-
-        <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-12 lg:mt-14 lg:grid-cols-4 lg:gap-8">
-          {CIFRAS.map((c, i) => (
-            <Reveal key={c.etiqueta} delay={i * 90}>
-              <div className="text-center">
-                <p className="font-display text-5xl leading-none text-marfil font-medium sm:text-6xl lg:text-7xl">
-                  <Contador valor={c.valor} sufijo={c.sufijo} />
-                </p>
-                <p className="mx-auto mt-4 max-w-[18ch] text-xs leading-relaxed text-nude/70 font-light sm:text-sm">
-                  {c.etiqueta}
-                </p>
-              </div>
-            </Reveal>
-          ))}
         </div>
       </div>
     </section>
@@ -362,15 +245,12 @@ function ElOficio() {
     <section className="bg-marfil px-5 py-16 lg:px-10 lg:py-24">
       <div className="mx-auto max-w-[1400px]">
         <Reveal>
-          <p className="eyebrow text-terracota text-xs lg:text-sm">
-            ✦ Cómo se hace ✦
-          </p>
-          <h2 className="mt-4 max-w-[18ch] font-display text-5xl leading-[0.95] text-chocolate font-medium sm:text-6xl lg:text-8xl">
-            De un dibujo a{" "}
+          <h2 className="max-w-[18ch] font-display text-5xl leading-[0.95] text-chocolate font-medium sm:text-6xl lg:text-8xl">
+            De la tela a{" "}
             <span className="italic text-terracota font-normal">tu puerta</span>
           </h2>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-chocolate/75 font-light lg:text-lg">
-            Seis pasos, ninguno automático. Estos son los tiempos reales que
+            Cinco pasos, ninguno automático. Estos son los tiempos reales que
             toma cada pieza antes de salir del taller.
           </p>
         </Reveal>
@@ -527,19 +407,15 @@ function Equipo() {
     <section className="bg-nude px-5 py-16 lg:px-10 lg:py-24">
       <div className="mx-auto max-w-[1300px]">
         <Reveal className="max-w-2xl">
-          <p className="eyebrow text-terracota text-xs lg:text-sm">
-            ✦ Las manos detrás ✦
-          </p>
-          <h2 className="mt-4 font-display text-5xl leading-[0.95] text-chocolate font-medium sm:text-6xl lg:text-8xl">
-            Somos{" "}
-            <span className="italic text-terracota font-normal">pocas</span>, y
-            eso se nota
+          <h2 className="font-display text-5xl leading-[0.95] text-chocolate font-medium sm:text-6xl lg:text-8xl">
+            Un equipo{" "}
+            <span className="italic text-terracota font-normal">pequeño</span>,
+            que cuida cada detalle
           </h2>
           <p className="mt-6 text-base leading-relaxed text-chocolate/75 font-light lg:text-lg">
-            Detrás de cada YEI hay mujeres, manos, sueños y trabajo. Personas
-            reales que ponen su talento, su tiempo y su experiencia en cada
-            detalle — mujeres que trabajan, sueñan, sostienen hogares y hacen
-            parte de esta historia.
+            Elegimos telas, probamos cada prenda antes de venderla y
+            corregimos lo que haga falta. Somos mujeres reales trabajando por
+            algo en lo que creemos, con las manos.
           </p>
           <p className="mt-4 text-base leading-relaxed text-chocolate/75 font-light lg:text-lg">
             No hay un centro de atención ni un departamento de nada. Cuando
@@ -632,10 +508,7 @@ function Compromisos() {
       <StarField />
       <div className="relative mx-auto max-w-[1300px]">
         <Reveal className="max-w-2xl">
-          <p className="eyebrow text-xs text-rosa-claro lg:text-sm">
-            ✦ En lo que sí creemos ✦
-          </p>
-          <h2 className="mt-4 font-display text-5xl leading-[0.95] text-marfil font-medium sm:text-6xl lg:text-8xl">
+          <h2 className="font-display text-5xl leading-[0.95] text-marfil font-medium sm:text-6xl lg:text-8xl">
             Cuatro reglas que no{" "}
             <span className="italic text-rosa-claro font-normal">
               negociamos
@@ -684,10 +557,7 @@ function Galeria() {
     <section className="bg-marfil py-16 lg:py-24">
       <div className="mx-auto max-w-[1300px] px-5 lg:px-10">
         <Reveal className="max-w-2xl">
-          <p className="eyebrow text-terracota text-xs lg:text-sm">
-            ✦ Un día en el atelier ✦
-          </p>
-          <h2 className="mt-4 font-display text-5xl leading-[0.95] text-chocolate font-medium sm:text-6xl lg:text-7xl">
+          <h2 className="font-display text-5xl leading-[0.95] text-chocolate font-medium sm:text-6xl lg:text-7xl">
             Así se ve{" "}
             <span className="italic text-terracota font-normal">
               por dentro
@@ -741,30 +611,15 @@ function CierreNosotros() {
         </Reveal>
 
         <Reveal delay={120}>
-          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Link
-              to="/contacto"
-              className="btn-yei notch-frame-sm w-full bg-chocolate text-marfil shadow-xl hover:bg-chocolate/90 sm:w-auto"
-            >
-              <span>Escríbenos</span>
-              <ArrowRight className="h-4 w-4 text-terracota" />
-            </Link>
+          <div className="mt-10 flex justify-center">
             <Link
               to="/tienda"
-              className="btn-yei notch-frame-sm w-full bg-terracota/15 text-chocolate hover:bg-terracota/25 sm:w-auto"
+              className="btn-yei notch-frame-sm w-full bg-chocolate text-marfil shadow-xl hover:bg-chocolate/90 sm:w-auto"
             >
               <span>Ver el catálogo</span>
+              <ArrowRight className="h-4 w-4 text-terracota" />
             </Link>
           </div>
-        </Reveal>
-
-        <Reveal delay={200}>
-          <Link
-            to="/historia"
-            className="link-underline mt-12 inline-block font-display text-2xl italic text-terracota transition-colors hover:text-chocolate lg:text-3xl"
-          >
-            Y así fue como empezó todo →
-          </Link>
         </Reveal>
       </div>
     </section>

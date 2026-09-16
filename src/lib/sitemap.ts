@@ -13,7 +13,6 @@ const STATIC_ROUTES = [
   { path: "/tienda", priority: "0.9" },
   { path: "/nueva-coleccion", priority: "0.8" },
   { path: "/nosotros", priority: "0.6" },
-  { path: "/historia", priority: "0.6" },
   { path: "/contacto", priority: "0.5" },
   { path: "/politicas-de-privacidad", priority: "0.3" },
 ];

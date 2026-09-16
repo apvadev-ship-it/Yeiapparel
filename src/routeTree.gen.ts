@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as FinalizarCompraRouteImport } from './routes/finalizar-compra'
-import { Route as HistoriaRouteImport } from './routes/historia'
 import { Route as NosotrosRouteImport } from './routes/nosotros'
 import { Route as NuevaColeccionRouteImport } from './routes/nueva-coleccion'
 import { Route as PedidoConfirmadoRouteImport } from './routes/pedido-confirmado'
@@ -34,11 +33,6 @@ const ContactoRoute = ContactoRouteImport.update({
 const FinalizarCompraRoute = FinalizarCompraRouteImport.update({
   id: '/finalizar-compra',
   path: '/finalizar-compra',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HistoriaRoute = HistoriaRouteImport.update({
-  id: '/historia',
-  path: '/historia',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NosotrosRoute = NosotrosRouteImport.update({
@@ -81,7 +75,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contacto': typeof ContactoRoute
   '/finalizar-compra': typeof FinalizarCompraRoute
-  '/historia': typeof HistoriaRoute
   '/nosotros': typeof NosotrosRoute
   '/nueva-coleccion': typeof NuevaColeccionRoute
   '/pedido-confirmado': typeof PedidoConfirmadoRoute
@@ -94,7 +87,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contacto': typeof ContactoRoute
   '/finalizar-compra': typeof FinalizarCompraRoute
-  '/historia': typeof HistoriaRoute
   '/nosotros': typeof NosotrosRoute
   '/nueva-coleccion': typeof NuevaColeccionRoute
   '/pedido-confirmado': typeof PedidoConfirmadoRoute
@@ -108,7 +100,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/contacto': typeof ContactoRoute
   '/finalizar-compra': typeof FinalizarCompraRoute
-  '/historia': typeof HistoriaRoute
   '/nosotros': typeof NosotrosRoute
   '/nueva-coleccion': typeof NuevaColeccionRoute
   '/pedido-confirmado': typeof PedidoConfirmadoRoute
@@ -123,7 +114,6 @@ export interface FileRouteTypes {
     | '/'
     | '/contacto'
     | '/finalizar-compra'
-    | '/historia'
     | '/nosotros'
     | '/nueva-coleccion'
     | '/pedido-confirmado'
@@ -136,7 +126,6 @@ export interface FileRouteTypes {
     | '/'
     | '/contacto'
     | '/finalizar-compra'
-    | '/historia'
     | '/nosotros'
     | '/nueva-coleccion'
     | '/pedido-confirmado'
@@ -149,7 +138,6 @@ export interface FileRouteTypes {
     | '/'
     | '/contacto'
     | '/finalizar-compra'
-    | '/historia'
     | '/nosotros'
     | '/nueva-coleccion'
     | '/pedido-confirmado'
@@ -163,7 +151,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContactoRoute: typeof ContactoRoute
   FinalizarCompraRoute: typeof FinalizarCompraRoute
-  HistoriaRoute: typeof HistoriaRoute
   NosotrosRoute: typeof NosotrosRoute
   NuevaColeccionRoute: typeof NuevaColeccionRoute
   PedidoConfirmadoRoute: typeof PedidoConfirmadoRoute
@@ -194,13 +181,6 @@ declare module '@tanstack/react-router' {
       path: '/finalizar-compra'
       fullPath: '/finalizar-compra'
       preLoaderRoute: typeof FinalizarCompraRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/historia': {
-      id: '/historia'
-      path: '/historia'
-      fullPath: '/historia'
-      preLoaderRoute: typeof HistoriaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/nosotros': {
@@ -259,7 +239,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContactoRoute: ContactoRoute,
   FinalizarCompraRoute: FinalizarCompraRoute,
-  HistoriaRoute: HistoriaRoute,
   NosotrosRoute: NosotrosRoute,
   NuevaColeccionRoute: NuevaColeccionRoute,
   PedidoConfirmadoRoute: PedidoConfirmadoRoute,

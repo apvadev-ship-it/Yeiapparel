@@ -21,7 +21,7 @@ const columns = [
   },
   {
     title: "Marca",
-    links: ["Nosotros", "Nuestra historia"],
+    links: ["Nosotros"],
   },
   {
     title: "Ayuda",
@@ -89,7 +89,6 @@ export function Footer() {
                       "Políticas de privacidad": "/politicas-de-privacidad",
                       "Última colección": "/nueva-coleccion",
                       Nosotros: "/nosotros",
-                      "Nuestra historia": "/historia",
                     };
                     const hashMap: Record<string, string> = {
                       "Términos y condiciones": "politica-4",
