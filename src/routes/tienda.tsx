@@ -1,7 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { products, heroImage, type ProductGroup } from "@/lib/products";
+import {
+  products,
+  heroImage,
+  heroImageMobile,
+  type ProductGroup,
+} from "@/lib/products";
 import { ProductCard } from "@/components/yei/ProductCard";
 import { Reveal } from "@/components/yei/Reveal";
 
@@ -117,6 +122,8 @@ function Tienda() {
       <section className="relative flex h-[50vh] flex-col items-center justify-center overflow-hidden bg-chocolate lg:h-[92vh]">
         <img
           src={heroImage}
+          srcSet={`${heroImageMobile} 960w, ${heroImage} 2000w`}
+          sizes="100vw"
           alt="Campaña YEI APPAREL, colección 2026"
           aria-hidden="true"
           fetchPriority="high"

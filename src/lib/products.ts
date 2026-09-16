@@ -1,4 +1,5 @@
 import heroNewCollection from "@/assets/hero-new-collection.webp";
+import heroNewCollectionMobile from "@/assets/hero-new-collection-mobile.webp";
 import lookA from "@/assets/productos-placeholder/look-a.webp";
 import lookB from "@/assets/productos-placeholder/look-b.webp";
 import lookC from "@/assets/productos-placeholder/look-c.webp";
@@ -494,6 +495,10 @@ export const products: Product[] = [
 ];
 
 export const heroImage = heroNewCollection;
+// Variante liviana (960px) para el `srcset` del hero en móvil: es el
+// elemento LCP en "/" y "/tienda", y el archivo completo (2000px) pesa
+// 3.5x más de lo que un celular necesita mostrar.
+export const heroImageMobile = heroNewCollectionMobile;
 
 export const getProduct = (slug: string) =>
   products.find((p) => p.slug === slug);

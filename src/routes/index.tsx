@@ -31,6 +31,7 @@ import setLook from "@/assets/categorias/sets.webp";
 import piezaUnicaLook from "@/assets/categorias/piezas-unicas.webp";
 import {
   heroImage,
+  heroImageMobile,
   products,
   type ProductGroup,
   pickFeaturedProducts,
@@ -224,6 +225,7 @@ function Home() {
           ============================================================ */}
       <HeroSpin
         centerSrc={heroImage}
+        centerSrcMobile={heroImageMobile}
         centerAlt="Campaña YEI New Collection 2026"
         sideImages={[
           { src: look1, alt: "Nala — Vestido de noche YEI", position: "left" },

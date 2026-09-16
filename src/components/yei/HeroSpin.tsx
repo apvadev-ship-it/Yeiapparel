@@ -11,10 +11,12 @@ interface SideImage {
 
 export function HeroSpin({
   centerSrc,
+  centerSrcMobile,
   centerAlt,
   sideImages,
 }: {
   centerSrc: string;
+  centerSrcMobile?: string;
   centerAlt: string;
   sideImages: SideImage[];
 }) {
@@ -209,6 +211,12 @@ export function HeroSpin({
               >
                 <motion.img
                   src={centerSrc}
+                  srcSet={
+                    centerSrcMobile
+                      ? `${centerSrcMobile} 960w, ${centerSrc} 2000w`
+                      : undefined
+                  }
+                  sizes="100vw"
                   alt={centerAlt}
                   fetchPriority="high"
                   decoding="async"
