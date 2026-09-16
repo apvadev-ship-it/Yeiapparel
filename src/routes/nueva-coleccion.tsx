@@ -41,7 +41,7 @@ function NuevaColeccion() {
   return (
     <section
       data-cursor="light"
-      className="relative min-h-screen overflow-hidden bg-rosa px-5 py-28 lg:px-10 lg:py-36"
+      className="relative min-h-screen overflow-hidden bg-terracota px-5 py-28 lg:px-10 lg:py-36"
     >
       {/* Imagen de fondo, muy atenuada para no competir con el contador */}
       <img
@@ -52,25 +52,21 @@ function NuevaColeccion() {
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-32 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-rosa-claro/20 blur-3xl"
+        className="pointer-events-none absolute -top-32 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-terracota-claro/20 blur-3xl"
       />
 
       <div className="relative mx-auto flex max-w-3xl flex-col items-center text-center">
         <Reveal>
-          <p className="label-xs text-rosa-claro">Próximo lanzamiento</p>
-        </Reveal>
-
-        <Reveal>
           <h1 className="mt-6 font-display text-5xl leading-[0.95] text-marfil sm:text-7xl lg:text-8xl font-medium">
             Falta poco para la{" "}
-            <span className="italic text-rosa-claro font-normal">
+            <span className="italic text-terracota-claro font-normal">
               nueva colección
             </span>
           </h1>
         </Reveal>
 
         <Reveal>
-          <p className="mt-7 max-w-md text-sm leading-relaxed text-nude/75 font-light lg:text-base">
+          <p className="mt-7 max-w-2xl text-lg leading-relaxed text-nude/75 font-light lg:text-3xl">
             Estamos terminando las últimas piezas en nuestro atelier de Bogotá.
             La colección se abre el {fechaLarga}.
           </p>
@@ -85,7 +81,7 @@ function NuevaColeccion() {
               </p>
               <Link
                 to="/tienda"
-                className="btn-yei notch-frame-sm bg-marfil text-rosa hover:bg-marfil/90 px-9 py-4 text-xs font-medium"
+                className="btn-yei notch-frame-sm bg-marfil text-terracota hover:bg-marfil/90 px-9 py-4 text-xs font-medium"
               >
                 <span>Ver la colección</span>
                 <ArrowRight className="h-4 w-4" />
@@ -117,9 +113,10 @@ function NuevaColeccion() {
           <Reveal>
             <Link
               to="/tienda"
-              className="link-underline mt-12 inline-block text-xs uppercase tracking-[0.28em] text-nude/70 hover:text-marfil transition-colors"
+              className="btn-yei notch-frame-sm mt-14 bg-marfil text-terracota hover:bg-marfil/90 px-9 py-4 text-sm font-medium lg:text-base"
             >
-              Mientras tanto, ver la tienda
+              <span>Mientras tanto, ver la tienda</span>
+              <ArrowRight className="h-4 w-4" />
             </Link>
           </Reveal>
         )}
