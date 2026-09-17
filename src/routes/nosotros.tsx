@@ -271,7 +271,7 @@ function ElOficio() {
                         esActivo ? "text-terracota" : "text-chocolate"
                       } hover:text-terracota`}
                     >
-                      <span className="font-mono text-xs tracking-[0.2em] opacity-90">
+                      <span className="font-mono text-xs tracking-[0.2em] text-[#6e3a30]">
                         {String(i + 1).padStart(2, "0")}
                       </span>
                       <span className="min-w-0 flex-1">
@@ -318,7 +318,7 @@ function ElOficio() {
                 <span className="notch-frame-sm bg-chocolate px-4 py-2 text-[11px] font-semibold tracking-[0.22em] text-marfil uppercase">
                   {paso.duracion}
                 </span>
-                <span className="notch-frame-sm bg-terracota/25 px-4 py-2 text-[11px] font-semibold tracking-[0.22em] text-terracota uppercase">
+                <span className="notch-frame-sm bg-terracota/25 px-4 py-2 text-[11px] font-semibold tracking-[0.22em] text-chocolate uppercase">
                   {paso.quien}
                 </span>
               </div>
@@ -344,7 +344,7 @@ function ElOficio() {
                     abierto ? "text-terracota" : "text-chocolate"
                   }`}
                 >
-                  <span className="font-mono text-xs tracking-[0.2em] opacity-90">
+                  <span className="font-mono text-xs tracking-[0.2em] text-[#6e3a30]">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <span className="min-w-0 flex-1">
@@ -380,7 +380,7 @@ function ElOficio() {
                         <span className="notch-frame-sm bg-chocolate px-3.5 py-1.5 text-[10px] font-semibold tracking-[0.2em] text-marfil uppercase">
                           {p.duracion}
                         </span>
-                        <span className="notch-frame-sm bg-terracota/25 px-3.5 py-1.5 text-[10px] font-semibold tracking-[0.2em] text-terracota uppercase">
+                        <span className="notch-frame-sm bg-terracota/25 px-3.5 py-1.5 text-[10px] font-semibold tracking-[0.2em] text-chocolate uppercase">
                           {p.quien}
                         </span>
                       </div>
