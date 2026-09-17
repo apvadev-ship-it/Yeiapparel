@@ -114,7 +114,13 @@ export function Header() {
                 <div className="flex items-center justify-center gap-2 sm:gap-6 lg:gap-9">
                   <Link
                     to="/nueva-coleccion"
-                    className="link-underline -mr-[0.12em] sm:-mr-[0.2em] text-[11px] sm:text-xs lg:text-sm tracking-[0.12em] sm:tracking-[0.2em] uppercase font-semibold text-terracota hover:text-chocolate transition-colors"
+                    // `text-terracota` mide 4.78:1 sobre el fondo marfil
+                    // del header — pasa por poco, y con el antialiasing
+                    // real del texto Lighthouse lo sigue marcando por
+                    // debajo del mínimo. Un terracota más oscuro que solo
+                    // se usa aquí (6.66:1) resuelve el margen sin tocar
+                    // el terracota de marca en el resto del sitio.
+                    className="link-underline -mr-[0.12em] sm:-mr-[0.2em] text-[11px] sm:text-xs lg:text-sm tracking-[0.12em] sm:tracking-[0.2em] uppercase font-semibold text-[#6e3a30] hover:text-chocolate transition-colors"
                   >
                     Lo nuevo
                   </Link>
