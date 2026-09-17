@@ -123,8 +123,11 @@ function buildCsp(isDev: boolean): string {
     "script-src": scriptSrc,
     "style-src": ["'self'", "'unsafe-inline'", GOOGLE_FONTS_CSS],
     "font-src": ["'self'", GOOGLE_FONTS_FILES, "data:"],
-    "img-src": ["'self'", "data:", "blob:", ...MEDIA_HOSTS],
-    "media-src": ["'self'", "data:", "blob:", ...MEDIA_HOSTS],
+    // El propio Supabase (Storage): ahí es donde tiktok-sync.ts guarda
+    // su copia de cada portada de TikTok (ver COVERS_BUCKET), para que
+    // no dependan de la URL firmada y con vencimiento que da TikTok.
+    "img-src": ["'self'", "data:", "blob:", ...MEDIA_HOSTS, ...(supabase ? [supabase] : [])],
+    "media-src": ["'self'", "data:", "blob:", ...MEDIA_HOSTS, ...(supabase ? [supabase] : [])],
     "connect-src": connectSrc,
     // En producción, cualquier recurso pedido por http se sube a https.
     "upgrade-insecure-requests": isDev ? null : [],
