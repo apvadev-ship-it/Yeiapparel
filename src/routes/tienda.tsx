@@ -152,11 +152,11 @@ function Tienda() {
             className="font-display text-[3.6rem] font-medium leading-[0.95] text-marfil sm:text-[5.4rem] lg:text-[9.6rem]"
           />
           <span className="-mt-2 flex items-center gap-3 font-display text-[3.6rem] italic tracking-[0.1em] text-marfil/80 sm:-mt-3 sm:gap-4 sm:text-[5.4rem] lg:mt-0 lg:gap-6 lg:text-[9.6rem]">
-            <span className="text-[1.8rem] text-[var(--terracota-claro)] sm:text-[2.25rem] lg:text-[3.6rem]">
+            <span className="text-[1.8rem] text-[var(--marfil)] sm:text-[2.25rem] lg:text-[3.6rem]">
               ✦
             </span>
             2026
-            <span className="text-[1.8rem] text-[var(--terracota-claro)] sm:text-[2.25rem] lg:text-[3.6rem]">
+            <span className="text-[1.8rem] text-[var(--marfil)] sm:text-[2.25rem] lg:text-[3.6rem]">
               ✦
             </span>
           </span>

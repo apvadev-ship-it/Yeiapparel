@@ -120,14 +120,10 @@ function PoliticasLegales() {
       {/* Portada */}
       <section className="relative overflow-hidden bg-chocolate px-5 pb-16 pt-36 lg:px-10 lg:pb-20 lg:pt-48">
         <div className="mx-auto max-w-[900px]">
-          {/* `terracota-claro`, no `terracota`: sobre este fondo oscuro
-              (bg-chocolate) el tono normal no llega al contraste mínimo
-              (2.3:1 medido; hace falta 4.5:1) — el claro es la variante
-              que ya existe en el sistema justo para esto. */}
-          <p className="label-xs text-terracota-claro">YEI Apparel</p>
+          <p className="label-xs text-marfil">YEI Apparel</p>
           <h1 className="mt-5 font-display text-5xl leading-[0.95] text-marfil sm:text-6xl lg:text-7xl font-medium">
             Políticas{" "}
-            <span className="italic text-terracota-claro font-normal">
+            <span className="italic text-marfil font-normal">
               legales
             </span>
           </h1>

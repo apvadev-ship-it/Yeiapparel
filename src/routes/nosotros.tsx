@@ -277,7 +277,7 @@ function ElOficio() {
                         esActivo ? "text-terracota" : "text-chocolate"
                       } hover:text-terracota`}
                     >
-                      <span className="font-mono text-xs tracking-[0.2em] text-[#6e3a30]">
+                      <span className="font-mono text-xs tracking-[0.2em] text-terracota">
                         {String(i + 1).padStart(2, "0")}
                       </span>
                       <span className="min-w-0 flex-1">
@@ -350,7 +350,7 @@ function ElOficio() {
                     abierto ? "text-terracota" : "text-chocolate"
                   }`}
                 >
-                  <span className="font-mono text-xs tracking-[0.2em] text-[#6e3a30]">
+                  <span className="font-mono text-xs tracking-[0.2em] text-terracota">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <span className="min-w-0 flex-1">
@@ -516,7 +516,7 @@ function Compromisos() {
         <Reveal className="max-w-2xl">
           <h2 className="font-display text-5xl leading-[0.95] text-marfil font-medium sm:text-6xl lg:text-8xl">
             Cuatro reglas que no{" "}
-            <span className="italic text-rosa-claro font-normal">
+            <span className="italic text-marfil font-normal">
               negociamos
             </span>
           </h2>
@@ -533,7 +533,7 @@ function Compromisos() {
                     className="notch-frame-sm grid h-12 w-12 shrink-0 place-items-center bg-terracota/20"
                   >
                     <Icono
-                      className="h-5 w-5 text-rosa-claro"
+                      className="h-5 w-5 text-marfil"
                       strokeWidth={1.6}
                     />
                   </span>

@@ -212,7 +212,7 @@ function TikTokCard({
             {post.caption}
           </p>
 
-          <div className="mt-3 flex items-center justify-between border-t border-terracota-claro/40 pt-3 text-[11px] font-mono">
+          <div className="mt-3 flex items-center justify-between border-t border-terracota/40 pt-3 text-[11px] font-mono">
             <div className="flex items-center gap-4">
               <span className="inline-flex items-center gap-1 text-marfil font-bold">
                 <Heart className="h-3.5 w-3.5 fill-marfil" />

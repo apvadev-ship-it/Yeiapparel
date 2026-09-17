@@ -124,9 +124,7 @@ export function CustomCursor() {
 
   // Sobre fondos oscuros la estrella se aclara para no perderse.
   const starColor = onDark
-    ? hovering
-      ? "var(--terracota-claro)"
-      : "var(--marfil)"
+    ? "var(--marfil)"
     : hovering
       ? "var(--terracota)"
       : "var(--chocolate)";

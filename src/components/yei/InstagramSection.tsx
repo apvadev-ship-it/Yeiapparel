@@ -355,7 +355,7 @@ function InstagramImageCard({
             {post.caption}
           </p>
 
-          <div className="mt-3 flex items-center justify-between border-t border-terracota-claro/40 pt-3 text-[11px] font-mono">
+          <div className="mt-3 flex items-center justify-between border-t border-terracota/40 pt-3 text-[11px] font-mono">
             <div className="flex items-center gap-4">
               <span className="inline-flex items-center gap-1 text-marfil font-bold">
                 <Heart className="h-3.5 w-3.5 fill-marfil" />
@@ -436,7 +436,7 @@ function InstagramReelModal({
               className="pointer-events-auto relative w-full max-w-md overflow-hidden notch-frame bg-chocolate text-marfil shadow-2xl"
             >
               {/* Header del modal */}
-              <div className="relative z-10 flex items-center justify-between px-5 py-4 border-b border-terracota-claro/30 bg-chocolate/90 backdrop-blur-sm">
+              <div className="relative z-10 flex items-center justify-between px-5 py-4 border-b border-terracota/30 bg-chocolate/90 backdrop-blur-sm">
                 <div className="flex items-center gap-2.5">
                   <Instagram className="h-4 w-4 text-terracota" />
                   <span className="font-mono text-xs tracking-widest text-marfil font-bold">
@@ -469,7 +469,7 @@ function InstagramReelModal({
                     type="button"
                     onClick={() => setIsMuted(!isMuted)}
                     aria-label={isMuted ? "Activar audio" : "Silenciar"}
-                    className="grid h-10 w-10 place-items-center rounded-full bg-chocolate/70 backdrop-blur-md text-marfil hover:bg-chocolate transition-colors border border-terracota-claro/40 cursor-pointer"
+                    className="grid h-10 w-10 place-items-center rounded-full bg-chocolate/70 backdrop-blur-md text-marfil hover:bg-chocolate transition-colors border border-terracota/40 cursor-pointer"
                   >
                     {isMuted ? (
                       <VolumeX className="h-4 w-4" />
@@ -482,7 +482,7 @@ function InstagramReelModal({
                     type="button"
                     onClick={() => setIsPlaying(!isPlaying)}
                     aria-label={isPlaying ? "Pausar" : "Reproducir"}
-                    className="grid h-10 w-10 place-items-center rounded-full bg-chocolate/70 backdrop-blur-md text-marfil hover:bg-chocolate transition-colors border border-terracota-claro/40 cursor-pointer"
+                    className="grid h-10 w-10 place-items-center rounded-full bg-chocolate/70 backdrop-blur-md text-marfil hover:bg-chocolate transition-colors border border-terracota/40 cursor-pointer"
                   >
                     {isPlaying ? (
                       <Pause className="h-4 w-4" />
@@ -500,7 +500,7 @@ function InstagramReelModal({
                     className={`notch-frame-sm px-3 py-1 text-xs font-semibold tracking-wider transition-all cursor-pointer ${
                       activeTab === "look"
                         ? "bg-terracota text-marfil"
-                        : "bg-chocolate/80 text-nude border border-terracota-claro/40"
+                        : "bg-chocolate/80 text-nude border border-terracota/40"
                     }`}
                   >
                     Silueta
@@ -511,7 +511,7 @@ function InstagramReelModal({
                     className={`notch-frame-sm px-3 py-1 text-xs font-semibold tracking-wider transition-all cursor-pointer ${
                       activeTab === "detalles"
                         ? "bg-terracota text-marfil"
-                        : "bg-chocolate/80 text-nude border border-terracota-claro/40"
+                        : "bg-chocolate/80 text-nude border border-terracota/40"
                     }`}
                   >
                     Textura
@@ -541,7 +541,7 @@ function InstagramReelModal({
                     </div>
                   </div>
 
-                  <div className="mt-4 pt-3 border-t border-terracota-claro/35 flex items-center justify-between">
+                  <div className="mt-4 pt-3 border-t border-terracota/35 flex items-center justify-between">
                     <a
                       href="https://instagram.com/yei.apparel"
                       target="_blank"

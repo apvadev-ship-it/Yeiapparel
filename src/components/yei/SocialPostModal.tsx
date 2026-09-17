@@ -66,7 +66,7 @@ export function SocialPostModal({
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
               className="pointer-events-auto relative flex h-[100dvh] w-full max-w-full flex-col overflow-hidden bg-chocolate text-marfil shadow-2xl sm:h-auto sm:max-h-[92dvh] sm:max-w-sm sm:notch-frame"
             >
-              <div className="relative z-10 flex shrink-0 items-center justify-between px-4 py-3 sm:px-5 sm:py-4 border-b border-terracota-claro/30 bg-chocolate/90 backdrop-blur-sm">
+              <div className="relative z-10 flex shrink-0 items-center justify-between px-4 py-3 sm:px-5 sm:py-4 border-b border-terracota/30 bg-chocolate/90 backdrop-blur-sm">
                 <span className="font-mono text-xs tracking-widest text-marfil font-bold">
                   {networkLabel} · YEI APPAREL
                 </span>
@@ -124,7 +124,7 @@ export function SocialPostModal({
                     </p>
                   )}
 
-                  <div className="mt-3 pt-3 border-t border-terracota-claro/30 flex items-center justify-between">
+                  <div className="mt-3 pt-3 border-t border-terracota/30 flex items-center justify-between">
                     <div className="flex items-center gap-4 text-[11px] font-mono">
                       {likesCount !== undefined && (
                         <span className="inline-flex items-center gap-1 text-marfil font-bold">

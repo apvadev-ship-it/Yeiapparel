@@ -37,7 +37,7 @@ export function StarField({
           key={i}
           fill="currentColor"
           strokeWidth={0}
-          className="absolute text-rosa-claro"
+          className="absolute text-marfil"
           style={{
             top: s.top,
             left: s.left,

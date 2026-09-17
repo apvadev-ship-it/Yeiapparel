@@ -1169,13 +1169,13 @@ function Typewriter({
     <span ref={hostRef} className={className}>
       <span aria-hidden="true">
         {pre}
-        <span className="text-rosa-claro">{acc}</span>
+        <span className="text-marfil">{acc}</span>
         {suf}
       </span>
       {!calm && (
         <span
           aria-hidden="true"
-          className="ml-1.5 inline-block w-[3px] animate-pulse bg-rosa-claro align-middle"
+          className="ml-1.5 inline-block w-[3px] animate-pulse bg-marfil align-middle"
           style={{ height: "0.85em" }}
         />
       )}

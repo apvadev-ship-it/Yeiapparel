@@ -44,10 +44,7 @@
   --color-ring: var(--ring);
 
   --color-chocolate: var(--chocolate);
-  --color-rosa: var(--rosa);
-  --color-rosa-claro: var(--rosa-claro);
   --color-terracota: var(--terracota);
-  --color-terracota-claro: var(--terracota-claro);
   --color-nude: var(--nude);
   --color-marfil: var(--marfil);
   --color-tinta: var(--tinta);
@@ -61,11 +58,6 @@
 
   --chocolate: #35221f;
   --terracota: #8f4a3d;
-  /* Terracota aclarado, para elementos sobre fondos oscuros */
-  --terracota-claro: #d29a88;
-  /* Rosa profundo: contrasta 5:1 con marfil, apto para texto */
-  --rosa: #8a4552;
-  --rosa-claro: #f0c4b8;
   --nude: #e8dad1;
   --marfil: #e8dad1;
   --tinta: #35221f;

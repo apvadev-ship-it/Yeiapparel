@@ -52,14 +52,14 @@ function NuevaColeccion() {
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-32 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-terracota-claro/20 blur-3xl"
+        className="pointer-events-none absolute -top-32 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-marfil/20 blur-3xl"
       />
 
       <div className="relative mx-auto flex max-w-3xl flex-col items-center text-center">
         <Reveal>
           <h1 className="mt-6 font-display text-5xl leading-[0.95] text-marfil sm:text-7xl lg:text-8xl font-medium">
             Falta poco para la{" "}
-            <span className="italic text-terracota-claro font-normal">
+            <span className="italic text-marfil font-normal">
               nueva colección
             </span>
           </h1>
