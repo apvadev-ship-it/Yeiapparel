@@ -50,6 +50,21 @@ function CoverWordCycle({
 
   return (
     <div className="relative overflow-hidden">
+      {/* Apila las palabras invisibles unas sobre otras (misma celda de
+          grid) solo para que el contenedor reserve, desde el primer
+          render, el ancho de la más larga — así rotar entre palabras no
+          cambia el ancho del título ni corre lo que tiene al lado
+          (antes producía un salto de layout medible). */}
+      <div aria-hidden="true" className="invisible grid">
+        {words.map((w) => (
+          <span
+            key={w}
+            className={`col-start-1 row-start-1 block whitespace-nowrap text-center ${className}`}
+          >
+            {w}
+          </span>
+        ))}
+      </div>
       <AnimatePresence mode="wait">
         <motion.span
           key={words[index]}
@@ -57,7 +72,7 @@ function CoverWordCycle({
           animate={{ y: "0%", opacity: 1 }}
           exit={{ y: "-35%", opacity: 0 }}
           transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-          className={`block ${className}`}
+          className={`absolute inset-0 block text-center ${className}`}
         >
           {words[index]}
         </motion.span>

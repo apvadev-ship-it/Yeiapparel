@@ -5,7 +5,11 @@ import { useCart } from "@/lib/cart";
 import { motion, AnimatePresence } from "motion/react";
 
 /** Rutas cuyo fondo superior es oscuro. */
-const DARK_HERO_ROUTES = ["/nueva-coleccion", "/tienda"];
+const DARK_HERO_ROUTES = [
+  "/nueva-coleccion",
+  "/tienda",
+  "/politicas-de-privacidad",
+];
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
