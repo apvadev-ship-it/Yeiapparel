@@ -80,6 +80,11 @@ export const Route = createFileRoute("/producto/$slug")({
               rel: "canonical",
               href: `https://yeiapparel.co/producto/${p.slug}`,
             },
+            // La foto principal es el elemento LCP de esta página; sin
+            // este preload el navegador solo la descubre al parsear el
+            // <img> en el body, igual que pasaba con el hero del inicio
+            // antes de agregarle el suyo.
+            { rel: "preload", as: "image", href: defaultImage(p) },
           ]
         : [],
       scripts: [
@@ -249,7 +254,12 @@ function SpecsAccordions({
   setCareOpen: (v: boolean | ((p: boolean) => boolean)) => void;
 }) {
   return (
-    <dl className="divide-y divide-border border-y border-border text-sm lg:text-base">
+    // No es una lista de definiciones (el <dl> de abajo, dentro de cada
+    // AccordionItem, es el que sí lo es): esto es el contenedor del
+    // acordeón, con un <button> por sección — un <dl> no puede tener un
+    // <button> ni otro <dl> como hijo directo según el estándar HTML,
+    // lo que Lighthouse marcaba como error de accesibilidad.
+    <div className="divide-y divide-border border-y border-border text-sm lg:text-base">
       <AccordionItem
         title="Características técnicas"
         open={techOpen}
@@ -262,7 +272,7 @@ function SpecsAccordions({
         onToggle={() => setCareOpen((v) => !v)}
         items={CARE_SPECS}
       />
-    </dl>
+    </div>
   );
 }
 
@@ -690,7 +700,7 @@ function ProductoDetalle() {
                       strokeWidth={1.6}
                       aria-hidden="true"
                     />
-                    <p className="mt-2.5 text-[10px] uppercase tracking-[0.16em] text-chocolate/60">
+                    <p className="mt-2.5 text-[10px] uppercase tracking-[0.16em] text-chocolate/85">
                       {box.top}
                     </p>
                     <p className="mt-1 font-display text-lg leading-tight text-chocolate lg:text-xl">
@@ -701,11 +711,11 @@ function ProductoDetalle() {
                         {box.extra}
                       </p>
                     )}
-                    <p className="mt-0.5 text-[11px] font-light text-chocolate/65">
+                    <p className="mt-0.5 text-[11px] font-light text-chocolate/85">
                       {box.bottom}
                     </p>
                     {box.nota && (
-                      <p className="mt-1.5 text-[10px] uppercase tracking-[0.12em] text-chocolate/50">
+                      <p className="mt-1.5 text-[10px] uppercase tracking-[0.12em] text-chocolate/75">
                         {box.nota}
                       </p>
                     )}

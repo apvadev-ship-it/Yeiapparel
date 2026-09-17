@@ -431,6 +431,10 @@ function FinalizarCompra() {
                 )}
               </div>
 
+              {/* Dos <dl> en vez de uno: la nota de envío gratis de abajo
+                  no es un par término/definición, y un <p> como hijo
+                  directo de <dl> no es válido en HTML (Lighthouse lo
+                  marcaba como error de accesibilidad). */}
               <dl className="mt-6 space-y-2.5 text-sm">
                 <div className="flex justify-between text-chocolate/75">
                   <dt>Subtotal</dt>
@@ -446,12 +450,14 @@ function FinalizarCompra() {
                   <dt>Envío</dt>
                   <dd>{shipping === 0 ? "Gratis" : formatPrice(shipping)}</dd>
                 </div>
-                {shipping > 0 && (
-                  <p className="pt-1 text-xs font-light text-terracota">
-                    Te faltan {formatPrice(FREE_SHIPPING_FROM - subtotal)} para
-                    el envío gratis.
-                  </p>
-                )}
+              </dl>
+              {shipping > 0 && (
+                <p className="pt-1 text-xs font-light text-terracota">
+                  Te faltan {formatPrice(FREE_SHIPPING_FROM - subtotal)} para
+                  el envío gratis.
+                </p>
+              )}
+              <dl className="text-sm">
                 <div className="flex items-baseline justify-between pt-3">
                   <dt className="label-xs text-xs font-semibold text-chocolate">
                     Total
