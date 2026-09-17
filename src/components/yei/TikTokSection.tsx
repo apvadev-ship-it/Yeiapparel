@@ -204,7 +204,7 @@ function TikTokCard({
           if (e.key === "Enter" || e.key === " ") onOpen();
         }}
         aria-label="Ampliar publicación"
-        className="group relative notch-frame overflow-hidden bg-marfil h-full aspect-square cursor-pointer"
+        className="group relative notch-frame overflow-hidden bg-marfil h-full aspect-[3/4] cursor-pointer"
       >
         <CoverImage
           src={coverSrc}
