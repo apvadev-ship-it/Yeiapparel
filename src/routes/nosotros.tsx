@@ -28,7 +28,13 @@ export const Route = createFileRoute("/nosotros")({
       { property: "og:image", content: `https://yeiapparel.co${equipoProbando}` },
       { name: "twitter:image", content: `https://yeiapparel.co${equipoProbando}` },
     ],
-    links: [{ rel: "canonical", href: "https://yeiapparel.co/nosotros" }],
+    links: [
+      { rel: "canonical", href: "https://yeiapparel.co/nosotros" },
+      // La foto del equipo es el elemento LCP de esta página; sin este
+      // preload el navegador solo la descubre al parsear el <img> en el
+      // body (mismo ajuste que ya se hizo en el inicio y en producto).
+      { rel: "preload", as: "image", href: equipoProbando },
+    ],
   }),
   component: Nosotros,
 });
