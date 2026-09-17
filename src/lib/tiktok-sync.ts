@@ -15,8 +15,77 @@
  * servidor. Sin prefijo VITE_, nunca llegan al navegador.
  */
 
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { serviceClient } from "@/lib/supabase-server";
 import { readEnv } from "@/lib/runtime-env";
+
+/**
+ * Bucket donde se guarda una copia propia de cada portada. La
+ * `cover_image_url` que entrega la API de TikTok es una URL firmada
+ * que vence en pocas horas (`x-expires` en la propia URL) — servirla
+ * tal cual desde el home significa que, apenas vence, la imagen se ve
+ * rota hasta la siguiente sincronización. Bajarla una vez aquí, justo
+ * cuando la firma todavía es válida, y guardarla en Storage la deja
+ * con una URL propia que no vence nunca.
+ */
+const COVERS_BUCKET = "social-covers";
+
+async function ensureCoversBucket(db: SupabaseClient): Promise<void> {
+  const { data: buckets } = await db.storage.listBuckets();
+  if (buckets?.some((b) => b.name === COVERS_BUCKET)) return;
+
+  const { error } = await db.storage.createBucket(COVERS_BUCKET, {
+    public: true,
+    fileSizeLimit: "5MB",
+  });
+  // "already exists" puede pasar por una carrera entre sincronizaciones
+  // simultáneas — no es un error real.
+  if (error && !/already exists/i.test(error.message)) {
+    console.error("[tiktok] no se pudo crear el bucket de portadas:", error.message);
+  }
+}
+
+/**
+ * Descarga la portada firmada y la sube a Storage. Si algo falla (red,
+ * cuota, etc.) devuelve la URL original de TikTok en vez de romper la
+ * sincronización entera — sigue siendo mejor que no tener portada.
+ */
+async function mirrorCoverImage(
+  db: SupabaseClient,
+  videoId: string,
+  signedUrl: string,
+): Promise<string> {
+  try {
+    const response = await fetch(signedUrl);
+    if (!response.ok) return signedUrl;
+
+    const contentType = response.headers.get("content-type") ?? "image/webp";
+    const ext = contentType.includes("png")
+      ? "png"
+      : contentType.includes("jpeg") || contentType.includes("jpg")
+        ? "jpg"
+        : "webp";
+    const bytes = await response.arrayBuffer();
+    const path = `tiktok/${videoId}.${ext}`;
+
+    const { error } = await db.storage
+      .from(COVERS_BUCKET)
+      .upload(path, bytes, { contentType, upsert: true });
+    if (error) {
+      console.error(`[tiktok] no se pudo subir la portada de ${videoId}:`, error.message);
+      return signedUrl;
+    }
+
+    const { data } = db.storage.from(COVERS_BUCKET).getPublicUrl(path);
+    return data.publicUrl || signedUrl;
+  } catch (err) {
+    console.error(
+      `[tiktok] fallo al mirror-ear la portada de ${videoId}:`,
+      err instanceof Error ? err.message : err,
+    );
+    return signedUrl;
+  }
+}
 
 /** Cuántos videos se traen por sincronización. La grilla del home solo usa 4. */
 const FETCH_LIMIT = 12;
@@ -215,24 +284,27 @@ export async function syncTikTokFeed(): Promise<TikTokSyncResult> {
   }
 
   const videos = payload.data?.videos ?? [];
-  const postRows = videos
-    .filter((v) => v.cover_image_url)
-    .map((v) => ({
-      id: v.id,
-      cover_url: v.cover_image_url ?? "",
-      video_url: v.embed_link ?? null,
-      caption: v.video_description ?? "",
-      likes_count: v.like_count ?? 0,
-      comments_count: v.comment_count ?? null,
-      shares_count: v.share_count ?? null,
-      views_count: v.view_count ?? null,
-      share_url: v.share_url ?? null,
-      duration: v.duration ?? null,
-      created_at: v.create_time
-        ? new Date(v.create_time * 1000).toISOString()
-        : new Date().toISOString(),
-      synced_at: new Date().toISOString(),
-    }));
+  await ensureCoversBucket(db);
+  const postRows = await Promise.all(
+    videos
+      .filter((v) => v.cover_image_url)
+      .map(async (v) => ({
+        id: v.id,
+        cover_url: await mirrorCoverImage(db, v.id, v.cover_image_url!),
+        video_url: v.embed_link ?? null,
+        caption: v.video_description ?? "",
+        likes_count: v.like_count ?? 0,
+        comments_count: v.comment_count ?? null,
+        shares_count: v.share_count ?? null,
+        views_count: v.view_count ?? null,
+        share_url: v.share_url ?? null,
+        duration: v.duration ?? null,
+        created_at: v.create_time
+          ? new Date(v.create_time * 1000).toISOString()
+          : new Date().toISOString(),
+        synced_at: new Date().toISOString(),
+      })),
+  );
 
   if (postRows.length > 0) {
     const { error } = await db
