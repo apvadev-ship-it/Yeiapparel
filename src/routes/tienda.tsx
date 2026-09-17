@@ -180,12 +180,17 @@ function Tienda() {
                     ? "bg-terracota hover:bg-terracota/90"
                     : "bg-chocolate hover:bg-chocolate/90"
                 } ${
+                  // Sin reducir la opacidad en el estado inactivo: diluye
+                  // el texto marfil sobre el fondo terracota/chocolate
+                  // por debajo del contraste mínimo (lo marcaba
+                  // Lighthouse incluso en 95%). El anillo ya diferencia
+                  // la pestaña activa sin sacrificar la legibilidad.
                   activeTab === tab.value
                     ? "ring-2 ring-offset-2 ring-offset-marfil " +
                       (tab.value === "piezas-unicas"
                         ? "ring-terracota"
                         : "ring-chocolate")
-                    : "opacity-95"
+                    : ""
                 }`}
               >
                 {tab.label}
