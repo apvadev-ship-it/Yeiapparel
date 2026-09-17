@@ -10,13 +10,6 @@ import {
 import { type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-// CSS crítico (lo que se ve en la primera pantalla) extraído con
-// `beasties` a partir del HTML real del inicio — ver el comentario en
-// `styles.critical.css` para cómo regenerarlo. Se embebe directo en el
-// <head> para que el primer pintado no dependa de una solicitud de red
-// aparte; el resto de `styles.css` (todo lo que no es de la primera
-// pantalla) se carga después, sin bloquear el render.
-import criticalCss from "../styles.critical.css?raw";
 // Las 3 variantes que cubren casi todo el texto de la primera pantalla
 // en cualquier página: Jost 400/600 para texto de cuerpo y etiquetas,
 // Cormorant Garamond 500 para todos los títulos (h1-h4). Sin este
@@ -149,7 +142,18 @@ function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
-        <style dangerouslySetInnerHTML={{ __html: criticalCss }} />
+        {/* Hoja de estilos completa, cargada normal (bloqueante). Antes
+            se inlineaba un subconjunto "crítico" (extraído con beasties)
+            y se difería el resto para acelerar el primer pintado, pero
+            esa extracción no capturaba las reglas de escritorio (`lg:`)
+            de forma confiable — el primer pintado quedaba con tipografía
+            y tamaños de móvil (o directamente sin la animación del
+            hero, que depende de `lg:sticky`/`lg:flex`) hasta que la hoja
+            diferida terminaba de cargar, y en la práctica eso se veía
+            como una web rota en escritorio. Se vuelve a la carga simple:
+            un poco más lento en el primer pintado, pero siempre
+            correcto. */}
+        <link rel="stylesheet" href={appCss} />
         <link
           rel="preload"
           as="font"
@@ -172,21 +176,6 @@ function RootShell({ children }: { children: ReactNode }) {
           crossOrigin="anonymous"
         />
         <HeadContent />
-        {/* Técnica "loadCSS": se precarga sin bloquear el render y un
-            script minúsculo la activa como stylesheet en cuanto termina
-            de llegar. Un atributo `onload="..."` en el propio <link> no
-            sirve aquí porque React lo descarta al renderizar en el
-            servidor (solo reconoce la versión sintética `onLoad`). Con
-            JS desactivado, el `<noscript>` de abajo la carga normal. */}
-        <link id="app-css-preload" rel="preload" as="style" href={appCss} />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `document.getElementById("app-css-preload").onload=function(){this.rel="stylesheet"};`,
-          }}
-        />
-        <noscript>
-          <link rel="stylesheet" href={appCss} />
-        </noscript>
       </head>
       <body suppressHydrationWarning>
         {children}
