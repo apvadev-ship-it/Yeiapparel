@@ -56,16 +56,14 @@ function NuevaColeccion() {
       />
 
       <div className="relative mx-auto flex max-w-3xl flex-col items-center text-center">
-        {/* Sin `Reveal`: este H1 es el elemento LCP de la página y ya es
-            lo primero visible sin scroll — envolverlo en la animación de
-            aparición (que solo corre tras hidratar) le sumaba ~1.2s de
-            retraso al LCP medido en PageSpeed. */}
-        <h1 className="mt-6 font-display text-5xl leading-[0.95] text-marfil sm:text-7xl lg:text-8xl font-medium">
-          Falta poco para la{" "}
-          <span className="italic text-terracota-claro font-normal">
-            nueva colección
-          </span>
-        </h1>
+        <Reveal>
+          <h1 className="mt-6 font-display text-5xl leading-[0.95] text-marfil sm:text-7xl lg:text-8xl font-medium">
+            Falta poco para la{" "}
+            <span className="italic text-terracota-claro font-normal">
+              nueva colección
+            </span>
+          </h1>
+        </Reveal>
 
         <Reveal>
           <p className="mt-7 max-w-2xl text-lg leading-relaxed text-nude/75 font-light lg:text-3xl">

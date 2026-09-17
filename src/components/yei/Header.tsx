@@ -42,11 +42,7 @@ export function Header() {
 
   return (
     <motion.header
-      // Sin `initial`: la barra de navegación es contenido de la primera
-      // pantalla. Animar su opacidad desde 0 la dejaba invisible hasta
-      // que React hidrataba, lo que sumaba retraso artificial al FCP
-      // (mismo motivo por el que la foto del hero no usa `initial` en
-      // HeroSpin.tsx).
+      initial={{ y: -60, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-3.5 lg:pt-5"
@@ -83,8 +79,7 @@ export function Header() {
             {isFullBarVisible ? (
               <motion.div
                 key="full-bar"
-                // Sin `initial` por la misma razón que en el header: es
-                // el contenido de navegación de la primera pantalla.
+                initial={{ opacity: 0, scale: 0.96 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.96 }}
                 transition={{ duration: 0.25 }}

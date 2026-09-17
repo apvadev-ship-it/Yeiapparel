@@ -17,6 +17,16 @@ import appCss from "../styles.css?url";
 // aparte; el resto de `styles.css` (todo lo que no es de la primera
 // pantalla) se carga después, sin bloquear el render.
 import criticalCss from "../styles.critical.css?raw";
+// Las 3 variantes que cubren casi todo el texto de la primera pantalla
+// en cualquier página: Jost 400/600 para texto de cuerpo y etiquetas,
+// Cormorant Garamond 500 para todos los títulos (h1-h4). Sin este
+// preload, el CSS crítico no incluye las reglas @font-face (van en la
+// hoja diferida), así que el navegador tardaba en darse cuenta de que
+// necesitaba estas fuentes y el texto se veía brevemente con la fuente
+// del sistema antes de cambiar a las de la marca.
+import jostRegularWoff2 from "@fontsource/jost/files/jost-latin-400-normal.woff2?url";
+import jostSemiboldWoff2 from "@fontsource/jost/files/jost-latin-600-normal.woff2?url";
+import cormorantMediumWoff2 from "@fontsource/cormorant-garamond/files/cormorant-garamond-latin-500-normal.woff2?url";
 import { CartProvider } from "@/lib/cart";
 import { Header } from "@/components/yei/Header";
 import { Footer } from "@/components/yei/Footer";
@@ -140,6 +150,27 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="es" suppressHydrationWarning>
       <head>
         <style dangerouslySetInnerHTML={{ __html: criticalCss }} />
+        <link
+          rel="preload"
+          as="font"
+          type="font/woff2"
+          href={jostRegularWoff2}
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          as="font"
+          type="font/woff2"
+          href={jostSemiboldWoff2}
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          as="font"
+          type="font/woff2"
+          href={cormorantMediumWoff2}
+          crossOrigin="anonymous"
+        />
         <HeadContent />
         {/* Técnica "loadCSS": se precarga sin bloquear el render y un
             script minúsculo la activa como stylesheet en cuanto termina

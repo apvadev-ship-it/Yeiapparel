@@ -187,30 +187,29 @@ function PortadaNosotros() {
   return (
     <section className="relative overflow-hidden px-5 pb-16 pt-36 lg:px-10 lg:pb-24 lg:pt-48">
       <div className="mx-auto max-w-[1300px]">
-        {/* Sin `Reveal` en el H1 ni en la foto: son lo primero visible sin
-            scroll (la foto además es el elemento LCP de la página) —
-            envolverlos en la animación de aparición, que solo corre tras
-            hidratar, sumaba más de 1s de retraso de render medido en
-            PageSpeed. */}
-        <h1 className="max-w-[16ch] font-display text-6xl leading-[0.92] text-chocolate font-medium lg:text-8xl xl:text-9xl">
-          Una casa de moda hecha con{" "}
-          <span className="italic text-terracota font-normal">
-            criterio, no en serie
-          </span>
-        </h1>
+        <Reveal>
+          <h1 className="max-w-[16ch] font-display text-6xl leading-[0.92] text-chocolate font-medium lg:text-8xl xl:text-9xl">
+            Una casa de moda hecha con{" "}
+            <span className="italic text-terracota font-normal">
+              criterio, no en serie
+            </span>
+          </h1>
+        </Reveal>
 
         <div className="mt-12 grid gap-12 lg:mt-16 lg:grid-cols-[1.15fr_1fr] lg:items-end lg:gap-16">
-          <div className="notch-frame-lg hover-zoom relative aspect-[4/3] overflow-hidden bg-chocolate/10 shadow-2xl sm:aspect-[16/9] lg:aspect-[4/3]">
-            <img
-              src={equipoProbando}
-              alt="El equipo de YEI Apparel probando una prenda antes de subirla a la tienda"
-              width={1400}
-              height={1050}
-              fetchPriority="high"
-              decoding="async"
-              className="h-full w-full object-cover"
-            />
-          </div>
+          <Reveal delay={100}>
+            <div className="notch-frame-lg hover-zoom relative aspect-[4/3] overflow-hidden bg-chocolate/10 shadow-2xl sm:aspect-[16/9] lg:aspect-[4/3]">
+              <img
+                src={equipoProbando}
+                alt="El equipo de YEI Apparel probando una prenda antes de subirla a la tienda"
+                width={1400}
+                height={1050}
+                fetchPriority="high"
+                decoding="async"
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </Reveal>
 
           <Reveal delay={180}>
             <div className="space-y-6 text-base leading-relaxed text-chocolate/85 font-light lg:text-lg">
