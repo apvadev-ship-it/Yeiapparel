@@ -185,7 +185,7 @@ function Tienda() {
                       (tab.value === "piezas-unicas"
                         ? "ring-terracota"
                         : "ring-chocolate")
-                    : "opacity-80"
+                    : "opacity-95"
                 }`}
               >
                 {tab.label}
