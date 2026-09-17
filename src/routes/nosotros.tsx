@@ -278,7 +278,7 @@ function ElOficio() {
                         <span className="block font-display text-2xl font-medium xl:text-3xl">
                           {p.titulo}
                         </span>
-                        <span className="mt-1 block text-sm font-light text-chocolate/65">
+                        <span className="mt-1 block text-sm font-light text-chocolate/85">
                           {p.resumen}
                         </span>
                       </span>
@@ -351,7 +351,7 @@ function ElOficio() {
                     <span className="block font-display text-2xl font-medium">
                       {p.titulo}
                     </span>
-                    <span className="mt-1 block text-sm font-light text-chocolate/65">
+                    <span className="mt-1 block text-sm font-light text-chocolate/85">
                       {p.resumen}
                     </span>
                   </span>

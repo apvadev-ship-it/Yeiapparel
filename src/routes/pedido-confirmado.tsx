@@ -80,7 +80,7 @@ function PedidoConfirmadoPuente() {
 
   return (
     <div className="bg-marfil px-5 pb-24 pt-36 text-center lg:px-10 lg:pt-48">
-      <p className="text-sm text-chocolate/60 font-light">
+      <p className="text-sm text-chocolate/85 font-light">
         Confirmando tu pago…
       </p>
     </div>

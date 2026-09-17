@@ -238,7 +238,7 @@ function Contacto() {
                     className={`grid h-8 w-8 place-items-center rounded-full border text-xs font-mono font-bold transition-colors ${
                       step >= n
                         ? "border-chocolate bg-chocolate text-marfil"
-                        : "border-chocolate/25 text-chocolate/40"
+                        : "border-chocolate/40 text-chocolate/75"
                     }`}
                   >
                     {step > n ? <Check className="h-3.5 w-3.5" /> : n}
@@ -291,7 +291,7 @@ function Contacto() {
                 </Reveal>
               ) : step === 1 ? (
                 <Reveal key="step1">
-                  <p className="label-xs text-chocolate/60 text-xs font-semibold tracking-widest uppercase">
+                  <p className="label-xs text-chocolate/85 text-xs font-semibold tracking-widest uppercase">
                     Paso 1 de 3
                   </p>
                   <h2 className="mt-2 font-display text-2xl sm:text-3xl text-chocolate font-medium">
@@ -313,7 +313,7 @@ function Contacto() {
                           <span className="font-display text-lg text-chocolate font-medium">
                             {t.label}
                           </span>
-                          <span className="text-xs text-chocolate/60 font-light">
+                          <span className="text-xs text-chocolate/85 font-light">
                             {t.description}
                           </span>
                         </button>
@@ -326,12 +326,12 @@ function Contacto() {
                   <button
                     type="button"
                     onClick={goBack}
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-widest text-chocolate/60 hover:text-terracota transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-widest text-chocolate/85 hover:text-terracota transition-colors cursor-pointer"
                   >
                     <ArrowLeft className="h-3.5 w-3.5" />
                     Atrás
                   </button>
-                  <p className="label-xs mt-4 text-chocolate/60 text-xs font-semibold tracking-widest uppercase">
+                  <p className="label-xs mt-4 text-chocolate/85 text-xs font-semibold tracking-widest uppercase">
                     Paso 2 de 3
                   </p>
                   <h2 className="mt-2 font-display text-2xl sm:text-3xl text-chocolate font-medium">
@@ -358,12 +358,12 @@ function Contacto() {
                   <button
                     type="button"
                     onClick={goBack}
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-widest text-chocolate/60 hover:text-terracota transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-widest text-chocolate/85 hover:text-terracota transition-colors cursor-pointer"
                   >
                     <ArrowLeft className="h-3.5 w-3.5" />
                     Atrás
                   </button>
-                  <p className="label-xs mt-4 text-chocolate/60 text-xs font-semibold tracking-widest uppercase">
+                  <p className="label-xs mt-4 text-chocolate/85 text-xs font-semibold tracking-widest uppercase">
                     Paso 3 de 3
                   </p>
                   <h2 className="mt-2 font-display text-2xl sm:text-3xl text-chocolate font-medium">
@@ -432,7 +432,7 @@ function Contacto() {
                             className={`notch-frame-sm px-5 py-2.5 text-xs font-semibold tracking-widest uppercase transition-colors cursor-pointer ${
                               contactMethod === m
                                 ? "bg-chocolate text-marfil"
-                                : "border border-terracota/40 text-chocolate/60 hover:text-chocolate"
+                                : "border border-terracota/40 text-chocolate/85 hover:text-chocolate"
                             }`}
                           >
                             {m === "email" ? "Correo" : "Teléfono"}

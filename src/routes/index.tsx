@@ -781,7 +781,7 @@ function TestimonialCard({
           {t.name}
         </p>
         {t.location && (
-          <p className="text-xs text-chocolate/55 font-light">
+          <p className="text-xs text-chocolate/80 font-light">
             {t.location}
           </p>
         )}

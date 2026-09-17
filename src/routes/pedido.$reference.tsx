@@ -111,7 +111,7 @@ function PedidoConfirmado() {
               className={`mx-auto grid h-16 w-16 place-items-center notch-frame-sm ${
                 isPending
                   ? "bg-chocolate/15 text-chocolate"
-                  : "bg-chocolate/10 text-chocolate/60"
+                  : "bg-chocolate/10 text-chocolate/85"
               }`}
             >
               {isPending ? (
@@ -167,7 +167,7 @@ function PedidoConfirmado() {
                     <p className="font-display text-lg leading-tight text-chocolate">
                       {item.name}
                     </p>
-                    <p className="mt-0.5 text-xs text-chocolate/60">
+                    <p className="mt-0.5 text-xs text-chocolate/85">
                       Talla {item.size} · {item.color} · x{item.qty}
                     </p>
                   </div>
@@ -189,11 +189,11 @@ function PedidoConfirmado() {
           </div>
 
           <div className="mt-6 border-t border-terracota/30 pt-6">
-            <p className="text-[11px] uppercase tracking-[0.18em] text-chocolate/60">
+            <p className="text-[11px] uppercase tracking-[0.18em] text-chocolate/85">
               Número de referencia
             </p>
             <ReferenceBadge reference={summary.reference} />
-            <p className="mt-2 text-xs font-light text-chocolate/55">
+            <p className="mt-2 text-xs font-light text-chocolate/80">
               Guárdalo: es el que necesitamos si nos escribes por este
               pedido.
             </p>

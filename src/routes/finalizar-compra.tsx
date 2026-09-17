@@ -344,7 +344,7 @@ function FinalizarCompra() {
                       <p className="font-display text-lg leading-tight text-chocolate">
                         {l.name}
                       </p>
-                      <p className="mt-0.5 text-xs text-chocolate/60">
+                      <p className="mt-0.5 text-xs text-chocolate/85">
                         Talla {l.size} · {l.color}
                       </p>
                       <div className="mt-2 flex items-center gap-2">
@@ -397,7 +397,7 @@ function FinalizarCompra() {
                   <div>
                     <label
                       htmlFor="coupon-code"
-                      className="block text-[11px] uppercase tracking-[0.18em] text-chocolate/60"
+                      className="block text-[11px] uppercase tracking-[0.18em] text-chocolate/85"
                     >
                       ¿Tienes un cupón?
                     </label>
@@ -490,7 +490,7 @@ function FinalizarCompra() {
                 </div>
               )}
 
-              <p className="mt-4 text-center text-[11px] font-light text-chocolate/55">
+              <p className="mt-4 text-center text-[11px] font-light text-chocolate/80">
                 El pago se procesa en Wompi, la pasarela de Bancolombia. No
                 guardamos los datos de tu tarjeta.
               </p>
@@ -527,7 +527,7 @@ function Field({
     <div>
       <label
         htmlFor={id}
-        className="block text-[11px] uppercase tracking-[0.18em] text-chocolate/60"
+        className="block text-[11px] uppercase tracking-[0.18em] text-chocolate/85"
       >
         {label}
       </label>

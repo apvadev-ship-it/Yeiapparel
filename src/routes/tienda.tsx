@@ -198,7 +198,7 @@ function Tienda() {
       <section className="px-4 pb-16 pt-6 sm:px-5 lg:px-10 lg:pb-32 lg:pt-8">
         <div className="mx-auto max-w-[1500px]">
           {filteredProducts.length === 0 ? (
-            <p className="text-center text-chocolate/60 font-light">
+            <p className="text-center text-chocolate/85 font-light">
               Muy pronto nuevas piezas en esta categoría.
             </p>
           ) : (

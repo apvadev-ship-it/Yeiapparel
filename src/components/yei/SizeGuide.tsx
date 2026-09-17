@@ -74,7 +74,7 @@ export function SizeGuide({ activeSize }: { activeSize?: string }) {
         </table>
       </div>
 
-      <p className="mt-2.5 text-[11px] font-light text-chocolate/55">
+      <p className="mt-2.5 text-[11px] font-light text-chocolate/85">
         Medidas del cuerpo en centímetros. Si estás entre dos tallas, elige tu
         talla habitual.
       </p>
