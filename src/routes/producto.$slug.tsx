@@ -585,7 +585,7 @@ function ProductoDetalle() {
             <div className="mt-8">
               <div className="flex items-center justify-center gap-2.5 lg:justify-start">
                 {stockLoading ? (
-                  <span className="text-chocolate/60 font-light">
+                  <span className="text-chocolate/85 font-light">
                     Consultando inventario…
                   </span>
                 ) : (
