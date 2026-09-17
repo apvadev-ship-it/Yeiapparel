@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Heart, MessageCircle, ExternalLink, Play } from "lucide-react";
 import look2 from "@/assets/look-2.jpg";
 import look3 from "@/assets/look-3.jpg";
@@ -206,12 +206,10 @@ function TikTokCard({
         aria-label="Ampliar publicación"
         className="group relative notch-frame overflow-hidden bg-marfil h-full aspect-square cursor-pointer"
       >
-        <img
+        <CoverImage
           src={coverSrc}
           alt={post.caption}
-          loading="lazy"
-          onError={onCoverError}
-          className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          onCoverError={onCoverError}
         />
 
         <div className="absolute inset-0 grid place-items-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
@@ -271,5 +269,44 @@ function TikTokCard({
         </div>
       </div>
     </div>
+  );
+}
+
+/**
+ * El `<img>` de portada llega con `src` desde el HTML del servidor, así
+ * que si la URL firmada de TikTok ya falló antes de que React termine
+ * de hidratar, ese error nativo se dispara y se pierde — `onError` del
+ * elemento solo capta fallos que ocurren DESPUÉS de que React lo
+ * conecta. Por eso, al montar, también se revisa a mano si la imagen
+ * ya quedó marcada como completa con ancho cero (la señal de que
+ * falló) y se avisa igual.
+ */
+function CoverImage({
+  src,
+  alt,
+  onCoverError,
+}: {
+  src: string;
+  alt: string;
+  onCoverError: () => void;
+}) {
+  const ref = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    const img = ref.current;
+    if (img && img.complete && img.naturalWidth === 0) {
+      onCoverError();
+    }
+  }, [src, onCoverError]);
+
+  return (
+    <img
+      ref={ref}
+      src={src}
+      alt={alt}
+      loading="lazy"
+      onError={onCoverError}
+      className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+    />
   );
 }
