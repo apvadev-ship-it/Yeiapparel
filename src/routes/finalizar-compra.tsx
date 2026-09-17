@@ -411,7 +411,7 @@ function FinalizarCompra() {
                           if (couponError) setCouponError(null);
                         }}
                         placeholder="YEI15-XXXXXXXX"
-                        className="notch-frame-sm min-w-0 flex-1 bg-terracota/10 px-4 py-3 text-sm text-chocolate outline-none transition-colors focus:bg-terracota/16"
+                        className="form-field-notch notch-frame-sm min-w-0 flex-1 bg-terracota/10 px-4 py-3 text-sm text-chocolate outline-none transition-colors focus:bg-terracota/16"
                       />
                       <button
                         type="button"
@@ -538,7 +538,7 @@ function Field({
         autoComplete={autoComplete}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="notch-frame-sm mt-1.5 w-full bg-terracota/10 px-4 py-3 text-sm text-chocolate outline-none transition-colors focus:bg-terracota/16"
+        className="form-field-notch notch-frame-sm mt-1.5 w-full bg-terracota/10 px-4 py-3 text-sm text-chocolate outline-none transition-colors focus:bg-terracota/16"
       />
     </div>
   );

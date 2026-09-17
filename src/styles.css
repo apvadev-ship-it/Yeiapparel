@@ -412,6 +412,30 @@ html.has-custom-cursor * {
   }
 }
 
+/* El autocompletado de Chrome/Safari pinta su propio fondo (blanco o
+   amarillo) por encima de cualquier `background` que pongamos, así que
+   un input con `bg-terracota/10` se ve sólido/blanco en cuanto el
+   navegador lo autocompleta — no es que "se quite" la opacidad, es que
+   el navegador la tapa. El truco es forzar un `box-shadow` inset del
+   mismo tono (ya sólido, porque box-shadow no puede ser semitransparente
+   sobre el fondo real) con un `transition-delay` larguísimo para que el
+   propio navegador no alcance a aplicar el suyo. */
+@layer base {
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--chocolate);
+    -webkit-box-shadow: 0 0 0px 1000px #dfccc2 inset;
+    box-shadow: 0 0 0px 1000px #dfccc2 inset;
+    transition:
+      background-color 9999s ease-in-out 0s,
+      box-shadow 9999s ease-in-out 0s;
+  }
+}
+
 /* Foco visible y consistente en todo el sitio */
 @layer base {
   a:focus-visible,
@@ -441,6 +465,20 @@ html.has-custom-cursor * {
   filter: drop-shadow(2px 0 0 var(--terracota))
     drop-shadow(-2px 0 0 var(--terracota)) drop-shadow(0 2px 0 var(--terracota))
     drop-shadow(0 -2px 0 var(--terracota));
+}
+
+/* Excepción para los campos de formulario biselados: como su fondo es
+   translúcido (`bg-terracota/10`), las 4 copias SÓLIDAS del truco de
+   drop-shadow de arriba se transparentan a través del propio cuadro y
+   lo rellenan por completo de terracota sólido al enfocarlo, en vez de
+   solo dibujar un contorno — se ve como si el cuadro perdiera su
+   opacidad de golpe al escribir. Para estos, el foco se marca con un
+   box-shadow hacia adentro, que sí respeta la transparencia del fondo. */
+input.form-field-notch:focus-visible,
+textarea.form-field-notch:focus-visible {
+  outline: none;
+  filter: none;
+  box-shadow: inset 0 0 0 2px var(--terracota);
 }
 
 @media (prefers-reduced-motion: reduce) {

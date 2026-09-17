@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Heart, MessageCircle, ExternalLink, Play } from "lucide-react";
 import look2 from "@/assets/look-2.jpg";
 import look3 from "@/assets/look-3.jpg";
@@ -12,6 +12,8 @@ import type { TikTokPost } from "@/lib/supabase";
 // Mismo patrón que InstagramSection: mientras no haya datos reales en
 // Supabase (ver `src/lib/tiktok-sync.ts` y SOCIAL_FEEDS_SETUP.md), la
 // grilla muestra este set de ejemplo. Nada se rompe sin token de TikTok.
+const FALLBACK_COVERS = [look2, look3, look4, look5];
+
 const DEFAULT_POSTS: TikTokPost[] = [
   {
     id: "tt-1",
@@ -57,6 +59,13 @@ export function TikTokSection() {
   const [likedPosts, setLikedPosts] = useState<Record<string, boolean>>({});
   const [likeCounts, setLikeCounts] = useState<Record<string, number>>({});
   const [activePost, setActivePost] = useState<TikTokPost | null>(null);
+  // Las portadas que trae la API de TikTok son URLs firmadas de su CDN:
+  // fuera de la app de TikTok muchas veces no cargan (bloqueo por
+  // referer o firma vencida). Si una falla, se cambia por una foto
+  // propia en vez de dejar el cuadro roto.
+  const [brokenCovers, setBrokenCovers] = useState<Record<string, boolean>>(
+    {},
+  );
 
   // El feed real se lee en el servidor (ver social-feed.ts), igual que
   // en InstagramSection. Si no hay datos aún (o falla), se queda con
@@ -76,6 +85,15 @@ export function TikTokSection() {
       cancelled = true;
     };
   }, []);
+
+  const activeIndex = useMemo(
+    () => posts.findIndex((p) => p.id === activePost?.id),
+    [posts, activePost],
+  );
+  const activeCover =
+    activePost && brokenCovers[activePost.id]
+      ? FALLBACK_COVERS[Math.max(activeIndex, 0) % FALLBACK_COVERS.length]
+      : activePost?.cover_url;
 
   const toggleLike = (postId: string, currentLikes: number) => {
     const isLiked = likedPosts[postId];
@@ -118,6 +136,14 @@ export function TikTokSection() {
             <Reveal key={post.id} delay={index * 40} className="h-full">
               <TikTokCard
                 post={post}
+                coverSrc={
+                  brokenCovers[post.id]
+                    ? FALLBACK_COVERS[index % FALLBACK_COVERS.length]!
+                    : post.cover_url
+                }
+                onCoverError={() =>
+                  setBrokenCovers((prev) => ({ ...prev, [post.id]: true }))
+                }
                 isLiked={likedPosts[post.id] ?? false}
                 likeCount={likeCounts[post.id] ?? post.likes_count}
                 onToggleLike={() => toggleLike(post.id, post.likes_count)}
@@ -137,7 +163,7 @@ export function TikTokSection() {
           activePost
             ? activePost.video_url
               ? { kind: "iframe", src: activePost.video_url }
-              : { kind: "image", src: activePost.cover_url }
+              : { kind: "image", src: activeCover ?? "" }
             : null
         }
         caption={activePost?.caption ?? ""}
@@ -153,12 +179,16 @@ export function TikTokSection() {
 
 function TikTokCard({
   post,
+  coverSrc,
+  onCoverError,
   isLiked,
   likeCount,
   onToggleLike,
   onOpen,
 }: {
   post: TikTokPost;
+  coverSrc: string;
+  onCoverError: () => void;
   isLiked?: boolean;
   likeCount: number;
   onToggleLike: () => void;
@@ -177,9 +207,10 @@ function TikTokCard({
         className="group relative notch-frame overflow-hidden bg-marfil h-full aspect-square cursor-pointer"
       >
         <img
-          src={post.cover_url}
+          src={coverSrc}
           alt={post.caption}
           loading="lazy"
+          onError={onCoverError}
           className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
 
