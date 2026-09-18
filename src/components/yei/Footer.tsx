@@ -17,7 +17,7 @@ const WhatsappIcon = ({ className }: { className?: string }) => (
 const columns = [
   {
     title: "Shop",
-    links: ["Sets", "Piezas únicas", "Última colección"],
+    links: ["Sets", "Piezas individuales", "Última colección"],
   },
   {
     title: "Marca",
@@ -84,7 +84,7 @@ export function Footer() {
                     const categoria =
                       l === "Sets"
                         ? "sets"
-                        : l === "Piezas únicas"
+                        : l === "Piezas individuales"
                           ? "piezas-unicas"
                           : undefined;
                     const routeMap: Record<string, string> = {

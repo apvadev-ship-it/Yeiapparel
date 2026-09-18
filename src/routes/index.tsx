@@ -718,7 +718,7 @@ const TESTIMONIALS = [
     name: "@yei.apparel",
     location: "",
     quote:
-      "Este es mi set confi, la tela es súper ligerita. Me lo pongo para todo: iglesia, aeropuerto, ir de compras. Todas deberíamos tener uno.",
+      "Este es mi set Comfy, la tela es súper ligerita. Me lo pongo para todo: iglesia, aeropuerto, ir de compras. Todas deberíamos tener uno.",
     video: "/videos/reel-6.mp4",
     poster: testimonioResena6,
   },
