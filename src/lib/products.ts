@@ -306,7 +306,7 @@ export const products: Product[] = [
     name: "Nala",
     category: "Sets",
     group: "sets",
-    price: 120000,
+    price: 123000,
     alt: "Set Nala de la colección YEI",
     description:
       "Set de silueta versátil, pensado para combinar sin esfuerzo. Disponible en negro, marfil, beige y borgoña.",
@@ -329,7 +329,7 @@ export const products: Product[] = [
     name: "Madrileño",
     category: "Sets",
     group: "sets",
-    price: 150000,
+    price: 154000,
     alt: "Set Madrileño de la colección YEI",
     description:
       "Set con caída estructurada y aire de sastrería. Disponible en negro, marfil, beige y borgoña.",
@@ -352,7 +352,7 @@ export const products: Product[] = [
     name: "Girly",
     category: "Sets",
     group: "sets",
-    price: 170000,
+    price: 175000,
     alt: "Set Girly de la colección YEI",
     description:
       "Set de líneas suaves y silueta femenina. Disponible en negro, marfil, beige y borgoña.",
@@ -371,7 +371,7 @@ export const products: Product[] = [
     name: "Emiliana",
     category: "Sets",
     group: "sets",
-    price: 150000,
+    price: 154000,
     alt: "Set Emiliana de la colección YEI",
     description:
       "Set de corte limpio y caída fluida. Disponible en negro, marfil, beige y borgoña.",
@@ -392,7 +392,7 @@ export const products: Product[] = [
     name: "Comfy",
     category: "Sets",
     group: "sets",
-    price: 170000,
+    price: 175000,
     alt: "Set Comfy de la colección YEI",
     description:
       "Set relajado sin perder estructura, para el día completo. Disponible en negro, marfil, beige y borgoña.",
@@ -411,7 +411,7 @@ export const products: Product[] = [
     name: "Besties",
     category: "Sets",
     group: "sets",
-    price: 140000,
+    price: 144000,
     alt: "Set Besties de la colección YEI",
     description:
       "Set clásico de la casa, pensado para repetirse temporada tras temporada. Disponible en negro, marfil, beige y borgoña.",
@@ -430,7 +430,7 @@ export const products: Product[] = [
     name: "Berea",
     category: "Sets",
     group: "sets",
-    price: 170000,
+    price: 175000,
     alt: "Set Berea de la colección YEI",
     description:
       "Set de textura envolvente y detalles de autor. Disponible en beige.",
@@ -446,7 +446,7 @@ export const products: Product[] = [
     name: "Blusa Nala",
     category: "Piezas individuales",
     group: "piezas-unicas",
-    price: 70000,
+    price: 72000,
     alt: "Blusa Nala de la colección YEI",
     description:
       "Blusa de silueta suelta, pensada para combinar con cualquier básico del clóset. Disponible en marfil, beige y borgoña.",
@@ -459,7 +459,7 @@ export const products: Product[] = [
     name: "Blusa Emiliana",
     category: "Piezas individuales",
     group: "piezas-unicas",
-    price: 70000,
+    price: 72000,
     alt: "Blusa Emiliana de la colección YEI",
     description:
       "Blusa de corte limpio y caída fluida, para el día completo. Disponible en negro y beige.",
@@ -472,7 +472,7 @@ export const products: Product[] = [
     name: "Short",
     category: "Piezas individuales",
     group: "piezas-unicas",
-    price: 70000,
+    price: 72000,
     alt: "Short de la colección YEI",
     description:
       "Short versátil, cómodo para el uso diario. Disponible en negro, marfil y beige.",
@@ -485,7 +485,7 @@ export const products: Product[] = [
     name: "Short",
     category: "Piezas individuales",
     group: "piezas-unicas",
-    price: 70000,
+    price: 72000,
     alt: "Short de la colección YEI",
     description:
       "Short versátil, cómodo para el uso diario. Disponible en negro y borgoña.",
