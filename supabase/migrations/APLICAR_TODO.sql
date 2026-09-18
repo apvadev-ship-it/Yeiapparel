@@ -5,7 +5,7 @@
 -- Es idempotente (create table if not exists): correrlo dos veces
 -- no rompe nada ni borra datos.
 --
--- Generado desde los archivos 0001..0008. Si cambias uno de ellos,
+-- Generado desde los archivos 0001..0011. Si cambias uno de ellos,
 -- vuelve a generar este.
 -- =====================================================================
 
@@ -370,6 +370,80 @@ alter table launch_reminders_sent enable row level security;
 
 
 -- ///////////////////////////////////////////////////////////////////
+-- 0009_social_feeds.sql
+-- ///////////////////////////////////////////////////////////////////
+
+-- Feeds reales de Instagram y TikTok en el home. Lectura pública (son
+-- fotos ya públicas de la marca); escritura solo del servidor.
+
+create table if not exists instagram_posts (
+  id text primary key,
+  image_url text not null,
+  caption text not null default '',
+  likes_count integer not null default 0,
+  comments_count integer,
+  permalink text,
+  media_type text,
+  tag text,
+  created_at timestamptz not null default now(),
+  synced_at timestamptz not null default now()
+);
+
+create table if not exists instagram_reels (
+  id text primary key,
+  video_title text not null,
+  video_subtitle text,
+  video_description text,
+  cover_url text not null,
+  reel_url text,
+  duration text,
+  likes_count integer,
+  comments_count integer,
+  synced_at timestamptz not null default now()
+);
+
+create table if not exists tiktok_posts (
+  id text primary key,
+  cover_url text not null,
+  video_url text,
+  caption text not null default '',
+  likes_count integer not null default 0,
+  comments_count integer,
+  shares_count integer,
+  views_count integer,
+  share_url text,
+  duration integer,
+  created_at timestamptz not null default now(),
+  synced_at timestamptz not null default now()
+);
+
+create table if not exists tiktok_oauth_state (
+  id text primary key default 'main',
+  access_token text not null,
+  refresh_token text not null,
+  expires_at timestamptz not null,
+  updated_at timestamptz not null default now()
+);
+
+alter table instagram_posts enable row level security;
+alter table instagram_reels enable row level security;
+alter table tiktok_posts enable row level security;
+alter table tiktok_oauth_state enable row level security;
+
+create policy "lectura publica de instagram_posts"
+  on instagram_posts for select
+  using (true);
+
+create policy "lectura publica de instagram_reels"
+  on instagram_reels for select
+  using (true);
+
+create policy "lectura publica de tiktok_posts"
+  on tiktok_posts for select
+  using (true);
+
+
+-- ///////////////////////////////////////////////////////////////////
 -- 0010_contact_messages_message.sql
 -- ///////////////////////////////////////////////////////////////////
 
@@ -380,3 +454,22 @@ alter table launch_reminders_sent enable row level security;
 -- ---------------------------------------------------------------------
 
 alter table contact_messages add column if not exists message text;
+
+
+-- ///////////////////////////////////////////////////////////////////
+-- 0011_stock_alerts_snapshot.sql
+-- ///////////////////////////////////////////////////////////////////
+
+-- ---------------------------------------------------------------------
+-- Última cantidad de stock conocida por producto/variante, para poder
+-- avisar cuando cambia (subió = hay disponibilidad; bajó a 1 = queda
+-- solo una unidad). La usa `src/lib/stock-alerts.ts`.
+-- ---------------------------------------------------------------------
+
+create table if not exists stock_alerts_snapshot (
+  key text primary key,
+  count integer not null,
+  updated_at timestamptz not null default now()
+);
+
+alter table stock_alerts_snapshot enable row level security;

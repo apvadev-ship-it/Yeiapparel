@@ -304,7 +304,7 @@ function Home() {
                 >
                   <CategoryTile
                     img={piezaUnicaLook}
-                    title="Piezas únicas"
+                    title="Piezas individuales"
                     subtitle="Prendas individuales"
                     categoria="piezas-unicas"
                     notch="notch-frame-lg"
@@ -336,7 +336,7 @@ function Home() {
             />
             <CategoryTile
               img={piezaUnicaLook}
-              title="Piezas únicas"
+              title="Piezas individuales"
               subtitle="Prendas individuales"
               categoria="piezas-unicas"
               notch="notch-frame-lg"

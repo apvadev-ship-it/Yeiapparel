@@ -4,7 +4,7 @@
  * por correo (`launch-reminders.ts`). Una sola fecha, un solo lugar —
  * si algún día cambia, cambia aquí y los dos se actualizan solos.
  */
-export const LAUNCH_DATE = new Date("2026-09-25T12:00:00-05:00");
+export const LAUNCH_DATE = new Date("2026-10-07T12:00:00-05:00");
 
 export type Remaining = {
   dias: number;

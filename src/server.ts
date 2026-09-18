@@ -23,6 +23,7 @@ import { handleSocialSync, SOCIAL_SYNC_PATH } from "./lib/social-sync-endpoint";
 import { syncInstagramFeed, instagramSyncConfigured } from "./lib/instagram-sync";
 import { syncTikTokFeed, tiktokSyncConfigured } from "./lib/tiktok-sync";
 import { sendWeeklyReport } from "./lib/weekly-report";
+import { checkStockAlerts } from "./lib/stock-alerts";
 import { handleSitemap, SITEMAP_PATH } from "./lib/sitemap";
 
 type ServerEntry = {
@@ -264,6 +265,11 @@ export default {
     ctx.waitUntil(
       checkLaunchReminders().catch((error) => {
         console.error("[lanzamiento] la revisión programada falló:", error);
+      }),
+    );
+    ctx.waitUntil(
+      checkStockAlerts().catch((error) => {
+        console.error("[stock] la revisión programada falló:", error);
       }),
     );
     if (instagramSyncConfigured()) {

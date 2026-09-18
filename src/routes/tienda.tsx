@@ -12,7 +12,7 @@ import { Reveal } from "@/components/yei/Reveal";
 
 const TABS: { label: string; value: ProductGroup }[] = [
   { label: "Sets", value: "sets" },
-  { label: "Piezas únicas", value: "piezas-unicas" },
+  { label: "Piezas individuales", value: "piezas-unicas" },
 ];
 
 /** Palabras que se turnan sobre la portada de la tienda. */

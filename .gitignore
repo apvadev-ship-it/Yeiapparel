@@ -17,3 +17,4 @@ dist
 .env*
 !.env.example
 .wrangler-secrets.env
+supabase/.temp/

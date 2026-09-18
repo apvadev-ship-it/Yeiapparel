@@ -488,6 +488,169 @@ export function renderCatalogAnnouncementEmail(params: {
   };
 }
 
+/** Una prenda/variante dentro del aviso de inventario a suscriptores. */
+export type StockAlertProduct = {
+  name: string;
+  /** "talla M, color beige", si la hoja trae esa variante. Opcional. */
+  detail?: string;
+  /** Ya formateado, p. ej. "$150.000". */
+  price: string;
+  image: string;
+  url: string;
+};
+
+/**
+ * Aviso de inventario a los suscriptores: "ya hay disponibilidad" y/o
+ * "última unidad". La usa `stock-alerts.ts`, que corre sola una vez al
+ * día y decide qué prendas van en cada lista comparando el inventario
+ * de hoy contra el de ayer — este archivo solo arma el correo con lo
+ * que le llega, nunca decide qué avisar.
+ *
+ * Reusa la misma rejilla de dos columnas que
+ * `renderCatalogAnnouncementEmail`, con una etiqueta roja "Última
+ * unidad" superpuesta cuando aplica — para que dé la urgencia de
+ * comprar ya, sin depender de un `<span>` con texto en mayúsculas que
+ * cualquier cliente de correo puede ignorar.
+ */
+export function renderStockAlertEmail(params: {
+  restocked: StockAlertProduct[];
+  lowStock: StockAlertProduct[];
+  ctaUrl: string;
+  unsubscribeUrl: string;
+}): { subject: string; html: string; text: string } {
+  const { restocked, lowStock, ctaUrl, unsubscribeUrl } = params;
+
+  const cell = (p: StockAlertProduct, badge?: string) => `
+    <td width="48%" valign="top" style="padding-bottom:24px;">
+      <a href="${escapeHtml(p.url)}" style="text-decoration:none;position:relative;display:block;">
+        ${
+          badge
+            ? `<span style="display:inline-block;margin-bottom:8px;padding:4px 10px;font-family:${SANS};
+                     font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:${MARFIL};
+                     background-color:${TERRACOTA};border-radius:2px;">${escapeHtml(badge)}</span><br/>`
+            : ""
+        }
+        <img src="${escapeHtml(p.image)}" width="260" alt="${escapeHtml(p.name)}"
+             style="width:100%;max-width:260px;height:auto;display:block;border-radius:2px;" />
+        <p style="margin:12px 0 2px;font-family:${DISPLAY};font-size:19px;
+                  font-weight:500;color:${CHOCOLATE};">
+          ${escapeHtml(p.name)}
+        </p>
+        ${
+          p.detail
+            ? `<p style="margin:0 0 2px;font-family:${SANS};font-size:12px;color:#8A7A73;">${escapeHtml(p.detail)}</p>`
+            : ""
+        }
+        <p style="margin:0;font-family:${SANS};font-size:13px;font-weight:600;color:${TERRACOTA};">
+          ${escapeHtml(p.price)}
+        </p>
+      </a>
+    </td>`;
+
+  const grid = (items: StockAlertProduct[], badge?: string) => {
+    const rows: StockAlertProduct[][] = [];
+    for (let i = 0; i < items.length; i += 2) rows.push(items.slice(i, i + 2));
+    return rows
+      .map(
+        (row) => `
+    <tr>
+      ${cell(row[0]!, badge)}
+      <td width="4%">&nbsp;</td>
+      ${row[1] ? cell(row[1], badge) : `<td width="48%">&nbsp;</td>`}
+    </tr>`,
+      )
+      .join("\n");
+  };
+
+  const section = (
+    label: string,
+    color: string,
+    items: StockAlertProduct[],
+    badge?: string,
+  ) =>
+    items.length === 0
+      ? ""
+      : `
+    <tr>
+      <td style="padding:0 24px 12px;">
+        <p style="margin:0;font-family:${SANS};font-size:11px;letter-spacing:3px;
+                  text-transform:uppercase;color:${color};">
+          ${escapeHtml(label)}
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 24px 8px;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+          ${grid(items, badge)}
+        </table>
+      </td>
+    </tr>`;
+
+  const headline =
+    lowStock.length > 0 && restocked.length > 0
+      ? "Se mueve rápido"
+      : lowStock.length > 0
+        ? "Última unidad — no te quedes sin ella"
+        : "Ya está disponible";
+
+  const intro =
+    lowStock.length > 0
+      ? "Estas piezas están a punto de agotarse. Cuando se acaban, no vuelven pronto."
+      : "Estas piezas que esperabas ya volvieron a estar disponibles.";
+
+  const content = `
+    <tr>
+      <td align="center" style="padding:0 24px 24px;">
+        <p style="margin:0 0 14px;font-family:${SANS};font-size:11px;letter-spacing:3px;
+                  text-transform:uppercase;color:${TERRACOTA};">
+          Inventario YEI
+        </p>
+        <h1 style="margin:0 0 16px;font-family:${DISPLAY};font-size:38px;line-height:1.14;
+                   font-weight:500;color:${CHOCOLATE};">
+          ${escapeHtml(headline)}
+        </h1>
+        <p style="margin:0;font-family:${SANS};font-size:15px;line-height:1.8;color:#5C4A44;">
+          ${escapeHtml(intro)}
+        </p>
+      </td>
+    </tr>
+    ${section("Última unidad", TERRACOTA, lowStock, "Última unidad")}
+    ${section("Ya hay disponibilidad", CHOCOLATE, restocked)}
+    <tr>
+      <td align="center" style="padding:12px 24px 36px;">
+        ${button("Ver la colección", ctaUrl)}
+      </td>
+    </tr>`;
+
+  const textFor = (items: StockAlertProduct[]) =>
+    items.map((p) => `${p.name}${p.detail ? ` (${p.detail})` : ""} — ${p.price}\n${p.url}`);
+
+  const text = [
+    headline.toUpperCase(),
+    "",
+    intro,
+    ...(lowStock.length > 0 ? ["", "ÚLTIMA UNIDAD:", ...textFor(lowStock)] : []),
+    ...(restocked.length > 0 ? ["", "YA HAY DISPONIBILIDAD:", ...textFor(restocked)] : []),
+    "",
+    `Ver la colección: ${ctaUrl}`,
+    "",
+    "---",
+    `Darte de baja: ${unsubscribeUrl}`,
+  ].join("\n");
+
+  const subject =
+    lowStock.length > 0
+      ? `Última unidad: ${lowStock[0]!.name}${lowStock.length > 1 ? ` y ${lowStock.length - 1} más` : ""}`
+      : `Ya disponible: ${restocked[0]!.name}${restocked.length > 1 ? ` y ${restocked.length - 1} más` : ""}`;
+
+  return {
+    subject,
+    html: shell({ preheader: intro, content, unsubscribeUrl }),
+    text,
+  };
+}
+
 /**
  * Avisos de cuenta regresiva para la próxima colección — plantilla
  * predefinida, no algo que se escriba a mano cada vez. La usa
