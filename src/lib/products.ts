@@ -69,9 +69,6 @@ import comfyNegro4 from "@/assets/productos/comfy/comfy-negro-4.jpg";
 import emilianaBorgona1 from "@/assets/productos/emiliana/emiliana-borgona-1.jpg";
 import emilianaBeige1 from "@/assets/productos/emiliana/emiliana-beige-1.jpg";
 import emilianaNegro1 from "@/assets/productos/emiliana/emiliana-negro-1.jpg";
-import girlyBorgona1 from "@/assets/productos/girly/girly-borgona-1.jpg";
-import girlyNegro1 from "@/assets/productos/girly/girly-negro-1.jpg";
-import girlyNegro2 from "@/assets/productos/girly/girly-negro-2.jpg";
 
 export type ProductGroup = "sets" | "piezas-unicas";
 
@@ -245,10 +242,6 @@ const EMILIANA_BORGONA_IMAGES = [emilianaBorgona1];
 const EMILIANA_BEIGE_IMAGES = [emilianaBeige1];
 const EMILIANA_NEGRO_IMAGES = [emilianaNegro1];
 
-/** Fotos reales del set Girly. */
-const GIRLY_BORGONA_IMAGES = [girlyBorgona1];
-const GIRLY_NEGRO_IMAGES = [girlyNegro1, girlyNegro2];
-
 /** Fotos reales del set Madrileño en marfil. */
 const MADRILENO_MARFIL_IMAGES = [
   madrilenoMarfil4,
@@ -311,17 +304,7 @@ export const products: Product[] = [
     description:
       "Set de silueta versátil, pensado para combinar sin esfuerzo. Disponible en negro, marfil, beige y borgoña.",
     sizes: ["XS", "S", "M", "L"],
-    colors: buildColors(0).map((color) => {
-      if (color.name === "Borgoña")
-        return { ...color, images: NALA_BORGONA_IMAGES };
-      if (color.name === "Beige")
-        return { ...color, images: NALA_BEIGE_IMAGES };
-      if (color.name === "Negro")
-        return { ...color, images: NALA_NEGRO_IMAGES };
-      if (color.name === "Marfil")
-        return { ...color, images: NALA_MARFIL_IMAGES };
-      return color;
-    }),
+    colors: buildColors(0),
   },
   {
     slug: "madrileno",
@@ -358,10 +341,14 @@ export const products: Product[] = [
       "Set de líneas suaves y silueta femenina. Disponible en negro, marfil, beige y borgoña.",
     sizes: ["XS", "S", "M", "L"],
     colors: buildColors(2).map((color) => {
-      if (color.name === "Negro")
-        return { ...color, images: GIRLY_NEGRO_IMAGES };
       if (color.name === "Borgoña")
-        return { ...color, images: GIRLY_BORGONA_IMAGES };
+        return { ...color, images: NALA_BORGONA_IMAGES };
+      if (color.name === "Beige")
+        return { ...color, images: NALA_BEIGE_IMAGES };
+      if (color.name === "Negro")
+        return { ...color, images: NALA_NEGRO_IMAGES };
+      if (color.name === "Marfil")
+        return { ...color, images: NALA_MARFIL_IMAGES };
       return color;
     }),
   },
