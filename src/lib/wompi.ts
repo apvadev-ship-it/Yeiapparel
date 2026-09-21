@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { getProduct } from "@/lib/products";
+import { getProduct, priceForSize } from "@/lib/products";
 import { FREE_SHIPPING_FROM } from "@/lib/stock";
 import { savePendingOrder, type OrderItem } from "@/lib/orders";
 import { DEFAULT_CURRENCY, toMinorUnits } from "@/lib/money";
@@ -224,14 +224,15 @@ export const createWompiCheckout = createServerFn({ method: "POST" })
       const product = getProduct(line.slug);
       if (!product) throw new Error(`Producto desconocido: ${line.slug}`);
       const qty = Math.max(1, Math.min(20, Math.floor(line.qty)));
-      subtotal += product.price * qty;
+      const unitPrice = priceForSize(product, line.size);
+      subtotal += unitPrice * qty;
       items.push({
         slug: product.slug,
         name: product.name,
         qty,
         size: line.size,
         color: line.color,
-        unit_price: product.price,
+        unit_price: unitPrice,
       });
     }
 

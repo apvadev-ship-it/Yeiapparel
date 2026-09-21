@@ -23,6 +23,7 @@ import {
   formatPrice,
   getProductBySlug,
   imagesForColor,
+  priceForSize,
   products,
 } from "@/lib/products";
 import {
@@ -373,7 +374,8 @@ function ProductoDetalle() {
   const [techOpen, setTechOpen] = useState(false);
   const [careOpen, setCareOpen] = useState(false);
 
-  const discount = discountPercent(product.price, product.compareAtPrice);
+  const currentPrice = priceForSize(product, size);
+  const discount = discountPercent(currentPrice, product.compareAtPrice);
 
   // Las fotos son del color elegido — la talla no cambia nada de esto.
   const galleryImages = imagesForColor(product, color);
@@ -384,7 +386,7 @@ function ProductoDetalle() {
     slug: product.slug,
     name: product.name,
     image: galleryImages[0] ?? "",
-    price: product.price,
+    price: currentPrice,
     size,
     color,
   });
@@ -479,7 +481,7 @@ function ProductoDetalle() {
                 {product.name}
               </h1>
               <p className="-mt-3 font-display text-[3.2rem] lg:text-[3.6rem] sm:mt-0 text-terracota font-medium">
-                {formatPrice(product.price)}
+                {formatPrice(currentPrice)}
               </p>
               {discount !== null && (
                 <>

@@ -109,6 +109,20 @@ export type Product = {
   sizeGuideImage?: string;
 };
 
+/** Precio fijo para la talla XS de los sets, sin importar la prenda. */
+export const XS_SETS_PRICE = 100000;
+
+/**
+ * Precio real de una línea según la talla elegida. Solo los sets tienen
+ * este descuento en XS — piezas individuales cobran siempre su precio
+ * normal. Server-side (`wompi.ts`) y cliente (ficha de producto) llaman
+ * a esta misma función para no calcular el monto en dos lugares distintos.
+ */
+export function priceForSize(product: Product, size: string): number {
+  if (product.group === "sets" && size === "XS") return XS_SETS_PRICE;
+  return product.price;
+}
+
 /** Fotos del primer color (el que se ve por defecto en tienda/carrito/SEO). */
 export function defaultImages(product: Product): string[] {
   return product.colors[0]?.images ?? [];
