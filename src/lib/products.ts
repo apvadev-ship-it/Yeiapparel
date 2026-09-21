@@ -32,6 +32,11 @@ import blusaNalaBorgona2 from "@/assets/productos/nala/blusa-nala-borgona-2.webp
 import blusaNalaBorgona3 from "@/assets/productos/nala/blusa-nala-borgona-3.webp";
 import blusaNalaBorgona4 from "@/assets/productos/nala/blusa-nala-borgona-4.webp";
 import blusaNalaBorgona5 from "@/assets/productos/nala/blusa-nala-borgona-5.webp";
+import blusaNalaBeige1 from "@/assets/productos/nala/blusa-nala-beige-1.webp";
+import blusaNalaBeige2 from "@/assets/productos/nala/blusa-nala-beige-2.webp";
+import blusaNalaBeige3 from "@/assets/productos/nala/blusa-nala-beige-3.webp";
+import blusaNalaBeige4 from "@/assets/productos/nala/blusa-nala-beige-4.webp";
+import blusaNalaBeige5 from "@/assets/productos/nala/blusa-nala-beige-5.webp";
 import madrilenoNegro1 from "@/assets/productos/madrileno/madrileno-negro-1.webp";
 import madrilenoNegro2 from "@/assets/productos/madrileno/madrileno-negro-2.webp";
 import madrilenoNegro3 from "@/assets/productos/madrileno/madrileno-negro-3.webp";
@@ -206,6 +211,15 @@ const BLUSA_NALA_BORGONA_IMAGES = [
   blusaNalaBorgona3,
   blusaNalaBorgona4,
   blusaNalaBorgona5,
+];
+
+/** Fotos reales de la Blusa Nala en beige. */
+const BLUSA_NALA_BEIGE_IMAGES = [
+  blusaNalaBeige1,
+  blusaNalaBeige2,
+  blusaNalaBeige3,
+  blusaNalaBeige4,
+  blusaNalaBeige5,
 ];
 
 /** Fotos reales del set Nala en marfil. */
@@ -472,10 +486,13 @@ export const products: Product[] = [
       "Blusa de silueta suelta, pensada para combinar con cualquier básico del clóset. Disponible en marfil, beige y borgoña.",
     sizes: ["Talla única"],
     colors: buildColorSubset(0, ["Marfil", "Beige", "Borgoña"]).map(
-      (color) =>
-        color.name === "Borgoña"
-          ? { ...color, images: BLUSA_NALA_BORGONA_IMAGES }
-          : color,
+      (color) => {
+        if (color.name === "Borgoña")
+          return { ...color, images: BLUSA_NALA_BORGONA_IMAGES };
+        if (color.name === "Beige")
+          return { ...color, images: BLUSA_NALA_BEIGE_IMAGES };
+        return color;
+      },
     ),
   },
   {
