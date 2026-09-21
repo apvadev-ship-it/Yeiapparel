@@ -54,6 +54,11 @@ import nalaSetBorgona3 from "@/assets/productos/nala/nala-set-borgona-3.webp";
 import nalaSetBorgona4 from "@/assets/productos/nala/nala-set-borgona-4.webp";
 import nalaSetBorgona5 from "@/assets/productos/nala/nala-set-borgona-5.webp";
 import nalaSetBorgona6 from "@/assets/productos/nala/nala-set-borgona-6.webp";
+import nalaSetMarfil1 from "@/assets/productos/nala/nala-set-marfil-1.webp";
+import nalaSetMarfil2 from "@/assets/productos/nala/nala-set-marfil-2.webp";
+import nalaSetMarfil3 from "@/assets/productos/nala/nala-set-marfil-3.webp";
+import nalaSetMarfil4 from "@/assets/productos/nala/nala-set-marfil-4.webp";
+import nalaSetMarfil5 from "@/assets/productos/nala/nala-set-marfil-5.webp";
 import madrilenoNegro1 from "@/assets/productos/madrileno/madrileno-negro-1.webp";
 import madrilenoNegro2 from "@/assets/productos/madrileno/madrileno-negro-2.webp";
 import madrilenoNegro3 from "@/assets/productos/madrileno/madrileno-negro-3.webp";
@@ -346,6 +351,15 @@ const NALA_SET_BORGONA_IMAGES = [
   nalaSetBorgona6,
 ];
 
+/** Fotos reales del set Nala en marfil. */
+const NALA_SET_MARFIL_IMAGES = [
+  nalaSetMarfil1,
+  nalaSetMarfil2,
+  nalaSetMarfil3,
+  nalaSetMarfil4,
+  nalaSetMarfil5,
+];
+
 /** Fotos reales del set Emiliana (única foto por color, por ahora). */
 const EMILIANA_BORGONA_IMAGES = [emilianaBorgona1];
 const EMILIANA_BEIGE_IMAGES = [emilianaBeige1];
@@ -436,6 +450,8 @@ export const products: Product[] = [
         return { ...color, images: NALA_SET_NEGRO_IMAGES };
       if (color.name === "Borgoña")
         return { ...color, images: NALA_SET_BORGONA_IMAGES };
+      if (color.name === "Marfil")
+        return { ...color, images: NALA_SET_MARFIL_IMAGES };
       return color;
     }),
   },
