@@ -88,6 +88,11 @@ import blusaEmilianaNegro2 from "@/assets/productos/blusa-emiliana/blusa-emilian
 import blusaEmilianaNegro3 from "@/assets/productos/blusa-emiliana/blusa-emiliana-negro-3.webp";
 import blusaEmilianaNegro4 from "@/assets/productos/blusa-emiliana/blusa-emiliana-negro-4.webp";
 import blusaEmilianaNegro5 from "@/assets/productos/blusa-emiliana/blusa-emiliana-negro-5.webp";
+import blusaEmilianaBeige1 from "@/assets/productos/blusa-emiliana/blusa-emiliana-beige-1.webp";
+import blusaEmilianaBeige2 from "@/assets/productos/blusa-emiliana/blusa-emiliana-beige-2.webp";
+import blusaEmilianaBeige3 from "@/assets/productos/blusa-emiliana/blusa-emiliana-beige-3.webp";
+import blusaEmilianaBeige4 from "@/assets/productos/blusa-emiliana/blusa-emiliana-beige-4.webp";
+import blusaEmilianaBeige5 from "@/assets/productos/blusa-emiliana/blusa-emiliana-beige-5.webp";
 
 export type ProductGroup = "sets" | "piezas-unicas";
 
@@ -316,6 +321,15 @@ const BLUSA_EMILIANA_NEGRO_IMAGES = [
   blusaEmilianaNegro5,
 ];
 
+/** Fotos reales de la Blusa Emiliana en beige. */
+const BLUSA_EMILIANA_BEIGE_IMAGES = [
+  blusaEmilianaBeige1,
+  blusaEmilianaBeige2,
+  blusaEmilianaBeige3,
+  blusaEmilianaBeige4,
+  blusaEmilianaBeige5,
+];
+
 /** Fotos reales del set Madrileño en marfil. */
 const MADRILENO_MARFIL_IMAGES = [
   madrilenoMarfil4,
@@ -537,11 +551,13 @@ export const products: Product[] = [
     description:
       "Blusa de corte limpio y caída fluida, para el día completo. Disponible en negro y beige.",
     sizes: ["Talla única"],
-    colors: buildColorSubset(1, ["Negro", "Beige"]).map((color) =>
-      color.name === "Negro"
-        ? { ...color, images: BLUSA_EMILIANA_NEGRO_IMAGES }
-        : color,
-    ),
+    colors: buildColorSubset(1, ["Negro", "Beige"]).map((color) => {
+      if (color.name === "Negro")
+        return { ...color, images: BLUSA_EMILIANA_NEGRO_IMAGES };
+      if (color.name === "Beige")
+        return { ...color, images: BLUSA_EMILIANA_BEIGE_IMAGES };
+      return color;
+    }),
   },
   {
     slug: "short-1",
