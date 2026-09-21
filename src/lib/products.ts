@@ -27,6 +27,11 @@ import nalaMarfil3 from "@/assets/productos/nala/nala-marfil-3.webp";
 import nalaMarfil4 from "@/assets/productos/nala/nala-marfil-4.webp";
 import nalaMarfil5 from "@/assets/productos/nala/nala-marfil-5.webp";
 import nalaMarfil6 from "@/assets/productos/nala/nala-marfil-6.webp";
+import blusaNalaBorgona1 from "@/assets/productos/nala/blusa-nala-borgona-1.webp";
+import blusaNalaBorgona2 from "@/assets/productos/nala/blusa-nala-borgona-2.webp";
+import blusaNalaBorgona3 from "@/assets/productos/nala/blusa-nala-borgona-3.webp";
+import blusaNalaBorgona4 from "@/assets/productos/nala/blusa-nala-borgona-4.webp";
+import blusaNalaBorgona5 from "@/assets/productos/nala/blusa-nala-borgona-5.webp";
 import madrilenoNegro1 from "@/assets/productos/madrileno/madrileno-negro-1.webp";
 import madrilenoNegro2 from "@/assets/productos/madrileno/madrileno-negro-2.webp";
 import madrilenoNegro3 from "@/assets/productos/madrileno/madrileno-negro-3.webp";
@@ -192,6 +197,15 @@ const NALA_NEGRO_IMAGES = [
   nalaNegro4,
   nalaNegro5,
   nalaNegro6,
+];
+
+/** Fotos reales de la Blusa Nala en borgoña. */
+const BLUSA_NALA_BORGONA_IMAGES = [
+  blusaNalaBorgona1,
+  blusaNalaBorgona2,
+  blusaNalaBorgona3,
+  blusaNalaBorgona4,
+  blusaNalaBorgona5,
 ];
 
 /** Fotos reales del set Nala en marfil. */
@@ -457,7 +471,12 @@ export const products: Product[] = [
     description:
       "Blusa de silueta suelta, pensada para combinar con cualquier básico del clóset. Disponible en marfil, beige y borgoña.",
     sizes: ["Talla única"],
-    colors: buildColorSubset(0, ["Marfil", "Beige", "Borgoña"]),
+    colors: buildColorSubset(0, ["Marfil", "Beige", "Borgoña"]).map(
+      (color) =>
+        color.name === "Borgoña"
+          ? { ...color, images: BLUSA_NALA_BORGONA_IMAGES }
+          : color,
+    ),
   },
   {
     slug: "blusa-emiliana",
