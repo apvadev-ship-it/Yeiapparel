@@ -304,6 +304,7 @@ function ProductoDetalle() {
     product.slug,
     product.stock,
     { size, color },
+    product.colorStock,
   );
   const stockInfo = describeStock(stock);
 
@@ -742,7 +743,13 @@ function ProductoDetalle() {
                   habitual.
                 </dd>
                 <dd className="mt-3">
-                  {product.sizeGuideImage ? (
+                  {product.sizes.length === 1 &&
+                  product.sizes[0] === "Talla única" ? (
+                    <p className="text-chocolate/80 font-light">
+                      Esta pieza viene en talla única, pensada para ajustarse
+                      a la mayoría de cuerpos.
+                    </p>
+                  ) : product.sizeGuideImage ? (
                     <img
                       src={product.sizeGuideImage}
                       alt={`Guía de tallas de ${product.name}`}

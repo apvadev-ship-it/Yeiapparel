@@ -40,7 +40,6 @@ import madrilenoBorgona3 from "@/assets/productos/madrileno/madrileno-borgona-3.
 import madrilenoBorgona4 from "@/assets/productos/madrileno/madrileno-borgona-4.webp";
 import madrilenoBorgona5 from "@/assets/productos/madrileno/madrileno-borgona-5.webp";
 import madrilenoBorgona6 from "@/assets/productos/madrileno/madrileno-borgona-6.webp";
-import madrilenoBorgona7 from "@/assets/productos/madrileno/madrileno-borgona-7.webp";
 import madrilenoBeige1 from "@/assets/productos/madrileno/madrileno-beige-1.webp";
 import madrilenoBeige2 from "@/assets/productos/madrileno/madrileno-beige-2.webp";
 import madrilenoBeige3 from "@/assets/productos/madrileno/madrileno-beige-3.webp";
@@ -105,6 +104,12 @@ export type Product = {
    * manda esa hoja (ver `availability-sheet.ts`).
    */
   stock?: number;
+  /**
+   * Inventario de respaldo POR COLOR (mismo criterio que `stock`: solo
+   * se usa si la hoja no trae esta variante). Para prendas de talla
+   * única, donde el color es la única variante que importa.
+   */
+  colorStock?: Record<string, number>;
   /** Imagen de la guía de tallas de esta pieza, si la hay. */
   sizeGuideImage?: string;
 };
@@ -218,7 +223,6 @@ const MADRILENO_BORGONA_IMAGES = [
   madrilenoBorgona4,
   madrilenoBorgona5,
   madrilenoBorgona6,
-  madrilenoBorgona7,
 ];
 
 /** Fotos reales del set Madrileño en beige. */
@@ -443,7 +447,8 @@ export const products: Product[] = [
   },
   {
     slug: "blusa-nala",
-    stock: 5,
+    stock: 9,
+    colorStock: { Beige: 3, Borgoña: 3, Marfil: 3 },
     name: "Blusa Nala",
     category: "Piezas individuales",
     group: "piezas-unicas",
@@ -451,7 +456,7 @@ export const products: Product[] = [
     alt: "Blusa Nala de la colección YEI",
     description:
       "Blusa de silueta suelta, pensada para combinar con cualquier básico del clóset. Disponible en marfil, beige y borgoña.",
-    sizes: ["XS", "S", "M", "L"],
+    sizes: ["Talla única"],
     colors: buildColorSubset(0, ["Marfil", "Beige", "Borgoña"]),
   },
   {
@@ -464,7 +469,7 @@ export const products: Product[] = [
     alt: "Blusa Emiliana de la colección YEI",
     description:
       "Blusa de corte limpio y caída fluida, para el día completo. Disponible en negro y beige.",
-    sizes: ["XS", "S", "M", "L"],
+    sizes: ["Talla única"],
     colors: buildColorSubset(1, ["Negro", "Beige"]),
   },
   {
@@ -477,7 +482,7 @@ export const products: Product[] = [
     alt: "Short de la colección YEI",
     description:
       "Short versátil, cómodo para el uso diario. Disponible en negro, marfil y beige.",
-    sizes: ["XS", "S", "M", "L"],
+    sizes: ["Talla única"],
     colors: buildColorSubset(2, ["Negro", "Marfil", "Beige"]),
   },
   {
@@ -490,7 +495,7 @@ export const products: Product[] = [
     alt: "Short de la colección YEI",
     description:
       "Short versátil, cómodo para el uso diario. Disponible en negro y borgoña.",
-    sizes: ["XS", "S", "M", "L"],
+    sizes: ["Talla única"],
     colors: buildColorSubset(3, ["Negro", "Borgoña"]),
   },
 ];

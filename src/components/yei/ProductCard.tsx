@@ -37,7 +37,7 @@ export function ProductCard({
     name: product.name,
     image: activeImages[0] ?? "",
     price: product.price,
-    size: product.sizes[1] ?? "M",
+    size: product.sizes[1] ?? product.sizes[0] ?? "M",
     color: activeColor || product.colors[0]!.name,
   });
 

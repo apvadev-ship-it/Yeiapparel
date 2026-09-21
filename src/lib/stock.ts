@@ -76,9 +76,19 @@ export function useProductStock(
   slug: string,
   fallback: number | undefined,
   variant?: StockVariant,
+  colorFallback?: Record<string, number>,
 ): StockState {
+  // El respaldo por color manda sobre el total del producto cuando hay
+  // un color elegido y ese color tiene su propio número — por ejemplo,
+  // una blusa de talla única con 3 unidades por color en vez de un
+  // total plano.
+  const resolveFallback = () => {
+    const byColor = variant?.color ? colorFallback?.[variant.color] : undefined;
+    return byColor ?? fallback ?? null;
+  };
+
   const [state, setState] = useState<StockState>({
-    stock: fallback ?? null,
+    stock: resolveFallback(),
     loading: true,
     source: "fallback",
   });
@@ -91,7 +101,7 @@ export function useProductStock(
 
     const applyFallback = () => {
       if (cancelled) return;
-      setState({ stock: fallback ?? null, loading: false, source: "fallback" });
+      setState({ stock: resolveFallback(), loading: false, source: "fallback" });
     };
 
     loadAvailability()
@@ -121,7 +131,7 @@ export function useProductStock(
     return () => {
       cancelled = true;
     };
-  }, [slug, fallback, size, color]);
+  }, [slug, fallback, size, color, colorFallback]);
 
   return state;
 }
