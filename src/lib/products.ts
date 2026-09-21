@@ -37,6 +37,11 @@ import blusaNalaBeige2 from "@/assets/productos/nala/blusa-nala-beige-2.webp";
 import blusaNalaBeige3 from "@/assets/productos/nala/blusa-nala-beige-3.webp";
 import blusaNalaBeige4 from "@/assets/productos/nala/blusa-nala-beige-4.webp";
 import blusaNalaBeige5 from "@/assets/productos/nala/blusa-nala-beige-5.webp";
+import blusaNalaMarfil1 from "@/assets/productos/nala/blusa-nala-marfil-1.webp";
+import blusaNalaMarfil2 from "@/assets/productos/nala/blusa-nala-marfil-2.webp";
+import blusaNalaMarfil3 from "@/assets/productos/nala/blusa-nala-marfil-3.webp";
+import blusaNalaMarfil4 from "@/assets/productos/nala/blusa-nala-marfil-4.webp";
+import blusaNalaMarfil5 from "@/assets/productos/nala/blusa-nala-marfil-5.webp";
 import madrilenoNegro1 from "@/assets/productos/madrileno/madrileno-negro-1.webp";
 import madrilenoNegro2 from "@/assets/productos/madrileno/madrileno-negro-2.webp";
 import madrilenoNegro3 from "@/assets/productos/madrileno/madrileno-negro-3.webp";
@@ -220,6 +225,15 @@ const BLUSA_NALA_BEIGE_IMAGES = [
   blusaNalaBeige3,
   blusaNalaBeige4,
   blusaNalaBeige5,
+];
+
+/** Fotos reales de la Blusa Nala en marfil. */
+const BLUSA_NALA_MARFIL_IMAGES = [
+  blusaNalaMarfil1,
+  blusaNalaMarfil2,
+  blusaNalaMarfil3,
+  blusaNalaMarfil4,
+  blusaNalaMarfil5,
 ];
 
 /** Fotos reales del set Nala en marfil. */
@@ -491,6 +505,8 @@ export const products: Product[] = [
           return { ...color, images: BLUSA_NALA_BORGONA_IMAGES };
         if (color.name === "Beige")
           return { ...color, images: BLUSA_NALA_BEIGE_IMAGES };
+        if (color.name === "Marfil")
+          return { ...color, images: BLUSA_NALA_MARFIL_IMAGES };
         return color;
       },
     ),
