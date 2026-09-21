@@ -461,7 +461,8 @@ export const products: Product[] = [
   },
   {
     slug: "blusa-emiliana",
-    stock: 5,
+    stock: 4,
+    colorStock: { Beige: 2, Negro: 2 },
     name: "Blusa Emiliana",
     category: "Piezas individuales",
     group: "piezas-unicas",
@@ -474,7 +475,8 @@ export const products: Product[] = [
   },
   {
     slug: "short-1",
-    stock: 5,
+    stock: 9,
+    colorStock: { Negro: 3, Beige: 3, Marfil: 3 },
     name: "Short",
     category: "Piezas individuales",
     group: "piezas-unicas",
@@ -482,12 +484,13 @@ export const products: Product[] = [
     alt: "Short de la colección YEI",
     description:
       "Short versátil, cómodo para el uso diario. Disponible en negro, marfil y beige.",
-    sizes: ["Talla única"],
+    sizes: ["M"],
     colors: buildColorSubset(2, ["Negro", "Marfil", "Beige"]),
   },
   {
     slug: "short-2",
-    stock: 5,
+    stock: 4,
+    colorStock: { Borgoña: 2, Negro: 2 },
     name: "Short",
     category: "Piezas individuales",
     group: "piezas-unicas",
@@ -495,7 +498,7 @@ export const products: Product[] = [
     alt: "Short de la colección YEI",
     description:
       "Short versátil, cómodo para el uso diario. Disponible en negro y borgoña.",
-    sizes: ["Talla única"],
+    sizes: ["S"],
     colors: buildColorSubset(3, ["Negro", "Borgoña"]),
   },
 ];
