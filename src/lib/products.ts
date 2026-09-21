@@ -116,6 +116,16 @@ import blusaEmilianaBeige2 from "@/assets/productos/blusa-emiliana/blusa-emilian
 import blusaEmilianaBeige3 from "@/assets/productos/blusa-emiliana/blusa-emiliana-beige-3.webp";
 import blusaEmilianaBeige4 from "@/assets/productos/blusa-emiliana/blusa-emiliana-beige-4.webp";
 import blusaEmilianaBeige5 from "@/assets/productos/blusa-emiliana/blusa-emiliana-beige-5.webp";
+import shortNegro1 from "@/assets/productos/short/short-negro-1.webp";
+import shortNegro2 from "@/assets/productos/short/short-negro-2.webp";
+import shortNegro3 from "@/assets/productos/short/short-negro-3.webp";
+import shortNegro4 from "@/assets/productos/short/short-negro-4.webp";
+import shortNegro5 from "@/assets/productos/short/short-negro-5.webp";
+import shortBeige1 from "@/assets/productos/short/short-beige-1.webp";
+import shortBeige2 from "@/assets/productos/short/short-beige-2.webp";
+import shortBeige3 from "@/assets/productos/short/short-beige-3.webp";
+import shortBeige4 from "@/assets/productos/short/short-beige-4.webp";
+import shortBeige5 from "@/assets/productos/short/short-beige-5.webp";
 
 export type ProductGroup = "sets" | "piezas-unicas";
 
@@ -374,6 +384,24 @@ const NALA_SET_BEIGE_IMAGES = [
   nalaSetBeige4,
   nalaSetBeige5,
   nalaSetBeige6,
+];
+
+/** Fotos reales del Short en negro. */
+const SHORT_NEGRO_IMAGES = [
+  shortNegro1,
+  shortNegro2,
+  shortNegro3,
+  shortNegro4,
+  shortNegro5,
+];
+
+/** Fotos reales del Short en beige. */
+const SHORT_BEIGE_IMAGES = [
+  shortBeige1,
+  shortBeige2,
+  shortBeige3,
+  shortBeige4,
+  shortBeige5,
 ];
 
 /** Fotos reales del set Emiliana (única foto por color, por ahora). */
@@ -666,7 +694,15 @@ export const products: Product[] = [
     description:
       "Short versátil, cómodo para el uso diario. Talla M en negro, marfil y beige; talla S en negro y borgoña.",
     sizes: ["M", "S"],
-    colors: buildColorSubset(2, ["Negro", "Marfil", "Beige", "Borgoña"]),
+    colors: buildColorSubset(2, ["Negro", "Marfil", "Beige", "Borgoña"]).map(
+      (color) => {
+        if (color.name === "Negro")
+          return { ...color, images: SHORT_NEGRO_IMAGES };
+        if (color.name === "Beige")
+          return { ...color, images: SHORT_BEIGE_IMAGES };
+        return color;
+      },
+    ),
   },
 ];
 
