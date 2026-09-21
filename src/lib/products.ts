@@ -83,6 +83,11 @@ import comfyNegro4 from "@/assets/productos/comfy/comfy-negro-4.jpg";
 import emilianaBorgona1 from "@/assets/productos/emiliana/emiliana-borgona-1.jpg";
 import emilianaBeige1 from "@/assets/productos/emiliana/emiliana-beige-1.jpg";
 import emilianaNegro1 from "@/assets/productos/emiliana/emiliana-negro-1.jpg";
+import blusaEmilianaNegro1 from "@/assets/productos/blusa-emiliana/blusa-emiliana-negro-1.webp";
+import blusaEmilianaNegro2 from "@/assets/productos/blusa-emiliana/blusa-emiliana-negro-2.webp";
+import blusaEmilianaNegro3 from "@/assets/productos/blusa-emiliana/blusa-emiliana-negro-3.webp";
+import blusaEmilianaNegro4 from "@/assets/productos/blusa-emiliana/blusa-emiliana-negro-4.webp";
+import blusaEmilianaNegro5 from "@/assets/productos/blusa-emiliana/blusa-emiliana-negro-5.webp";
 
 export type ProductGroup = "sets" | "piezas-unicas";
 
@@ -301,6 +306,15 @@ const COMFY_NEGRO_IMAGES = [
 const EMILIANA_BORGONA_IMAGES = [emilianaBorgona1];
 const EMILIANA_BEIGE_IMAGES = [emilianaBeige1];
 const EMILIANA_NEGRO_IMAGES = [emilianaNegro1];
+
+/** Fotos reales de la Blusa Emiliana en negro. */
+const BLUSA_EMILIANA_NEGRO_IMAGES = [
+  blusaEmilianaNegro1,
+  blusaEmilianaNegro2,
+  blusaEmilianaNegro3,
+  blusaEmilianaNegro4,
+  blusaEmilianaNegro5,
+];
 
 /** Fotos reales del set Madrileño en marfil. */
 const MADRILENO_MARFIL_IMAGES = [
@@ -523,7 +537,11 @@ export const products: Product[] = [
     description:
       "Blusa de corte limpio y caída fluida, para el día completo. Disponible en negro y beige.",
     sizes: ["Talla única"],
-    colors: buildColorSubset(1, ["Negro", "Beige"]),
+    colors: buildColorSubset(1, ["Negro", "Beige"]).map((color) =>
+      color.name === "Negro"
+        ? { ...color, images: BLUSA_EMILIANA_NEGRO_IMAGES }
+        : color,
+    ),
   },
   {
     slug: "short-1",
