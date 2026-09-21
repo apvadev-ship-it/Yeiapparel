@@ -130,11 +130,13 @@ export type Product = {
    */
   stock?: number;
   /**
-   * Inventario de respaldo POR COLOR (mismo criterio que `stock`: solo
-   * se usa si la hoja no trae esta variante). Para prendas de talla
-   * única, donde el color es la única variante que importa.
+   * Inventario de respaldo POR TALLA+COLOR (mismo criterio que `stock`:
+   * solo se usa si la hoja no trae esta variante). Clave: `"talla|color"`
+   * — ver `variantStockKey`. Una combinación que no aparece aquí, en un
+   * producto que sí define este campo, se trata como agotada (0): sirve
+   * para prendas donde no todos los colores vienen en todas las tallas.
    */
-  colorStock?: Record<string, number>;
+  variantStock?: Record<string, number>;
   /** Imagen de la guía de tallas de esta pieza, si la hay. */
   sizeGuideImage?: string;
 };
@@ -151,6 +153,11 @@ export const XS_SETS_PRICE = 100000;
 export function priceForSize(product: Product, size: string): number {
   if (product.group === "sets" && size === "XS") return XS_SETS_PRICE;
   return product.price;
+}
+
+/** Clave de `Product.variantStock` para una combinación talla+color. */
+export function variantStockKey(size: string, color: string): string {
+  return `${size}|${color}`;
 }
 
 /** Fotos del primer color (el que se ve por defecto en tienda/carrito/SEO). */
@@ -518,7 +525,11 @@ export const products: Product[] = [
   {
     slug: "blusa-nala",
     stock: 9,
-    colorStock: { Beige: 3, Borgoña: 3, Marfil: 3 },
+    variantStock: {
+      [variantStockKey("Talla única", "Beige")]: 3,
+      [variantStockKey("Talla única", "Borgoña")]: 3,
+      [variantStockKey("Talla única", "Marfil")]: 3,
+    },
     name: "Blusa Nala",
     category: "Piezas individuales",
     group: "piezas-unicas",
@@ -542,7 +553,10 @@ export const products: Product[] = [
   {
     slug: "blusa-emiliana",
     stock: 4,
-    colorStock: { Beige: 2, Negro: 2 },
+    variantStock: {
+      [variantStockKey("Talla única", "Beige")]: 2,
+      [variantStockKey("Talla única", "Negro")]: 2,
+    },
     name: "Blusa Emiliana",
     category: "Piezas individuales",
     group: "piezas-unicas",
@@ -561,31 +575,26 @@ export const products: Product[] = [
   },
   {
     slug: "short-1",
-    stock: 9,
-    colorStock: { Negro: 3, Beige: 3, Marfil: 3 },
+    stock: 13,
+    // Talla M solo viene en negro/beige/marfil; talla S solo en negro/
+    // borgoña — combinaciones que no están aquí (p. ej. S + beige) se
+    // tratan como agotadas (ver `variantStockKey`).
+    variantStock: {
+      [variantStockKey("M", "Negro")]: 3,
+      [variantStockKey("M", "Beige")]: 3,
+      [variantStockKey("M", "Marfil")]: 3,
+      [variantStockKey("S", "Negro")]: 2,
+      [variantStockKey("S", "Borgoña")]: 2,
+    },
     name: "Short",
     category: "Piezas individuales",
     group: "piezas-unicas",
     price: 72000,
     alt: "Short de la colección YEI",
     description:
-      "Short versátil, cómodo para el uso diario. Disponible en negro, marfil y beige.",
-    sizes: ["M"],
-    colors: buildColorSubset(2, ["Negro", "Marfil", "Beige"]),
-  },
-  {
-    slug: "short-2",
-    stock: 4,
-    colorStock: { Borgoña: 2, Negro: 2 },
-    name: "Short",
-    category: "Piezas individuales",
-    group: "piezas-unicas",
-    price: 72000,
-    alt: "Short de la colección YEI",
-    description:
-      "Short versátil, cómodo para el uso diario. Disponible en negro y borgoña.",
-    sizes: ["S"],
-    colors: buildColorSubset(3, ["Negro", "Borgoña"]),
+      "Short versátil, cómodo para el uso diario. Talla M en negro, marfil y beige; talla S en negro y borgoña.",
+    sizes: ["M", "S"],
+    colors: buildColorSubset(2, ["Negro", "Marfil", "Beige", "Borgoña"]),
   },
 ];
 

@@ -304,7 +304,7 @@ function ProductoDetalle() {
     product.slug,
     product.stock,
     { size, color },
-    product.colorStock,
+    product.variantStock,
   );
   const stockInfo = describeStock(stock);
 

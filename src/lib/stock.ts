@@ -5,6 +5,7 @@ import {
   type AvailabilityMap,
   type AvailabilitySnapshot,
 } from "@/lib/availability";
+import { variantStockKey } from "@/lib/products";
 
 /**
  * Inventario real de un producto.
@@ -76,15 +77,20 @@ export function useProductStock(
   slug: string,
   fallback: number | undefined,
   variant?: StockVariant,
-  colorFallback?: Record<string, number>,
+  variantFallback?: Record<string, number>,
 ): StockState {
-  // El respaldo por color manda sobre el total del producto cuando hay
-  // un color elegido y ese color tiene su propio número — por ejemplo,
-  // una blusa de talla única con 3 unidades por color en vez de un
-  // total plano.
+  // El respaldo por talla+color manda sobre el total del producto
+  // cuando hay talla y color elegidos y el producto define ese mapa —
+  // por ejemplo, un short con tallas que no comparten los mismos
+  // colores. Si el producto define el mapa pero esta combinación no
+  // aparece ahí, se trata como agotada (0), no como "sin dato": esa
+  // combinación en concreto no existe.
   const resolveFallback = () => {
-    const byColor = variant?.color ? colorFallback?.[variant.color] : undefined;
-    return byColor ?? fallback ?? null;
+    if (variant?.size && variant?.color && variantFallback) {
+      const key = variantStockKey(variant.size, variant.color);
+      return key in variantFallback ? variantFallback[key] : 0;
+    }
+    return fallback ?? null;
   };
 
   const [state, setState] = useState<StockState>({
@@ -131,7 +137,7 @@ export function useProductStock(
     return () => {
       cancelled = true;
     };
-  }, [slug, fallback, size, color, colorFallback]);
+  }, [slug, fallback, size, color, variantFallback]);
 
   return state;
 }
