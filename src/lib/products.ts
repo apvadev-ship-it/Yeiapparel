@@ -133,6 +133,16 @@ import emilianaSetMarfil1 from "@/assets/productos/emiliana/emiliana-set-marfil-
 import emilianaSetMarfil2 from "@/assets/productos/emiliana/emiliana-set-marfil-2.webp";
 import emilianaSetMarfil3 from "@/assets/productos/emiliana/emiliana-set-marfil-3.webp";
 import emilianaSetMarfil4 from "@/assets/productos/emiliana/emiliana-set-marfil-4.webp";
+import comfySetBeige1 from "@/assets/productos/comfy/comfy-set-beige-1.webp";
+import comfySetBeige2 from "@/assets/productos/comfy/comfy-set-beige-2.webp";
+import comfySetBeige3 from "@/assets/productos/comfy/comfy-set-beige-3.webp";
+import comfySetBeige4 from "@/assets/productos/comfy/comfy-set-beige-4.webp";
+import comfySetBeige5 from "@/assets/productos/comfy/comfy-set-beige-5.webp";
+import comfySetBorgona1 from "@/assets/productos/comfy/comfy-set-borgona-1.webp";
+import comfySetBorgona2 from "@/assets/productos/comfy/comfy-set-borgona-2.webp";
+import comfySetBorgona3 from "@/assets/productos/comfy/comfy-set-borgona-3.webp";
+import comfySetBorgona4 from "@/assets/productos/comfy/comfy-set-borgona-4.webp";
+import comfySetBorgona5 from "@/assets/productos/comfy/comfy-set-borgona-5.webp";
 
 export type ProductGroup = "sets" | "piezas-unicas";
 
@@ -352,6 +362,24 @@ const COMFY_NEGRO_IMAGES = [
   comfyNegro2,
   comfyNegro3,
   comfyNegro4,
+];
+
+/** Fotos reales del set Comfy en beige. */
+const COMFY_BEIGE_IMAGES = [
+  comfySetBeige1,
+  comfySetBeige2,
+  comfySetBeige3,
+  comfySetBeige4,
+  comfySetBeige5,
+];
+
+/** Fotos reales del set Comfy en borgoña. */
+const COMFY_BORGONA_IMAGES = [
+  comfySetBorgona1,
+  comfySetBorgona2,
+  comfySetBorgona3,
+  comfySetBorgona4,
+  comfySetBorgona5,
 ];
 
 /** Fotos reales del set Nala en negro. */
@@ -604,6 +632,10 @@ export const products: Product[] = [
         return { ...color, images: COMFY_MARFIL_IMAGES };
       if (color.name === "Negro")
         return { ...color, images: COMFY_NEGRO_IMAGES };
+      if (color.name === "Beige")
+        return { ...color, images: COMFY_BEIGE_IMAGES };
+      if (color.name === "Borgoña")
+        return { ...color, images: COMFY_BORGONA_IMAGES };
       return color;
     }),
   },
