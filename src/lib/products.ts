@@ -42,6 +42,18 @@ import blusaNalaMarfil2 from "@/assets/productos/nala/blusa-nala-marfil-2.webp";
 import blusaNalaMarfil3 from "@/assets/productos/nala/blusa-nala-marfil-3.webp";
 import blusaNalaMarfil4 from "@/assets/productos/nala/blusa-nala-marfil-4.webp";
 import blusaNalaMarfil5 from "@/assets/productos/nala/blusa-nala-marfil-5.webp";
+import nalaSetNegro1 from "@/assets/productos/nala/nala-set-negro-1.webp";
+import nalaSetNegro2 from "@/assets/productos/nala/nala-set-negro-2.webp";
+import nalaSetNegro3 from "@/assets/productos/nala/nala-set-negro-3.webp";
+import nalaSetNegro4 from "@/assets/productos/nala/nala-set-negro-4.webp";
+import nalaSetNegro5 from "@/assets/productos/nala/nala-set-negro-5.webp";
+import nalaSetNegro6 from "@/assets/productos/nala/nala-set-negro-6.webp";
+import nalaSetBorgona1 from "@/assets/productos/nala/nala-set-borgona-1.webp";
+import nalaSetBorgona2 from "@/assets/productos/nala/nala-set-borgona-2.webp";
+import nalaSetBorgona3 from "@/assets/productos/nala/nala-set-borgona-3.webp";
+import nalaSetBorgona4 from "@/assets/productos/nala/nala-set-borgona-4.webp";
+import nalaSetBorgona5 from "@/assets/productos/nala/nala-set-borgona-5.webp";
+import nalaSetBorgona6 from "@/assets/productos/nala/nala-set-borgona-6.webp";
 import madrilenoNegro1 from "@/assets/productos/madrileno/madrileno-negro-1.webp";
 import madrilenoNegro2 from "@/assets/productos/madrileno/madrileno-negro-2.webp";
 import madrilenoNegro3 from "@/assets/productos/madrileno/madrileno-negro-3.webp";
@@ -314,6 +326,26 @@ const COMFY_NEGRO_IMAGES = [
   comfyNegro4,
 ];
 
+/** Fotos reales del set Nala en negro. */
+const NALA_SET_NEGRO_IMAGES = [
+  nalaSetNegro1,
+  nalaSetNegro2,
+  nalaSetNegro3,
+  nalaSetNegro4,
+  nalaSetNegro5,
+  nalaSetNegro6,
+];
+
+/** Fotos reales del set Nala en borgoña. */
+const NALA_SET_BORGONA_IMAGES = [
+  nalaSetBorgona1,
+  nalaSetBorgona2,
+  nalaSetBorgona3,
+  nalaSetBorgona4,
+  nalaSetBorgona5,
+  nalaSetBorgona6,
+];
+
 /** Fotos reales del set Emiliana (única foto por color, por ahora). */
 const EMILIANA_BORGONA_IMAGES = [emilianaBorgona1];
 const EMILIANA_BEIGE_IMAGES = [emilianaBeige1];
@@ -399,7 +431,13 @@ export const products: Product[] = [
     description:
       "Set de silueta versátil, pensado para combinar sin esfuerzo. Disponible en negro, marfil, beige y borgoña.",
     sizes: ["XS", "S", "M", "L"],
-    colors: buildColors(0),
+    colors: buildColors(0).map((color) => {
+      if (color.name === "Negro")
+        return { ...color, images: NALA_SET_NEGRO_IMAGES };
+      if (color.name === "Borgoña")
+        return { ...color, images: NALA_SET_BORGONA_IMAGES };
+      return color;
+    }),
   },
   {
     slug: "madrileno",
