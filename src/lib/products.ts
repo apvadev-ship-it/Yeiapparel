@@ -105,7 +105,6 @@ import comfyNegro3 from "@/assets/productos/comfy/comfy-negro-3.jpg";
 import comfyNegro4 from "@/assets/productos/comfy/comfy-negro-4.jpg";
 import emilianaBorgona1 from "@/assets/productos/emiliana/emiliana-borgona-1.jpg";
 import emilianaBeige1 from "@/assets/productos/emiliana/emiliana-beige-1.jpg";
-import emilianaNegro1 from "@/assets/productos/emiliana/emiliana-negro-1.jpg";
 import blusaEmilianaNegro1 from "@/assets/productos/blusa-emiliana/blusa-emiliana-negro-1.webp";
 import blusaEmilianaNegro2 from "@/assets/productos/blusa-emiliana/blusa-emiliana-negro-2.webp";
 import blusaEmilianaNegro3 from "@/assets/productos/blusa-emiliana/blusa-emiliana-negro-3.webp";
@@ -126,6 +125,14 @@ import shortBeige2 from "@/assets/productos/short/short-beige-2.webp";
 import shortBeige3 from "@/assets/productos/short/short-beige-3.webp";
 import shortBeige4 from "@/assets/productos/short/short-beige-4.webp";
 import shortBeige5 from "@/assets/productos/short/short-beige-5.webp";
+import emilianaSetNegro1 from "@/assets/productos/emiliana/emiliana-set-negro-1.webp";
+import emilianaSetNegro2 from "@/assets/productos/emiliana/emiliana-set-negro-2.webp";
+import emilianaSetNegro3 from "@/assets/productos/emiliana/emiliana-set-negro-3.webp";
+import emilianaSetNegro4 from "@/assets/productos/emiliana/emiliana-set-negro-4.webp";
+import emilianaSetMarfil1 from "@/assets/productos/emiliana/emiliana-set-marfil-1.webp";
+import emilianaSetMarfil2 from "@/assets/productos/emiliana/emiliana-set-marfil-2.webp";
+import emilianaSetMarfil3 from "@/assets/productos/emiliana/emiliana-set-marfil-3.webp";
+import emilianaSetMarfil4 from "@/assets/productos/emiliana/emiliana-set-marfil-4.webp";
 
 export type ProductGroup = "sets" | "piezas-unicas";
 
@@ -407,7 +414,18 @@ const SHORT_BEIGE_IMAGES = [
 /** Fotos reales del set Emiliana (única foto por color, por ahora). */
 const EMILIANA_BORGONA_IMAGES = [emilianaBorgona1];
 const EMILIANA_BEIGE_IMAGES = [emilianaBeige1];
-const EMILIANA_NEGRO_IMAGES = [emilianaNegro1];
+const EMILIANA_NEGRO_IMAGES = [
+  emilianaSetNegro1,
+  emilianaSetNegro2,
+  emilianaSetNegro3,
+  emilianaSetNegro4,
+];
+const EMILIANA_MARFIL_IMAGES = [
+  emilianaSetMarfil1,
+  emilianaSetMarfil2,
+  emilianaSetMarfil3,
+  emilianaSetMarfil4,
+];
 
 /** Fotos reales de la Blusa Emiliana en negro. */
 const BLUSA_EMILIANA_NEGRO_IMAGES = [
@@ -565,6 +583,8 @@ export const products: Product[] = [
         return { ...color, images: EMILIANA_BEIGE_IMAGES };
       if (color.name === "Borgoña")
         return { ...color, images: EMILIANA_BORGONA_IMAGES };
+      if (color.name === "Marfil")
+        return { ...color, images: EMILIANA_MARFIL_IMAGES };
       return color;
     }),
   },
